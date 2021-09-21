@@ -7,6 +7,7 @@ categories:
 tags:
 - react native
 - accessibility
+- a11y
 
 author: "Benjie Kibblewhite"
 ---
