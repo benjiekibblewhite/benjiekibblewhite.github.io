@@ -3,21 +3,35 @@
   {% include head.html %}
   <body>
     <div class="container">
-      <div class="section my-section" itemprop="mainContentOfPage" itemscope itemtype="https://schema.org/WebPageElement">
-        <h1 itemprop="headline"><a class="my-name" href="{{ site.baseurl }}/"><img src="{{site.baseurl}}/images/benjielogo@2x.png" alt="{{ site.title }}"></a></h1>
-        <p class="my-description" itemprop="text">
-          {{ site.about }}
-          </p>
-          <p class="my-location"> <i class="fa fa-map-marker"></i> {{ site.location }}</p>
+      <div
+        class="section my-section"
+        itemprop="mainContentOfPage"
+        itemscope
+        itemtype="https://schema.org/WebPageElement"
+      >
+        <h1 itemprop="headline">
+          <a class="my-name" href="{{ site.baseurl }}/"
+            ><img
+              src="{{site.baseurl}}/images/benjielogo@2x.png"
+              alt="{{ site.title }}"
+          /></a>
+        </h1>
+        <p class="my-description" itemprop="text">{{ site.about }}</p>
+        <p class="my-location">
+          <i class="fa fa-map-marker"></i> {{ site.location }}
+        </p>
         <div class="row">
-          <div class="col s12 m8 offset-m2 l6 offset-l3">
-            {{ content }}
-          </div>
+          <div class="post-content">{{ content }}</div>
         </div>
       </div>
     </div>
     {% include footer.html %}
     <!-- Cloudflare Web Analytics -->
-    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dc8f5ac679654273b471b11554b74fa2"}'></script><!-- End Cloudflare Web Analytics -->
+    <script
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token": "dc8f5ac679654273b471b11554b74fa2"}'
+    ></script>
+    <!-- End Cloudflare Web Analytics -->
   </body>
 </html>
