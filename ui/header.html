@@ -1,0 +1,16 @@
+<header>
+  <div class="logo">LOGO</div>
+  <a href="/menu.html" class="menu-button" onclick="openMenu(event)">☰</a>
+  <script>
+    function openMenu(event) {
+      event.preventDefault();
+      if (document.startViewTransition) {
+        document.startViewTransition(() => {
+          window.location.href = "/menu.html";
+        });
+      } else {
+        window.location.href = "/menu.html";
+      }
+    }
+  </script>
+</header>
