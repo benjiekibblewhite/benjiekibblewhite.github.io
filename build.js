@@ -7,17 +7,93 @@ const postsDir = path.join(__dirname, "posts");
 const outputDir = path.join(__dirname, "dist");
 const POSTS_PER_PAGE = 5;
 
-async function copyStaticFiles() {
+// Create a reusable function to generate complete HTML pages
+function generateCompletePage(
+  content,
+  title,
+  header,
+  sharedHead,
+  skipHeader = false
+) {
+  const headContent = sharedHead.replace(
+    "<head>",
+    `<head>\n  <title>${title}</title>`
+  );
+  console.log("🦄", { title, skipHeader });
+  return `<!DOCTYPE html>
+<html lang="en">
+  ${headContent}
+  <body>
+    ${skipHeader ? "" : header}
+    <main>
+      ${content}
+    </main>
+  </body>
+</html>`;
+}
+
+async function copyStaticFiles(header, sharedHead) {
   // Copy pages directory to dist if it exists
   const pagesDir = path.join(__dirname, "pages");
+
   if (await fs.pathExists(pagesDir)) {
-    await fs.copy(pagesDir, outputDir, { overwrite: true });
+    const pageFiles = await fs.readdir(pagesDir);
+
+    // Process each file
+    for (const file of pageFiles) {
+      const filePath = path.join(pagesDir, file);
+      const fileStats = await fs.stat(filePath);
+
+      if (fileStats.isDirectory()) {
+        // For directories, just copy them
+        await fs.copy(filePath, path.join(outputDir, path.basename(file)), {
+          overwrite: true,
+        });
+      } else {
+        // For HTML files, apply template
+        if (file.endsWith(".html")) {
+          const content = await fs.readFile(filePath, "utf-8");
+          const title = path.basename(file, ".html");
+
+          // Generate complete page with content directly (no extraction needed)
+          const completePage = generateCompletePage(
+            content,
+            title,
+            header,
+            sharedHead
+          );
+
+          // Write to output directory
+          await fs.outputFile(path.join(outputDir, file), completePage);
+        } else {
+          // For non-HTML files, just copy them
+          await fs.copy(filePath, path.join(outputDir, file), {
+            overwrite: true,
+          });
+        }
+      }
+    }
   }
 
   // Copy menu.html to dist
-  const menuFile = path.join(__dirname, "ui/menu.html");
-  if (await fs.pathExists(menuFile)) {
-    await fs.copy(menuFile, path.join(outputDir, "menu.html"));
+  const menuFile = path.join(__dirname, "pages/menu.html");
+  const exists = await fs.pathExists(menuFile);
+  console.log("🦄", { menuFile, exists });
+  if (exists) {
+    console.log("🦄", "menu");
+    const menuContent = await fs.readFile(menuFile, "utf-8");
+
+    // Generate complete page with content directly
+    const completePage = generateCompletePage(
+      menuContent,
+      "Menu",
+      header,
+      sharedHead,
+      true // Skip header for menu
+    );
+
+    // Write to output directory
+    await fs.outputFile(path.join(outputDir, "menu.html"), completePage);
   }
 }
 
@@ -30,7 +106,6 @@ async function getAllPosts() {
 
     const dateMatch = file.match(/^(\d{4}-\d{2}-\d{2})/);
     const fileDate = dateMatch ? dateMatch[1] : null;
-
     const filePath = path.join(postsDir, file);
     const content = await fs.readFile(filePath, "utf-8");
     const { attributes, body } = fm(content);
@@ -65,31 +140,48 @@ async function getAllPosts() {
   });
 }
 
-async function createPostPages(posts) {
-  const header = await fs.readFile(
-    path.join(__dirname, "ui/header.html"),
-    "utf-8"
-  );
-
+async function createPostPages(posts, header, sharedHead) {
   for (const post of posts) {
-    const htmlContent = `
-      <html>
-        <head>
-          <title>${post.title}</title>
-          <link rel="stylesheet" href="/styles.css">
-        </head>
-        <body>
-          ${header}
-          <h1>${post.title}</h1>
-          <p>${post.date}</p>
-          <div>${marked.parse(post.content)}</div>
-          <p>by ${post.attributes.author}</p>
-          <p>Tags: ${post.attributes.tags?.join(", ") || "None"}</p>
-        </body>
-      </html>
-    `;
+    // Parse date for directory structure
+    const dateMatch = post.fileDate.match(/^(\d{4})-(\d{2})-(\d{2})/);
 
-    const outputFilePath = path.join(outputDir, post.filename);
+    if (!dateMatch) continue;
+
+    const [_, year, month, day] = dateMatch;
+
+    // Extract slug from filename (remove date prefix)
+    const slug = post.filename.replace(/^\d{4}-\d{2}-\d{2}-/, "");
+
+    // Create new path structure: /blog/YYYY/MM/DD/slug.html
+    const postOutputDir = path.join(outputDir, "blog", year, month, day);
+
+    // Replace placeholder head with dynamic title
+    const headContent = sharedHead.replace(
+      "<head>",
+      `<head>\n  <title>${post.title}</title>`
+    );
+
+    const htmlContent = `<!DOCTYPE html>
+          <html lang="en">
+            ${headContent}
+            <body>
+              ${header}
+              <main>
+                <h1>${post.title}</h1>
+                <p>${post.date}</p>
+                <div>${marked.parse(post.content)}</div>
+                <p>by ${post.attributes.author}</p>
+                <p>Tags: ${post.attributes.tags?.join(", ") || "None"}</p>
+              </main>
+            </body>
+          </html>`;
+
+    // Update post.filename with new path for use in links
+    post.url = `/blog/${year}/${month}/${day}/${slug}`;
+
+    // Ensure directory exists
+    await fs.ensureDir(postOutputDir);
+    const outputFilePath = path.join(postOutputDir, slug);
     await fs.outputFile(outputFilePath, htmlContent);
   }
 }
@@ -101,7 +193,9 @@ function createPaginationLinks(currentPage, totalPages) {
   if (currentPage > 1) {
     const prevPage = currentPage - 1;
     const filename = prevPage === 1 ? "index.html" : `page${prevPage}.html`;
-    links.push(`<a href="/${filename}" class="pagination-arrow">&larr;</a>`);
+    links.push(
+      `<a href="/blog/${filename}" class="pagination-arrow">&larr;</a>`
+    );
   }
 
   // Add page numbers
@@ -110,7 +204,7 @@ function createPaginationLinks(currentPage, totalPages) {
       links.push(`<span class="current-page">${i}</span>`);
     } else {
       const filename = i === 1 ? "index.html" : `page${i}.html`;
-      links.push(`<a href="/${filename}">${i}</a>`);
+      links.push(`<a href="/blog/${filename}">${i}</a>`);
     }
   }
 
@@ -118,62 +212,83 @@ function createPaginationLinks(currentPage, totalPages) {
   if (currentPage < totalPages) {
     const nextPage = currentPage + 1;
     links.push(
-      `<a href="/page${nextPage}.html" class="pagination-arrow">&rarr;</a>`
+      `<a href="/blog/page${nextPage}.html" class="pagination-arrow">&rarr;</a>`
     );
   }
 
   return links.join(" ");
 }
 
-async function createIndexPages(posts) {
+async function createIndexPages(posts, header, sharedHead) {
   const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
-  const header = await fs.readFile(
-    path.join(__dirname, "ui/header.html"),
-    "utf-8"
-  );
+  const blogDir = path.join(outputDir, "blog");
+
+  // Ensure blog directory exists
+  await fs.ensureDir(blogDir);
 
   for (let page = 1; page <= totalPages; page++) {
     const startIdx = (page - 1) * POSTS_PER_PAGE;
     const pagePosts = posts.slice(startIdx, startIdx + POSTS_PER_PAGE);
 
-    const indexContent = `
-      <html>
-        <head>
-          <title>My Blog${page > 1 ? ` - Page ${page}` : ""}</title>
-          <link rel="stylesheet" href="/styles.css">
-        </head>
-        <body>
-          ${header}
-          <h1>Recent Posts</h1>
-          ${pagePosts
-            .map(
-              (post) => `
-            <article>
-              <h2><a href="/${post.filename}">${post.title}</a></h2>
-              <p>${post.date}</p>
-              <p>${post.preview}</p>
-            </article>
-          `
-            )
-            .join("\n")}
-          <nav class="pagination">
-            ${createPaginationLinks(page, totalPages)}
-          </nav>
-        </body>
-      </html>
-    `;
+    // Replace placeholder head with dynamic title
+    const headContent = sharedHead.replace(
+      "<head>",
+      `<head>\n  <title>My Blog${page > 1 ? ` - Page ${page}` : ""}</title>`
+    );
+
+    const indexContent = `<!DOCTYPE html>
+<html lang="en">
+  ${headContent}
+  <body>
+    ${header}
+    <main>
+      <h1>Recent Posts</h1>
+      ${pagePosts
+        .map(
+          (post) => `
+        <article>
+          <h2><a href="${post.url}">${post.title}</a></h2>
+          <p>${post.date}</p>
+          <p>${post.preview}</p>
+        </article>
+      `
+        )
+        .join("\n")}
+      <nav class="pagination">
+        ${createPaginationLinks(page, totalPages)}
+      </nav>
+    </main>
+  </body>
+</html>`;
 
     const filename = page === 1 ? "index.html" : `page${page}.html`;
-    await fs.outputFile(path.join(outputDir, filename), indexContent);
+    await fs.outputFile(path.join(blogDir, filename), indexContent);
   }
 }
 
 async function buildSite() {
+  // Ensure output directory exists
+  await fs.ensureDir(outputDir);
+
+  // Read shared components
+  const header = await fs.readFile(
+    path.join(__dirname, "ui/header.html"),
+    "utf-8"
+  );
+  const sharedHead = await fs.readFile(
+    path.join(__dirname, "ui/sharedHead.html"),
+    "utf-8"
+  );
+
   const posts = await getAllPosts();
+
+  // First create post pages (this will update post.url for each post)
+  await createPostPages(posts, header, sharedHead);
+
+  // Then create index pages using the updated URLs
   await Promise.all([
-    createPostPages(posts),
-    createIndexPages(posts),
-    copyStaticFiles(),
+    createIndexPages(posts, header, sharedHead),
+    copyStaticFiles(header, sharedHead),
   ]);
 }
 
