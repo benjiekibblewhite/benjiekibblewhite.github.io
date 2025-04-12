@@ -19,7 +19,6 @@ function generateCompletePage(
     "<head>",
     `<head>\n  <title>${title}</title>`
   );
-  console.log("🦄", { title, skipHeader });
   return `<!DOCTYPE html>
 <html lang="en">
   ${headContent}
@@ -35,7 +34,7 @@ function generateCompletePage(
 async function copyStaticFiles(header, sharedHead) {
   // Copy pages directory to dist if it exists
   const pagesDir = path.join(__dirname, "pages");
-
+  const staticDir = path.join(__dirname, "static");
   if (await fs.pathExists(pagesDir)) {
     const pageFiles = await fs.readdir(pagesDir);
 
@@ -75,12 +74,22 @@ async function copyStaticFiles(header, sharedHead) {
     }
   }
 
+  if (await fs.pathExists(staticDir)) {
+    const staticFiles = await fs.readdir(staticDir);
+    console.log(staticFiles);
+    for (const file of staticFiles) {
+      const filePath = path.join(staticDir, file);
+
+      await fs.copy(filePath, path.join(outputDir, `static/${file}`), {
+        overwrite: true,
+      });
+    }
+  }
+
   // Copy menu.html to dist
   const menuFile = path.join(__dirname, "pages/menu.html");
   const exists = await fs.pathExists(menuFile);
-  console.log("🦄", { menuFile, exists });
   if (exists) {
-    console.log("🦄", "menu");
     const menuContent = await fs.readFile(menuFile, "utf-8");
 
     // Generate complete page with content directly
@@ -160,6 +169,7 @@ async function createPostPages(posts, header, sharedHead) {
       "<head>",
       `<head>\n  <title>${post.title}</title>`
     );
+    const postId = post.title.replace(/[^A-Z0-9]/gi, "");
 
     const htmlContent = `<!DOCTYPE html>
           <html lang="en">
@@ -167,7 +177,9 @@ async function createPostPages(posts, header, sharedHead) {
             <body>
               ${header}
               <main>
-                <h1>${post.title}</h1>
+                <h1 class='post-title' id="${postId}" style='view-transition-name: post-${postId}'">${
+      post.title
+    }</h1>
                 <p>${post.date}</p>
                 <div>${marked.parse(post.content)}</div>
                 <p>by ${post.attributes.author}</p>
@@ -244,15 +256,16 @@ async function createIndexPages(posts, header, sharedHead) {
     <main>
       <h1>Recent Posts</h1>
       ${pagePosts
-        .map(
-          (post) => `
-        <article>
-          <h2><a href="${post.url}">${post.title}</a></h2>
-          <p>${post.date}</p>
-          <p>${post.preview}</p>
-        </article>
-      `
-        )
+        .map((post) => {
+          const postId = post.title.replace(/[^A-Z0-9]/gi, "");
+          return `
+              <article>
+                <h2><a href="${post.url}" class='post-link' style="view-transition-name: post-${postId}">${post.title}</a></h2>
+                <p>${post.date}</p>
+                <p>${post.preview}</p>
+              </article>
+            `;
+        })
         .join("\n")}
       <nav class="pagination">
         ${createPaginationLinks(page, totalPages)}

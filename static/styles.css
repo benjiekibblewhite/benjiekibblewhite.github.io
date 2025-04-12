@@ -1,3 +1,7 @@
+@view-transition {
+  navigation: auto;
+}
+
 :root {
   --primary-color: #58aceb;
   --background-color: #1e1e1e;
@@ -52,6 +56,15 @@ main {
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
+}
+
+.bio-section {
+  text-align: center;
+}
+
+.headshot {
+  border-radius: 100%;
+  width: 200px;
 }
 
 .menu-page {
