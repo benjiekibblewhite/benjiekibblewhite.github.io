@@ -18,7 +18,10 @@ body {
   line-height: 1.6;
   margin: 0;
   color: var(--text-color);
-  background-color: var(--background-color);
+  background-image: url("/static/groovepaper.png");
+  /* background-image: url("/static/so-white.png"); */
+  /* background-image: url("/static/just-waves.webp"); */
+  background-repeat: repeat;
 }
 
 /* Apply Lora font to all headings */
