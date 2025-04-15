@@ -5,11 +5,11 @@
 :root {
   --primary-color: #58aceb;
   --background-color: #1e1e1e;
-  --text-color: #f0f0f0;
+  --text-color: ##1e1e1e;
   --secondary-text: #a0a0a0;
   --border-color: #333;
   --card-background: #1e1e1e;
-  --hover-color: #2a2a2a;
+  --hover-color: #58aceb50;
 }
 
 body {
@@ -19,8 +19,6 @@ body {
   margin: 0;
   color: var(--text-color);
   background-image: url("/static/groovepaper.png");
-  /* background-image: url("/static/so-white.png"); */
-  /* background-image: url("/static/just-waves.webp"); */
   background-repeat: repeat;
 }
 
@@ -47,11 +45,13 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background: var(--card-background);
   color: var(--text-color);
   position: sticky;
   top: 0;
   left: 0;
+  background-image: url("/static/groovepaper.png");
+  background-repeat: repeat;
+  z-index: 2;
   /* width: 100%; */
 }
 
@@ -103,7 +103,29 @@ main {
 .menu-button {
   font-size: 2rem;
   text-decoration: none;
-  color: white;
+
+  :hover {
+    color: var(--primary-color);
+  }
+}
+
+/* Menu close button */
+.menu-close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  color: var(--primary-color);
+  font-size: 3rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  z-index: 100;
+
+  :hover {
+    color: var(--primary-color);
+  }
 }
 
 article {
@@ -157,7 +179,7 @@ article {
 
 /* Code block styles */
 pre {
-  background: var(--card-background);
+  /* background: var(--card-background); */
   padding: 1rem;
   overflow-x: auto;
   border-radius: 4px;
