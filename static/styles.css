@@ -4,8 +4,8 @@
 
 :root {
   --primary-color: #58aceb;
-  --background-color: #1e1e1e;
-  --text-color: ##1e1e1e;
+  --background-color: #fbf9f9;
+  --text-color: #1f1f1f;
   --secondary-text: #a0a0a0;
   --border-color: #333;
   --card-background: #1e1e1e;
@@ -18,8 +18,11 @@ body {
   line-height: 1.6;
   margin: 0;
   color: var(--text-color);
-  background-image: url("/static/groovepaper.png");
+  /* background-image: url("/static/groovepaper.png"); */
+  background-color: var(--background-color);
+  background-image: url('data:image/svg+xml;utf8,<svg width="40" height="10" viewBox="0 0 40 10" xmlns="http://www.w3.org/2000/svg"><path d="M0 5 Q 5 2, 10 5 T 20 5 T 30 5 T 40 5" fill="none" stroke="white" stroke-width="1"/></svg>');
   background-repeat: repeat;
+  min-height: 100vh;
 }
 
 /* Apply Lora font to all headings */
@@ -49,7 +52,9 @@ header {
   position: sticky;
   top: 0;
   left: 0;
-  background-image: url("/static/groovepaper.png");
+  /* background-image: url("/static/groovepaper.png"); */
+  background-color: var(--background-color);
+  background-image: url('data:image/svg+xml;utf8,<svg width="40" height="10" viewBox="0 0 40 10" xmlns="http://www.w3.org/2000/svg"><path d="M0 5 Q 5 2, 10 5 T 20 5 T 30 5 T 40 5" fill="none" stroke="white" stroke-width="1"/></svg>');
   background-repeat: repeat;
   z-index: 2;
   /* width: 100%; */
@@ -80,7 +85,7 @@ main {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  body {
+  .menu-page {
     animation: backgroundMove 10s linear infinite;
   }
 

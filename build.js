@@ -8,17 +8,28 @@ const outputDir = path.join(__dirname, "dist");
 const POSTS_PER_PAGE = 5;
 
 // Create a reusable function to generate complete HTML pages
-function generateCompletePage(
+function generateCompletePage({
   content,
   title,
   header,
   sharedHead,
-  skipHeader = false
-) {
+  skipHeader = false,
+  skipMain = false,
+} = {}) {
   const headContent = sharedHead.replace(
     "<head>",
     `<head>\n  <title>${title}</title>`
   );
+  if (skipMain) {
+    return `<!DOCTYPE html>
+        <html lang="en">
+          ${headContent}
+          <body>
+            ${skipHeader ? "" : header}
+              ${content}
+          </body>
+        </html>`;
+  }
   return `<!DOCTYPE html>
 <html lang="en">
   ${headContent}
@@ -55,12 +66,12 @@ async function copyStaticFiles(header, sharedHead) {
           const title = path.basename(file, ".html");
 
           // Generate complete page with content directly (no extraction needed)
-          const completePage = generateCompletePage(
+          const completePage = generateCompletePage({
             content,
             title,
             header,
-            sharedHead
-          );
+            sharedHead,
+          });
 
           // Write to output directory
           await fs.outputFile(path.join(outputDir, file), completePage);
@@ -93,13 +104,14 @@ async function copyStaticFiles(header, sharedHead) {
     const menuContent = await fs.readFile(menuFile, "utf-8");
 
     // Generate complete page with content directly
-    const completePage = generateCompletePage(
-      menuContent,
-      "Menu",
+    const completePage = generateCompletePage({
+      content: menuContent,
+      title: "Menu",
       header,
       sharedHead,
-      true // Skip header for menu
-    );
+      skipHeader: true,
+      skipMain: true,
+    });
 
     // Write to output directory
     await fs.outputFile(path.join(outputDir, "menu.html"), completePage);
@@ -260,7 +272,7 @@ async function createIndexPages(posts, header, sharedHead) {
           const postId = post.title.replace(/[^A-Z0-9]/gi, "");
           return `
               <article>
-                <h2><a href="${post.url}" class='post-link' style="view-transition-name: post-${postId}">${post.title}</a></h2>
+                <h2><a id='${postId}' href="${post.url}" class='post-link' style="view-transition-name: post-${postId}">${post.title}</a></h2>
                 <p>${post.date}</p>
                 <p>${post.preview}</p>
               </article>
