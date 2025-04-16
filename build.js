@@ -10,6 +10,26 @@ const SITE_URL = "https://yourblog.com"; // Replace with your actual site URL
 const SITE_TITLE = "My Blog";
 const SITE_DESCRIPTION = "A blog about development, tips, and more"; // Add your site description here
 
+// Configure marked for better output and security
+marked.setOptions({
+  headerIds: true,
+  gfm: true,
+  breaks: false,
+  pedantic: false,
+  sanitize: false,
+  smartLists: true,
+  smartypants: true,
+});
+
+// Add lazyloading to images in markdown
+const renderer = new marked.Renderer();
+const originalImageRenderer = renderer.image.bind(renderer);
+renderer.image = function (href, title, text) {
+  const html = originalImageRenderer(href, title, text);
+  return html.replace("<img", '<img loading="lazy" decoding="async"');
+};
+marked.use({ renderer });
+
 // Create a reusable function to generate complete HTML pages
 function generateCompletePage({
   content,

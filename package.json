@@ -12,12 +12,15 @@
   "description": "",
   "dependencies": {
     "chokidar": "^4.0.3",
+    "connect-livereload": "^0.6.1",
     "express": "^4.21.2",
     "front-matter": "^4.0.2",
     "fs-extra": "^11.3.0",
-    "marked": "^15.0.7",
     "livereload": "^0.9.3",
-    "connect-livereload": "^0.6.1",
+    "marked": "^15.0.7",
     "open": "^8.4.0"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.1"
   }
 }
