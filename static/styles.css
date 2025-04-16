@@ -5,7 +5,7 @@
 :root {
   --primary-color: #58aceb;
   --background-color: #fbf9f9;
-  --text-color: #1f1f1f;
+  --text-color: #4c5461;
   --secondary-text: #a0a0a0;
   --border-color: #333;
   --card-background: #1e1e1e;
@@ -112,45 +112,79 @@ main {
   background-color: white;
   min-width: 400px;
   text-align: center;
-  padding: 24px;
   border-radius: 16px;
   box-shadow: 0px 0px 10px 0px rgba(15, 15, 15, 0.1);
+  overflow: hidden;
 }
 
 .menu-container a {
   display: block;
   text-decoration: none;
   padding: 8px;
-  margin: 8px 0;
   position: relative;
   overflow: hidden;
   cursor: pointer;
   font-size: 2rem;
   z-index: 0;
-  color: black;
-  transition: all 0.3s ease;
+  color: var(--text-color);
+  transition: color 0.25s ease-in;
 
-  :hover {
+  &:hover {
     color: white;
+
+    &::before {
+      transform: translate(0, 0) !important; /* Move to original position */
+    }
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-color);
+    transition: transform 0.25s ease-in-out;
+    z-index: -1;
+    transform: translate(0, 100%); /* Default: from bottom */
   }
 }
 
-.menu-container a::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  bottom: -120%;
-  background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 144 30" xmlns="http://www.w3.org/2000/svg"><path d="M0 20 Q 12 10, 24 20 T 48 20 T 72 20 T 96 20 T 120 20 T 144 20 V30 H0 Z" fill="skyblue"/></svg>')
-    repeat-x;
-  transition: bottom 0.3s ease-out;
-  z-index: -1;
-  animation: waveMove 5s linear infinite alternate;
+/* First item - comes from top */
+.menu-container a:first-child {
+  &::before {
+    transform: translate(0, -100%);
+  }
 }
 
-.menu-container a:hover::before {
-  bottom: 0;
+/* Alternating left and right for middle items - these will be 2nd, 3rd, etc. but not last */
+.menu-container a:not(:first-child):not(:last-child):nth-child(odd) {
+  &::before {
+    transform: translate(100%, 0);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: auto;
+  }
+}
+
+.menu-container a:not(:first-child):not(:last-child):nth-child(even) {
+  &::before {
+    transform: translate(-100%, 0);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: auto;
+  }
+}
+
+/* Last item - comes from bottom */
+.menu-container a:last-child {
+  &::before {
+    transform: translate(0, 100%);
+  }
 }
 
 .logo {
