@@ -60,6 +60,10 @@ header {
   /* width: 100%; */
 }
 
+.header-logo {
+  max-width: 150px;
+}
+
 main {
   max-width: 800px;
   margin: 0 auto;
@@ -67,12 +71,16 @@ main {
 }
 
 .bio-section {
-  text-align: center;
+  /* text-align: center; */
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .headshot {
   border-radius: 100%;
   width: 200px;
+  margin: 0 auto 24px;
+  display: block;
 }
 
 .menu-page {
