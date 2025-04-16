@@ -5,10 +5,41 @@ const path = require("path");
 const livereload = require("livereload");
 const connectLivereload = require("connect-livereload");
 const open = require("open");
+const net = require("net");
 
 const app = express();
 const PORT = 3000;
+const MAX_PORT = 3010; // Try ports between 3000 and 3010
 const DIST_DIR = path.join(__dirname, "dist");
+
+// Check if a port is in use
+function isPortInUse(port) {
+  return new Promise((resolve) => {
+    const server = net
+      .createServer()
+      .once("error", () => resolve(true))
+      .once("listening", () => {
+        server.close();
+        resolve(false);
+      })
+      .listen(port);
+  });
+}
+
+// Find an available port
+async function findAvailablePort(startPort, maxPort) {
+  let port = startPort;
+  while (port <= maxPort) {
+    const inUse = await isPortInUse(port);
+    if (!inUse) {
+      return port;
+    }
+    port++;
+  }
+  throw new Error(
+    `No available ports found between ${startPort} and ${maxPort}`
+  );
+}
 
 // Enable live reload
 const liveReloadServer = livereload.createServer();
@@ -41,15 +72,22 @@ watcher.on("change", (filePath) => {
 // Start the development server
 (async () => {
   console.log("Building site...");
-  exec("node build.js", (err, stdout, stderr) => {
+  exec("node build.js", async (err, stdout, stderr) => {
     if (err) {
       console.error(`Error during initial build: ${stderr}`);
     } else {
       console.log(stdout);
-      app.listen(PORT, async () => {
-        console.log(`Dev server running at http://localhost:${PORT}`);
-        await open(`http://localhost:${PORT}`);
-      });
+      try {
+        const availablePort = await findAvailablePort(PORT, MAX_PORT);
+        app.listen(availablePort, async () => {
+          console.log(
+            `Dev server running at http://localhost:${availablePort}`
+          );
+          await open(`http://localhost:${availablePort}`);
+        });
+      } catch (error) {
+        console.error(error.message);
+      }
     }
   });
 })();
