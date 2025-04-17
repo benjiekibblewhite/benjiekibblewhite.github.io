@@ -7,14 +7,16 @@
   --background-color: #fbf9f9;
   --text-color: #4c5461;
   --secondary-text: #a0a0a0;
-  --border-color: #333;
+  --border-color: #ccc;
   --card-background: #1e1e1e;
   --hover-color: #58aceb50;
+  --link-hover-color: #20a0b2;
 }
 
 body {
-  font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI",
+  font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI",
     Helvetica, Arial, sans-serif;
+
   line-height: 1.6;
   margin: 0;
   color: var(--text-color);
@@ -35,19 +37,36 @@ h6 {
   line-height: 1.3;
   font-weight: 300;
   color: var(--primary-color);
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
+  margin-top: 24px;
+  margin-bottom: 16px;
 }
 
 a {
   color: var(--primary-color);
-  font-weight: bold;
+  font-weight: 500;
   transition: color 0.2s ease;
+  text-decoration: none;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 5px;
+    background-color: var(--link-hover-color);
+    transform: scaleY(0);
+    transition: transform 0.2s ease-in-out;
+  }
 }
 
 a:hover,
 a:focus {
   color: #2c78b3;
+  &::before {
+    transform: scaleY(1);
+  }
 }
 
 a:focus {
@@ -59,7 +78,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 16px;
   color: var(--text-color);
   position: sticky;
   top: 0;
@@ -68,13 +87,22 @@ header {
   background-image: url('data:image/svg+xml;utf8,<svg width="40" height="10" viewBox="0 0 40 10" xmlns="http://www.w3.org/2000/svg"><path d="M0 5 Q 5 2, 10 5 T 20 5 T 30 5 T 40 5" fill="none" stroke="white" stroke-width="1"/></svg>');
   background-repeat: repeat;
   z-index: 2;
+
+  & a::before {
+    display: none;
+  }
+}
+
+.header-logo {
+  width: 150px;
+  margin: 0;
 }
 
 /* Header right side with RSS and menu buttons */
 .header-right {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 16px;
 }
 
 /* RSS icon styles */
@@ -82,8 +110,8 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-color);
   transition: color 0.2s ease;
+  margin-top: 10px;
 }
 
 .rss-link:hover {
@@ -91,25 +119,38 @@ header {
 }
 
 .rss-icon {
-  width: 18px;
-  height: 18px;
+  width: 36px;
+  height: 36px;
+}
+
+.menu-button {
+  /* Never change this to Rems - we want to this to stay the same size even if the user changes font size */
+  font-size: 48px;
+  text-decoration: none;
+}
+
+.menu-button:hover {
+  color: var(--primary-color);
 }
 
 main {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 32px 16px;
 }
 
 .bio-section {
-  text-align: center;
+  /* text-align: center; */
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .headshot {
   border-radius: 100%;
-  width: 200px;
+  width: 350px;
   height: auto;
   aspect-ratio: 1/1;
+  margin: 24px auto;
 }
 
 .menu-page {
@@ -222,24 +263,15 @@ main {
   color: var(--primary-color);
 }
 
-.menu-button {
-  font-size: 2rem;
-  text-decoration: none;
-}
-
-.menu-button:hover {
-  color: var(--primary-color);
-}
-
 /* Menu close button */
 .menu-close-button {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 32px;
+  right: 16px;
   background: transparent;
   border: none;
   color: var(--primary-color);
-  font-size: 3rem;
+  font-size: 52px;
   cursor: pointer;
   padding: 0;
   line-height: 1;
@@ -251,26 +283,29 @@ main {
 }
 
 article {
-  margin-bottom: 2rem;
-  padding-bottom: 2rem;
+  margin-bottom: 32px;
+  padding-bottom: 32px;
   border-bottom: 1px solid var(--border-color);
 }
 
 /* Pagination styles */
 .pagination {
-  margin-top: 2rem;
+  margin-top: 32px;
   text-align: center;
 }
 
 .pagination a,
 .pagination .current-page {
   display: inline-block;
-  padding: 0.5rem 1rem;
-  margin: 0 0.25rem;
+  padding: 8px 16px;
+  margin: 0 4px;
   text-decoration: none;
   color: var(--text-color);
   border: 1px solid var(--border-color);
   border-radius: 4px;
+  &::before {
+    display: none;
+  }
 }
 
 .pagination a:hover,
@@ -286,7 +321,12 @@ article {
 
 .pagination-arrow {
   font-size: 1.2rem;
-  padding: 0.5rem 1rem !important;
+  padding: 8px 16px !important;
+  &.disabled {
+    color: var(--secondary-text);
+    cursor: auto;
+    pointer-events: none;
+  }
 }
 
 /* Post styles */
@@ -302,7 +342,7 @@ article {
 
 /* Code block styles */
 pre {
-  padding: 1rem;
+  padding: 16px;
   overflow-x: auto;
   border-radius: 4px;
   border: 1px solid var(--border-color);
@@ -315,10 +355,6 @@ code {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  main {
-    padding: 1rem 0.5rem;
-  }
-
   .menu-container {
     width: 90vw;
     min-width: auto;
@@ -337,6 +373,4 @@ code {
 img {
   max-width: 100%;
   height: auto;
-  display: block;
-  margin: 1rem auto;
 }

@@ -6,9 +6,10 @@ const marked = require("marked");
 const postsDir = path.join(__dirname, "posts");
 const outputDir = path.join(__dirname, "dist");
 const POSTS_PER_PAGE = 5;
-const SITE_URL = "https://yourblog.com"; // Replace with your actual site URL
-const SITE_TITLE = "My Blog";
-const SITE_DESCRIPTION = "A blog about development, tips, and more"; // Add your site description here
+const SITE_URL = "https://benjie.ca"; // Replace with your actual site URL
+const SITE_TITLE = "Benjie Kibblewhite";
+const SITE_DESCRIPTION =
+  "A personal blog about web development, accessibility, photography, and whatever else I want."; // Add your site description here
 
 // Configure marked for better output and security
 marked.setOptions({
@@ -301,13 +302,15 @@ function createPaginationLinks(currentPage, totalPages) {
   let links = [];
 
   // Add back arrow
-  if (currentPage > 1) {
-    const prevPage = currentPage - 1;
-    const filename = prevPage === 1 ? "index.html" : `page${prevPage}.html`;
-    links.push(
-      `<a href="/blog/${filename}" class="pagination-arrow">&larr;</a>`
-    );
-  }
+  // if (currentPage > 1) {
+  const prevPage = currentPage - 1;
+  const filename = prevPage === 1 ? "index.html" : `page${prevPage}.html`;
+  links.push(
+    `<a href="/blog/${filename}" class="pagination-arrow${
+      currentPage === 1 ? " disabled" : ""
+    }">&larr;</a>`
+  );
+  // }
 
   // Add page numbers
   for (let i = 1; i <= totalPages; i++) {
@@ -320,12 +323,14 @@ function createPaginationLinks(currentPage, totalPages) {
   }
 
   // Add forward arrow
-  if (currentPage < totalPages) {
-    const nextPage = currentPage + 1;
-    links.push(
-      `<a href="/blog/page${nextPage}.html" class="pagination-arrow">&rarr;</a>`
-    );
-  }
+  // if (currentPage < totalPages) {
+  const nextPage = currentPage + 1;
+  links.push(
+    `<a href="/blog/page${nextPage}.html" class="pagination-arrow${
+      currentPage === totalPages ? " disabled" : ""
+    }">&rarr;</a>`
+  );
+  // }
 
   return links.join(" ");
 }
@@ -353,7 +358,6 @@ async function createIndexPages(posts, header, sharedHead) {
   <body>
     ${header}
     <main>
-      <h1>Recent Posts</h1>
       ${pagePosts
         .map((post) => {
           const postId = post.title.replace(/[^A-Z0-9]/gi, "");
