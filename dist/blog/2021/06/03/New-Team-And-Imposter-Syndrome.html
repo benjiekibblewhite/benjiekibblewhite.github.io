@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+          <html lang="en">
+            <head>
+  <title>Lately -  New team, less imposter syndrome</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Benjie K on the web" />
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Preload critical images (logo and background) -->
+  <link
+    rel="preload"
+    as="image"
+    href="/static/optimized/logo.webp"
+    type="image/webp"
+  />
+  <link
+    rel="preload"
+    as="image"
+    href="/static/optimized/logo.png"
+    imagesrcset="/static/optimized/logo.png"
+    imagesizes="100vw"
+  />
+
+  <!-- Optimize font loading with display=swap -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'"
+  />
+
+  <!-- Non-JS fallback for fonts -->
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    />
+  </noscript>
+
+  <!-- Critical CSS inlined for performance -->
+  <style>
+    body {
+      margin: 0;
+      font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Helvetica, Arial, sans-serif;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: "Lora", Georgia, serif;
+    }
+    a {
+      color: #58aceb;
+    }
+    /* Add image sizing for better CLS performance */
+    img,
+    picture {
+      max-width: 100%;
+      height: auto;
+      display: block; /* Prevents layout shifts */
+    }
+    /* Ensure images in articles maintain aspect ratio */
+    article img {
+      aspect-ratio: attr(width) / attr(height);
+    }
+  </style>
+
+  <!-- Main stylesheet loaded asynchronously -->
+  <link rel="stylesheet" href="/static/styles.css" />
+  <noscript><link rel="stylesheet" href="/static/styles.css" /></noscript>
+
+  <!-- Favicon -->
+  <link rel="icon" href="/static/optimized/logo.png" />
+
+  <!-- RSS Feed discovery -->
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    title="Blog RSS Feed"
+    href="/rss.xml"
+  />
+
+  <!-- Default structured data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Benjie Kibblewhite's site",
+      "url": "https://benjie.ca",
+      "description": "A personal blog about web development, accessibility, photography, and whatever else I want."
+    }
+  </script>
+</head>
+
+            <body>
+              <header role="banner">
+  <a href="/" aria-label="Go to homepage">
+    <img src="/static/logo.webp" alt="Blog Logo" class="header-logo" />
+  </a>
+  <div class="header-right">
+    <a
+      href="/rss.xml"
+      class="rss-link"
+      title="Subscribe to RSS feed"
+      aria-label="RSS Feed"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="rss-icon"
+        aria-hidden="true"
+        role="img"
+      >
+        <path d="M4 11a9 9 0 0 1 9 9"></path>
+        <path d="M4 4a16 16 0 0 1 16 16"></path>
+        <circle cx="5" cy="19" r="1"></circle>
+      </svg>
+    </a>
+    <a href="/menu.html" class="menu-button" aria-label="Open menu">☰</a>
+  </div>
+</header>
+
+              <main>
+                <h1 class='post-title' id="LatelyNewteamlessimpostersyndrome" style='view-transition-name: post-LatelyNewteamlessimpostersyndrome'">Lately -  New team, less imposter syndrome</h1>
+                <p>2021-06-03 1:51pm</p>
+                <div><p>I&#39;ve moved to an new project at work this past week. I&#39;ve been requesting a change for a while now, and some business needs aligned nicely right around the time I had hoped to make the move. There&#39;s a lot that could be said, but one quick thing I wanted to write about was the effect working with new people has had on my imposter syndrome. (Which I think I&#39;ve been in denial over)</p>
+<p>In my [reflection post after one year in the biz]({% post_url 2019-05-14-one-year-as-a-pro %}), I mentioned that I found it important to get used to not knowing what the right choice is. I still stand by that. One can easily waste a lot of time obsessing over getting it exactly right, which is time you could spend actually building something and learning from it. That being said, on my previous team I didn&#39;t get a lot of really useful feedback on my code. I was the only front end developer, and our tech lead, while good at his job, didn&#39;t have much front end experience himself. I did learn a <strong>lot</strong> by having to figure it all out myself, but I was always scared that someone else would see my code and think it was terrible. (AKA I&#39;m a fraud, AKA imposter syndrome) </p>
+<p>That&#39;s one of the reasons I was interested in working with a new team - I wanted to work with some more experienced FE developers and learn from them. I expected to come in to this team and be the Baby again. Not knowing much, but keen and eager to learn more. It&#39;s only been a few days though, and I&#39;m realizing that I actually do know more than I think I do sometimes. I&#39;ve been able to help out with two build issues, have had productive conversations with the devs where I actually know what I&#39;m talking about and seem to have insightful questions... </p>
+<p>All in all, an unexpected but pleasing development. I thought being in a new context which just highlight all the things I don&#39;t know, but so far, it seems to be showing me the things I <em>do</em> know. </p>
+</div>
+                <p>by Benjie Kibblewhite</p>
+                <p>Tags: lately, self-taught developer</p>
+              </main>
+            </body>
+          </html>

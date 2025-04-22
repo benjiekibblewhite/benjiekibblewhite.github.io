@@ -175,7 +175,6 @@ async function copyStaticFiles(header, sharedHead) {
 
   if (await fs.pathExists(staticDir)) {
     const staticFiles = await fs.readdir(staticDir);
-    console.log(staticFiles);
     for (const file of staticFiles) {
       const filePath = path.join(staticDir, file);
 

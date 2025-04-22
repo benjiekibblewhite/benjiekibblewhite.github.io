@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+          <html lang="en">
+            <head>
+  <title>TIL - Knolling</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Benjie K on the web" />
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Preload critical images (logo and background) -->
+  <link
+    rel="preload"
+    as="image"
+    href="/static/optimized/logo.webp"
+    type="image/webp"
+  />
+  <link
+    rel="preload"
+    as="image"
+    href="/static/optimized/logo.png"
+    imagesrcset="/static/optimized/logo.png"
+    imagesizes="100vw"
+  />
+
+  <!-- Optimize font loading with display=swap -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'"
+  />
+
+  <!-- Non-JS fallback for fonts -->
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    />
+  </noscript>
+
+  <!-- Critical CSS inlined for performance -->
+  <style>
+    body {
+      margin: 0;
+      font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Helvetica, Arial, sans-serif;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: "Lora", Georgia, serif;
+    }
+    a {
+      color: #58aceb;
+    }
+    /* Add image sizing for better CLS performance */
+    img,
+    picture {
+      max-width: 100%;
+      height: auto;
+      display: block; /* Prevents layout shifts */
+    }
+    /* Ensure images in articles maintain aspect ratio */
+    article img {
+      aspect-ratio: attr(width) / attr(height);
+    }
+  </style>
+
+  <!-- Main stylesheet loaded asynchronously -->
+  <link rel="stylesheet" href="/static/styles.css" />
+  <noscript><link rel="stylesheet" href="/static/styles.css" /></noscript>
+
+  <!-- Favicon -->
+  <link rel="icon" href="/static/optimized/logo.png" />
+
+  <!-- RSS Feed discovery -->
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    title="Blog RSS Feed"
+    href="/rss.xml"
+  />
+
+  <!-- Default structured data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Benjie Kibblewhite's site",
+      "url": "https://benjie.ca",
+      "description": "A personal blog about web development, accessibility, photography, and whatever else I want."
+    }
+  </script>
+</head>
+
+            <body>
+              <header role="banner">
+  <a href="/" aria-label="Go to homepage">
+    <img src="/static/logo.webp" alt="Blog Logo" class="header-logo" />
+  </a>
+  <div class="header-right">
+    <a
+      href="/rss.xml"
+      class="rss-link"
+      title="Subscribe to RSS feed"
+      aria-label="RSS Feed"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="rss-icon"
+        aria-hidden="true"
+        role="img"
+      >
+        <path d="M4 11a9 9 0 0 1 9 9"></path>
+        <path d="M4 4a16 16 0 0 1 16 16"></path>
+        <circle cx="5" cy="19" r="1"></circle>
+      </svg>
+    </a>
+    <a href="/menu.html" class="menu-button" aria-label="Open menu">☰</a>
+  </div>
+</header>
+
+              <main>
+                <h1 class='post-title' id="TILKnolling" style='view-transition-name: post-TILKnolling'">TIL - Knolling</h1>
+                <p>2024-05-29 2:10pm</p>
+                <div><p><strong>Knolling</strong>: The process of arranging objects so they are parallel or at 90-degree angles.</p>
+<p>So I guess this was a big instagram trend a few years ago. I&#39;ve always seen tons of images like this, usually people showing off their Every Day Carry, or for marketing pictures. But it&#39;s a new term to me, which I found while reading the wiki page for <a href="https://en.wikipedia.org/wiki/Everyday_carry">Everyday Carry</a>. There&#39;s some neat history on the origin on the practice and word on <a href="https://en.wikipedia.org/wiki/Tom_Sachs#Knolling">Tom Sach&#39;s</a> page. I have no insights about it, I was just gobsmacked there was a word for it in the first place!</p>
+</div>
+                <p>by Benjie Kibblewhite</p>
+                <p>Tags: fun facts</p>
+              </main>
+            </body>
+          </html>

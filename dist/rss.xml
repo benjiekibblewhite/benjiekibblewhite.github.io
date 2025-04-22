@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>Benjie Kibblewhite</title>
+  <link>https://benjie.ca</link>
+  <description>A personal blog about web development, accessibility, photography, and whatever else I want.</description>
+  <lastBuildDate>Tue, 22 Apr 2025 14:00:14 GMT</lastBuildDate>
+  <atom:link href="https://benjie.ca/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>Finding the centre of a web page</title>
+    <link>https://benjie.ca/blog/2025/03/11/find-centre-of-page.html</link>
+    <guid>https://benjie.ca/blog/2025/03/11/find-centre-of-page.html</guid>
+    <pubDate>Invalid Date</pubDate>
+    <description>I wanted to quickly find the centre of a page so I could visually confirm for myself that an element was placed smack dab in the middle. Maybe there&apos;s...</description>
+  </item>
+  <item>
+    <title>TIL - Knolling</title>
+    <link>https://benjie.ca/blog/2024/05/29/TIL-Knolling.html</link>
+    <guid>https://benjie.ca/blog/2024/05/29/TIL-Knolling.html</guid>
+    <pubDate>Invalid Date</pubDate>
+    <description>**Knolling**: The process of arranging objects so they are parallel or at 90-degree angles....</description>
+  </item>
+  <item>
+    <title>Accessible Inline Links in React Native</title>
+    <link>https://benjie.ca/blog/2021/09/21/accessible-inline-links-react-native.html</link>
+    <guid>https://benjie.ca/blog/2021/09/21/accessible-inline-links-react-native.html</guid>
+    <pubDate>Invalid Date</pubDate>
+    <description>This isn&apos;t an entirely unique solution, but it was an interesting accessibility problem that speaks to how React Native actually handles text, and so ...</description>
+  </item>
+  <item>
+    <title>TIL - React Native Dynamic &quot;See More&quot; based on number of lines of text</title>
+    <link>https://benjie.ca/blog/2021/06/17/TIL-React-Native-Dynamic-See-More-Based-On-Number-Of-Lines.html</link>
+    <guid>https://benjie.ca/blog/2021/06/17/TIL-React-Native-Dynamic-See-More-Based-On-Number-Of-Lines.html</guid>
+    <pubDate>Invalid Date</pubDate>
+    <description>The solution for this problem comes fully from [this great page on Stack Overflow](https://stackoverflow.com/questions/55805233/how-to-show-for-text-m...</description>
+  </item>
+  <item>
+    <title>Lately -  New team, less imposter syndrome</title>
+    <link>https://benjie.ca/blog/2021/06/03/New-Team-And-Imposter-Syndrome.html</link>
+    <guid>https://benjie.ca/blog/2021/06/03/New-Team-And-Imposter-Syndrome.html</guid>
+    <pubDate>Invalid Date</pubDate>
+    <description>I&apos;ve moved to an new project at work this past week. I&apos;ve been requesting a change for a while now, and some business needs aligned nicely right aroun...</description>
+  </item>
+  <item>
+    <title>TIL: VSCode Go To Symbol Shortcut</title>
+    <link>https://benjie.ca/blog/2021/05/19/TIL-vscode-go-to-symbol.html</link>
+    <guid>https://benjie.ca/blog/2021/05/19/TIL-vscode-go-to-symbol.html</guid>
+    <pubDate>Invalid Date</pubDate>
+    <description>Inspired by a coworker&apos;s appreciation of Today I Learned style blogs (hey kmac), I&apos;m going to attempt to start blogging about little tips and tricks a...</description>
+  </item>
+  <item>
+    <title>One Year As A Pro: Lessons From a Self-Taught Developer</title>
+    <link>https://benjie.ca/blog/2019/05/14/one-year-as-a-pro.html</link>
+    <guid>https://benjie.ca/blog/2019/05/14/one-year-as-a-pro.html</guid>
+    <pubDate>Invalid Date</pubDate>
+    <description>Today is the one-year anniversary of my first day as a professional developer. I&apos;m self-taught, which doesn&apos;t actually mean I&apos;m self-taught. It means ...</description>
+  </item>
+  <item>
+    <title>Help! I&apos;ve Pushed To My Remote Repo, But I Need To Change My Git Commit Message!</title>
+    <link>https://benjie.ca/blog/2018/05/15/git-commit-amend.html</link>
+    <guid>https://benjie.ca/blog/2018/05/15/git-commit-amend.html</guid>
+    <pubDate>Invalid Date</pubDate>
+    <description>So! Like the fool you are, you&apos;ve entered `git push origin`, only to realize, to your *abject horror*, that your commit message is incorrect. The sham...</description>
+  </item>
+  <item>
+    <title>IC/ Insider</title>
+    <link>https://benjie.ca/blog/2018/02/23/ic-insider.html</link>
+    <guid>https://benjie.ca/blog/2018/02/23/ic-insider.html</guid>
+    <pubDate>Invalid Date</pubDate>
+    <description>We needed a simple internal communication tool for our Toronto office. Our onboarding process was inconsistent across departments, and vital informati...</description>
+  </item>
+  <item>
+    <title>OneKind Future of Grocery Kiosk</title>
+    <link>https://benjie.ca/blog/2018/02/23/onekind-kiosk.html</link>
+    <guid>https://benjie.ca/blog/2018/02/23/onekind-kiosk.html</guid>
+    <pubDate>Invalid Date</pubDate>
+    <description>While I was working as the Office Manager at Idea Couture, a project came down the pipe with a tight deadline, and no developers available to work on ...</description>
+  </item>
+  <item>
+    <title>Dirt-simple Environment Variables with create-react-app and GitHub Pages</title>
+    <link>https://benjie.ca/blog/2018/01/22/dirt-simple-env-vars.html</link>
+    <guid>https://benjie.ca/blog/2018/01/22/dirt-simple-env-vars.html</guid>
+    <pubDate>Sun, 21 Jan 2018 22:00:00 GMT</pubDate>
+    <description>This is a quickie, but a goodie. This kind of thing might cause a more experienced developer to roll their eyes, but feels like magic to this self-tau...</description>
+  </item>
+  <item>
+    <title>Ponyfoo’s Magical Newsletter Call To Action Made Me Weep For Joy</title>
+    <link>https://benjie.ca/blog/2017/03/30/ponyfoo-magical-call-to-action.html</link>
+    <guid>https://benjie.ca/blog/2017/03/30/ponyfoo-magical-call-to-action.html</guid>
+    <pubDate>Thu, 30 Mar 2017 02:06:00 GMT</pubDate>
+    <description>I have a big hate-on for intrusive call-to-action modals. You know the ones — you’re in the middle of reading some article, and a pop-up appears, inte...</description>
+  </item>
+</channel>
+</rss>
