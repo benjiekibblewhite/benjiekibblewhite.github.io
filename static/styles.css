@@ -1,0 +1,376 @@
+@view-transition {
+  navigation: auto;
+}
+
+:root {
+  --primary-color: #58aceb;
+  --background-color: #fbf9f9;
+  --text-color: #4c5461;
+  --secondary-text: #a0a0a0;
+  --border-color: #ccc;
+  --card-background: #1e1e1e;
+  --hover-color: #58aceb50;
+  --link-hover-color: #20a0b2;
+}
+
+body {
+  font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif;
+
+  line-height: 1.6;
+  margin: 0;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  background-image: url('data:image/svg+xml;utf8,<svg width="40" height="10" viewBox="0 0 40 10" xmlns="http://www.w3.org/2000/svg"><path d="M0 5 Q 5 2, 10 5 T 20 5 T 30 5 T 40 5" fill="none" stroke="white" stroke-width="1"/></svg>');
+  background-repeat: repeat;
+  min-height: 100vh;
+}
+
+/* Apply Lora font to all headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Lora", Georgia, serif;
+  line-height: 1.3;
+  font-weight: 300;
+  color: var(--primary-color);
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+
+a {
+  color: var(--primary-color);
+  font-weight: 500;
+  transition: color 0.2s ease;
+  text-decoration: none;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 5px;
+    background-color: var(--link-hover-color);
+    transform: scaleY(0);
+    transition: transform 0.2s ease-in-out;
+  }
+}
+
+a:hover,
+a:focus {
+  color: #2c78b3;
+  &::before {
+    transform: scaleY(1);
+  }
+}
+
+a:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  color: var(--text-color);
+  position: sticky;
+  top: 0;
+  left: 0;
+  background-color: var(--background-color);
+  background-image: url('data:image/svg+xml;utf8,<svg width="40" height="10" viewBox="0 0 40 10" xmlns="http://www.w3.org/2000/svg"><path d="M0 5 Q 5 2, 10 5 T 20 5 T 30 5 T 40 5" fill="none" stroke="white" stroke-width="1"/></svg>');
+  background-repeat: repeat;
+  z-index: 2;
+
+  & a::before {
+    display: none;
+  }
+}
+
+.header-logo {
+  width: 150px;
+  margin: 0;
+}
+
+/* Header right side with RSS and menu buttons */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* RSS icon styles */
+.rss-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+  margin-top: 10px;
+}
+
+.rss-link:hover {
+  color: var(--primary-color);
+}
+
+.rss-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.menu-button {
+  /* Never change this to Rems - we want to this to stay the same size even if the user changes font size */
+  font-size: 48px;
+  text-decoration: none;
+}
+
+.menu-button:hover {
+  color: var(--primary-color);
+}
+
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+.bio-section {
+  /* text-align: center; */
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.headshot {
+  border-radius: 100%;
+  width: 350px;
+  height: auto;
+  aspect-ratio: 1/1;
+  margin: 24px auto;
+}
+
+.menu-page {
+  background-image: url('data:image/svg+xml;utf8,<svg width="40" height="10" viewBox="0 0 40 10" xmlns="http://www.w3.org/2000/svg"><path d="M0 5 Q 5 2, 10 5 T 20 5 T 30 5 T 40 5" fill="none" stroke="skyblue" stroke-width="1"/></svg>');
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .menu-page {
+    animation: backgroundMove 10s linear infinite;
+  }
+
+  @keyframes backgroundMove {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: 100px 10px;
+    }
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-delay: -1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    background-attachment: initial !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
+}
+
+.menu-container {
+  background-color: white;
+  min-width: min(400px, 90vw);
+  text-align: center;
+  border-radius: 16px;
+  box-shadow: 0px 0px 10px 0px rgba(15, 15, 15, 0.1);
+  overflow: hidden;
+}
+
+.menu-container a {
+  display: block;
+  text-decoration: none;
+  padding: 12px 8px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  font-size: 2rem;
+  z-index: 0;
+  color: var(--text-color);
+  transition: color 0.25s ease-in;
+}
+
+.menu-container a:hover,
+.menu-container a:focus {
+  color: white;
+  outline: none;
+}
+
+.menu-container a:hover::before,
+.menu-container a:focus::before {
+  transform: translate(0, 0) !important; /* Move to original position */
+}
+
+.menu-container a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--primary-color);
+  transition: transform 0.25s ease-in-out;
+  z-index: -1;
+  transform: translate(0, 100%); /* Default: from bottom */
+}
+
+/* First item - comes from top */
+.menu-container a:first-child::before {
+  transform: translate(0, -100%);
+}
+
+/* Alternating left and right for middle items - these will be 2nd, 3rd, etc. but not last */
+.menu-container a:not(:first-child):not(:last-child):nth-child(odd)::before {
+  transform: translate(100%, 0);
+}
+
+.menu-container a:not(:first-child):not(:last-child):nth-child(even)::before {
+  transform: translate(-100%, 0);
+}
+
+/* Last item - comes from bottom */
+.menu-container a:last-child::before {
+  transform: translate(0, 100%);
+}
+
+.logo {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+
+/* Menu close button */
+.menu-close-button {
+  position: absolute;
+  top: 32px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  color: var(--primary-color);
+  font-size: 52px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  z-index: 100;
+}
+
+.menu-close-button:hover {
+  color: var(--primary-color);
+}
+
+article {
+  margin-bottom: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Pagination styles */
+.pagination {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.pagination a,
+.pagination .current-page {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 0 4px;
+  text-decoration: none;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  &::before {
+    display: none;
+  }
+}
+
+.pagination a:hover,
+.pagination a:focus {
+  background: var(--hover-color);
+}
+
+.pagination .current-page {
+  background: var(--primary-color);
+  color: #000;
+  border-color: var(--primary-color);
+}
+
+.pagination-arrow {
+  font-size: 1.2rem;
+  padding: 8px 16px !important;
+  &.disabled {
+    color: var(--secondary-text);
+    cursor: auto;
+    pointer-events: none;
+  }
+}
+
+/* Post styles */
+.tags {
+  color: var(--secondary-text);
+  font-size: 0.9rem;
+}
+
+.author {
+  font-style: italic;
+  color: var(--secondary-text);
+}
+
+/* Code block styles */
+pre {
+  padding: 16px;
+  overflow-x: auto;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  max-width: 100%;
+}
+
+code {
+  font-family: Consolas, Monaco, "Andale Mono", monospace;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .menu-container {
+    width: 90vw;
+    min-width: auto;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Image enhancements */
+img {
+  max-width: 100%;
+  height: auto;
+}

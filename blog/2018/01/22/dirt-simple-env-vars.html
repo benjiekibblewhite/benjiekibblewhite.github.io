@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+          <html lang="en">
+            <head>
+  <title>Dirt-simple Environment Variables with create-react-app and GitHub Pages</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Benjie K on the web" />
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Preload critical images (logo and background) -->
+  <link
+    rel="preload"
+    as="image"
+    href="/static/optimized/logo.webp"
+    type="image/webp"
+  />
+  <link
+    rel="preload"
+    as="image"
+    href="/static/optimized/logo.png"
+    imagesrcset="/static/optimized/logo.png"
+    imagesizes="100vw"
+  />
+
+  <!-- Optimize font loading with display=swap -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'"
+  />
+
+  <!-- Non-JS fallback for fonts -->
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    />
+  </noscript>
+
+  <!-- Critical CSS inlined for performance -->
+  <style>
+    body {
+      margin: 0;
+      font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Helvetica, Arial, sans-serif;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: "Lora", Georgia, serif;
+    }
+    a {
+      color: #58aceb;
+    }
+    /* Add image sizing for better CLS performance */
+    img,
+    picture {
+      max-width: 100%;
+      height: auto;
+      display: block; /* Prevents layout shifts */
+    }
+    /* Ensure images in articles maintain aspect ratio */
+    article img {
+      aspect-ratio: attr(width) / attr(height);
+    }
+  </style>
+
+  <!-- Main stylesheet loaded asynchronously -->
+  <link rel="stylesheet" href="/static/styles.css" />
+  <noscript><link rel="stylesheet" href="/static/styles.css" /></noscript>
+
+  <!-- Favicon -->
+  <link rel="icon" href="/static/optimized/logo.png" />
+
+  <!-- RSS Feed discovery -->
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    title="Blog RSS Feed"
+    href="/rss.xml"
+  />
+
+  <!-- Default structured data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Benjie Kibblewhite's site",
+      "url": "https://benjie.ca",
+      "description": "A personal blog about web development, accessibility, photography, and whatever else I want."
+    }
+  </script>
+</head>
+
+            <body>
+              <header role="banner">
+  <a href="/" aria-label="Go to homepage">
+    <img src="/static/logo.webp" alt="Blog Logo" class="header-logo" />
+  </a>
+  <div class="header-right">
+    <a
+      href="/rss.xml"
+      class="rss-link"
+      title="Subscribe to RSS feed"
+      aria-label="RSS Feed"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="rss-icon"
+        aria-hidden="true"
+        role="img"
+      >
+        <path d="M4 11a9 9 0 0 1 9 9"></path>
+        <path d="M4 4a16 16 0 0 1 16 16"></path>
+        <circle cx="5" cy="19" r="1"></circle>
+      </svg>
+    </a>
+    <a href="/menu.html" class="menu-button" aria-label="Open menu">☰</a>
+  </div>
+</header>
+
+              <main>
+                <h1 class='post-title' id="DirtsimpleEnvironmentVariableswithcreatereactappandGitHubPages" style='view-transition-name: post-DirtsimpleEnvironmentVariableswithcreatereactappandGitHubPages'">Dirt-simple Environment Variables with create-react-app and GitHub Pages</h1>
+                <p>2018-01-22 00:00:00 +0200</p>
+                <div><p>This is a quickie, but a goodie. This kind of thing might cause a more experienced developer to roll their eyes, but feels like magic to this self-taught newbie.</p>
+<p>I’m working on a simple client-side react app, using the API published by the Liquor Control Board of Ontario. I’m hosting the app on github pages, and deploying using the npm package “gh-pages”. The API key is domain-specific. I need one for my production environment, and one my development environment.</p>
+<p>I had been switching the key out manually before I deployed to GitHub pages. That was getting annoying, and I knew there must be a Better Way. As I discover again and again in this coding journey, there is almost always a Better way. For once it’s deliciously simple:</p>
+<p>*In the root directory of your create-react-app application, create two new files: &quot;.env”, and “.env.local.”
+*In your .env file, type <code>REACT_APP_API_KEY:</code> and assign it the API key for your production environment, like so:</p>
+<p><code>REACT_APP_API_KEY: FaKESAmplEKeyCBWHVAokOGjdfMvIPHoENeUvRSa</code></p>
+<p>*In your .env.local file, do the same thing, but include the key for your development environment.
+*When you need to use the key, you can access it by calling “process.env.REACT_APP_API_KEY.” As an example, here’s how I’m using it with Axios:</p>
+<p><code>Axios.get(`https://lcboapi.com/stores?access_key=${process.env.REACT_APP_API_KEY}`)</code></p>
+<p>.env.local is in your .gitignore file by default with create-react-app. This means it is not added to your commits using Git, and it also means it won’t be deployed to GitHub Pages when you run npm deploy. The .env file, however, does get committed and deployed. The values in .env.local take precedence over the values in .env. So, since .env.local is not present in your production environment (GitHub pages), the app will use the values in .env.</p>
+<p>You can store any kind of data you want in your .env file. Note, however, that your environment variables must all start with REACT_APP. Otherwise, they won’t be included in the process.env object. Also, you should be careful of the kinds of data you store. In this case, my API key can only be used when the request comes from the domain assigned to the key. I’m not worried about it being included in my GitHub repo — but I recognize this is still not best practice.</p>
+<p>If anyone out there has a better way to use API keys with apps hosted on GitHub pages, leave a comment!</p>
+<p>EDIT:</p>
+<p>I forgot to credit Drew Goodwin — his post <a href="https://medium.com/@tacomanator" title="Create-React-App Environments on Medium.com">Create-react-app environments</a> goes into much more depth than I do in this quick-take.</p>
+</div>
+                <p>by Benjie Kibblewhite</p>
+                <p>Tags: react, node, express, gh-pages</p>
+              </main>
+            </body>
+          </html>

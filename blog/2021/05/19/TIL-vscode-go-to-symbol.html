@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+          <html lang="en">
+            <head>
+  <title>TIL: VSCode Go To Symbol Shortcut</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Benjie K on the web" />
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Preload critical images (logo and background) -->
+  <link
+    rel="preload"
+    as="image"
+    href="/static/optimized/logo.webp"
+    type="image/webp"
+  />
+  <link
+    rel="preload"
+    as="image"
+    href="/static/optimized/logo.png"
+    imagesrcset="/static/optimized/logo.png"
+    imagesizes="100vw"
+  />
+
+  <!-- Optimize font loading with display=swap -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'"
+  />
+
+  <!-- Non-JS fallback for fonts -->
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    />
+  </noscript>
+
+  <!-- Critical CSS inlined for performance -->
+  <style>
+    body {
+      margin: 0;
+      font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Helvetica, Arial, sans-serif;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: "Lora", Georgia, serif;
+    }
+    a {
+      color: #58aceb;
+    }
+    /* Add image sizing for better CLS performance */
+    img,
+    picture {
+      max-width: 100%;
+      height: auto;
+      display: block; /* Prevents layout shifts */
+    }
+    /* Ensure images in articles maintain aspect ratio */
+    article img {
+      aspect-ratio: attr(width) / attr(height);
+    }
+  </style>
+
+  <!-- Main stylesheet loaded asynchronously -->
+  <link rel="stylesheet" href="/static/styles.css" />
+  <noscript><link rel="stylesheet" href="/static/styles.css" /></noscript>
+
+  <!-- Favicon -->
+  <link rel="icon" href="/static/optimized/logo.png" />
+
+  <!-- RSS Feed discovery -->
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    title="Blog RSS Feed"
+    href="/rss.xml"
+  />
+
+  <!-- Default structured data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Benjie Kibblewhite's site",
+      "url": "https://benjie.ca",
+      "description": "A personal blog about web development, accessibility, photography, and whatever else I want."
+    }
+  </script>
+</head>
+
+            <body>
+              <header role="banner">
+  <a href="/" aria-label="Go to homepage">
+    <img src="/static/logo.webp" alt="Blog Logo" class="header-logo" />
+  </a>
+  <div class="header-right">
+    <a
+      href="/rss.xml"
+      class="rss-link"
+      title="Subscribe to RSS feed"
+      aria-label="RSS Feed"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="rss-icon"
+        aria-hidden="true"
+        role="img"
+      >
+        <path d="M4 11a9 9 0 0 1 9 9"></path>
+        <path d="M4 4a16 16 0 0 1 16 16"></path>
+        <circle cx="5" cy="19" r="1"></circle>
+      </svg>
+    </a>
+    <a href="/menu.html" class="menu-button" aria-label="Open menu">☰</a>
+  </div>
+</header>
+
+              <main>
+                <h1 class='post-title' id="TILVSCodeGoToSymbolShortcut" style='view-transition-name: post-TILVSCodeGoToSymbolShortcut'">TIL: VSCode Go To Symbol Shortcut</h1>
+                <p>2021-05-19 2:11pm</p>
+                <div><p>Inspired by a coworker&#39;s appreciation of Today I Learned style blogs (hey kmac), I&#39;m going to attempt to start blogging about little tips and tricks and interesting things I learn as I go about my day to day work. </p>
+<p>This one might be an obvious one if you&#39;re a Visual Studio Code power user, but it was new to me! </p>
+<p><a href="https://code.visualstudio.com/docs/getstarted/tips-and-tricks#_go-to-symbol-in-workspace">Go To Symbol</a></p>
+<p>Just hit <code>⌘T</code>, or preface your search in the Command Palette with <code>#</code>. This lets you search all the symbols (function declarations, variables, types, basically anything named) in your workspace, and jump right to where it&#39;s defined. </p>
+<p>Usually, I would use the search bar for this, but I can see it being useful for something that&#39;s used in many places, and I really want to get to where the symbol is defined as quickly as possible. </p>
+<p>Now, if I&#39;m looking at a place where that symbol is used, it&#39;s probably faster to <code>⌘ + click</code> on the name, or right click on it and select <code>Go To Definition</code>, which should do the same thing. Still, it&#39;s a neat feature that I didn&#39;t know VSCode had! </p>
+</div>
+                <p>by Benjie Kibblewhite</p>
+                <p>Tags: today i learned, tips, vscode, visual studio code</p>
+              </main>
+            </body>
+          </html>

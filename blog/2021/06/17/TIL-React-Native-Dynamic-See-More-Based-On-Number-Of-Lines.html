@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+          <html lang="en">
+            <head>
+  <title>TIL - React Native Dynamic "See More" based on number of lines of text</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Benjie K on the web" />
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Preload critical images (logo and background) -->
+  <link
+    rel="preload"
+    as="image"
+    href="/static/optimized/logo.webp"
+    type="image/webp"
+  />
+  <link
+    rel="preload"
+    as="image"
+    href="/static/optimized/logo.png"
+    imagesrcset="/static/optimized/logo.png"
+    imagesizes="100vw"
+  />
+
+  <!-- Optimize font loading with display=swap -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'"
+  />
+
+  <!-- Non-JS fallback for fonts -->
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    />
+  </noscript>
+
+  <!-- Critical CSS inlined for performance -->
+  <style>
+    body {
+      margin: 0;
+      font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Helvetica, Arial, sans-serif;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: "Lora", Georgia, serif;
+    }
+    a {
+      color: #58aceb;
+    }
+    /* Add image sizing for better CLS performance */
+    img,
+    picture {
+      max-width: 100%;
+      height: auto;
+      display: block; /* Prevents layout shifts */
+    }
+    /* Ensure images in articles maintain aspect ratio */
+    article img {
+      aspect-ratio: attr(width) / attr(height);
+    }
+  </style>
+
+  <!-- Main stylesheet loaded asynchronously -->
+  <link rel="stylesheet" href="/static/styles.css" />
+  <noscript><link rel="stylesheet" href="/static/styles.css" /></noscript>
+
+  <!-- Favicon -->
+  <link rel="icon" href="/static/optimized/logo.png" />
+
+  <!-- RSS Feed discovery -->
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    title="Blog RSS Feed"
+    href="/rss.xml"
+  />
+
+  <!-- Default structured data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Benjie Kibblewhite's site",
+      "url": "https://benjie.ca",
+      "description": "A personal blog about web development, accessibility, photography, and whatever else I want."
+    }
+  </script>
+</head>
+
+            <body>
+              <header role="banner">
+  <a href="/" aria-label="Go to homepage">
+    <img src="/static/logo.webp" alt="Blog Logo" class="header-logo" />
+  </a>
+  <div class="header-right">
+    <a
+      href="/rss.xml"
+      class="rss-link"
+      title="Subscribe to RSS feed"
+      aria-label="RSS Feed"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="rss-icon"
+        aria-hidden="true"
+        role="img"
+      >
+        <path d="M4 11a9 9 0 0 1 9 9"></path>
+        <path d="M4 4a16 16 0 0 1 16 16"></path>
+        <circle cx="5" cy="19" r="1"></circle>
+      </svg>
+    </a>
+    <a href="/menu.html" class="menu-button" aria-label="Open menu">☰</a>
+  </div>
+</header>
+
+              <main>
+                <h1 class='post-title' id="TILReactNativeDynamicSeeMorebasedonnumberoflinesoftext" style='view-transition-name: post-TILReactNativeDynamicSeeMorebasedonnumberoflinesoftext'">TIL - React Native Dynamic "See More" based on number of lines of text</h1>
+                <p>2021-06-17 5:00pm</p>
+                <div><p>The solution for this problem comes fully from <a href="https://stackoverflow.com/questions/55805233/how-to-show-for-text-more-less-in-react-naitve-javascript">this great page on Stack Overflow</a>, I just came to the problem from a slightly different angle.</p>
+<p>We had two competing priorities for a component that appeared at the very top of our home screen. On the one hand, we want to allow users to increase the font size in our app if they need to. On the other hand, we didn&#39;t want this component to potentially take up the entire screen.</p>
+<p>I wondered if there was a way to dynamically have a &quot;Read More&quot; button of some kind along a block of text. If that text overflows beyond some constraint, we&#39;ll add some ellipses and this button. The solution in that Stack Overflow thread involves using the <code>onTextLayout</code> event from the <code>Text</code> component to limit the block to a set number of lines.</p>
+<p>If a user has a large font size, the component will still probably have a larger height than we designed, but we can intelligently set some kind of limit to that, hopefully keeping said component from taking over the whole screen and hiding other, potentially more important content.</p>
+<p>We haven&#39;t implemented this, but I thought it was an interesting enough concept to jot down for later. </p>
+<p>What I have down below might be able to have further accessibility improvements. For one thing, I know iOS&#39; VoiceOver feature will at least sometimes read all the text in an element, even if it&#39;s been ellipsized. That may make the &quot;Show More&quot; element redundant, and we could remove it if we can detect the user is using VoiceOver.</p>
+<p><img loading="lazy" decoding="async" src="/images/dynamicSeeMoreExample.gif" alt="Alt" title="Animated Gif showing the solution in action. The view starts with the text on three lines, normal size. The user closes the app, goes into their accessibility settings, and increases the font size. The user returns to the app, and we can see that the text has been truncated to 3 lines, cut off with an ellipsis. The user taps the &#39;See more&#39; link that has now appeared, and the rest of the text appears. The link text changes to &#39;See less&#39;."></p>
+<pre><code>const MAX_LINES = 3;
+
+export const DynamicOverflowBox = () =&gt; {
+  const [showText, setShowText] = useState(false);
+  const [numberOfLines, setNumberOfLines] = useState(undefined);
+  const [showMoreButton, setShowMoreButton] = useState(false);
+
+  const onTextLayout = useCallback(
+    (e) =&gt; {
+      if (e.nativeEvent.lines.length &gt; MAX_LINES &amp;&amp; !showText) {
+        setShowMoreButton(true);
+        setNumberOfLines(MAX_LINES);
+      }
+    },
+    [showText]
+  );
+
+  useEffect(() =&gt; {
+    if (showMoreButton) {
+      setNumberOfLines(showText ? undefined : MAX_LINES);
+    }
+  }, [showText, showMoreButton]);
+
+  return (
+    &lt;View
+      style={{
+        margin: 10,
+        padding: 20,
+        backgroundColor: &quot;white&quot;,
+      }}
+    &gt;
+      &lt;Text
+        onTextLayout={onTextLayout}
+        numberOfLines={numberOfLines}
+        style={{ fontSize: 19 }}
+      &gt;
+        I want this text to always be on three lines. Given the design, I should
+        always have 3 lines, even with a bigger font size.
+      &lt;/Text&gt;
+      {showMoreButton &amp;&amp; (
+        &lt;TouchableOpacity onPress={() =&gt; setShowText((showText) =&gt; !showText)} accessibilityRole=&quot;button&quot;&gt;
+          &lt;Text&gt;{showText ? &quot;Read Less&quot; : &quot;Read More&quot;}&lt;/Text&gt;
+        &lt;/TouchableOpacity&gt;
+      )}
+    &lt;/View&gt;
+  );
+};
+</code></pre>
+</div>
+                <p>by Benjie Kibblewhite</p>
+                <p>Tags: til, a11y, accessibility, react-native</p>
+              </main>
+            </body>
+          </html>
