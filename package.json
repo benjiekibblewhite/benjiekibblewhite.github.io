@@ -2,10 +2,12 @@
   "name": "newblog",
   "version": "1.0.0",
   "main": "index.js",
+  "homepage": "https://yourusername.github.io",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node dev.js",
-    "build": "node build.js"
+    "build": "node build.js",
+    "deploy": "gh-pages -d dist"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +23,7 @@
     "open": "^8.4.0"
   },
   "devDependencies": {
+    "gh-pages": "^6.1.1",
     "sharp": "^0.34.1"
   }
 }
