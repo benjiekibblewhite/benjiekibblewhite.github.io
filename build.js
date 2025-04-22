@@ -151,7 +151,7 @@ async function copyStaticFiles(header, sharedHead) {
         // For HTML files, apply template
         if (file.endsWith(".html")) {
           const content = await fs.readFile(filePath, "utf-8");
-          const title = path.basename(file, ".html");
+          const title = "Benjie K.";
 
           // Generate complete page with content directly (no extraction needed)
           const completePage = generateCompletePage({
