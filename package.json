@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node dev.js",
-    "build": "node build.js",
+    "build": "node build.js && cp CNAME dist/",
     "deploy": "gh-pages -d dist"
   },
   "author": "",
