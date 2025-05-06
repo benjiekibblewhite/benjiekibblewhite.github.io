@@ -4,8 +4,15 @@
   <title>Benjie Kibblewhite</title>
   <link>https://benjie.ca</link>
   <description>A personal blog about web development, accessibility, photography, and whatever else I want.</description>
-  <lastBuildDate>Tue, 22 Apr 2025 14:39:26 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 06 May 2025 14:39:13 GMT</lastBuildDate>
   <atom:link href="https://benjie.ca/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+    <title>Writing vs AI: It&apos;s Worth Doing Badly</title>
+    <link>https://benjie.ca/blog/2025/05/06/ai-its-worth-doing-badly.html</link>
+    <guid>https://benjie.ca/blog/2025/05/06/ai-its-worth-doing-badly.html</guid>
+    <pubDate>Invalid Date</pubDate>
+    <description>LLMs, when to use them, and if we even should, are the hot-ticket question of the day. (Well, minus the facism) I loved [Clayton Ramsey&apos;s take](https:...</description>
+  </item>
   <item>
     <title>Finding the centre of a web page</title>
     <link>https://benjie.ca/blog/2025/03/11/find-centre-of-page.html</link>
