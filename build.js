@@ -184,6 +184,18 @@ async function copyStaticFiles(header, sharedHead) {
     }
   }
 
+  // Copy unbuilt-pages files directly to dist if the directory exists
+  const unbuiltPagesDir = path.join(__dirname, "unbuilt-pages");
+  if (await fs.pathExists(unbuiltPagesDir)) {
+    const unbuiltFiles = await fs.readdir(unbuiltPagesDir);
+    for (const file of unbuiltFiles) {
+      const filePath = path.join(unbuiltPagesDir, file);
+      await fs.copy(filePath, path.join(outputDir, file), {
+        overwrite: true,
+      });
+    }
+  }
+
   // Copy menu.html to dist
   const menuFile = path.join(__dirname, "pages/menu.html");
   const exists = await fs.pathExists(menuFile);
