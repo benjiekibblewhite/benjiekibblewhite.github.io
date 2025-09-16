@@ -31,6 +31,10 @@ const renderer = {
     const titleAttr = title ? ` title="${title}"` : '';
     const altAttr = text ? ` alt="${text}"` : '';
     return `<img src="${href}"${titleAttr}${altAttr} loading="lazy" decoding="async" />`;
+  },
+  link(href, title, text) {
+    const link = marked.Renderer.prototype.link.call(this, href, title, text);
+    return link.replace(/<a /, '<a target="_blank" rel="noopener noreferrer" ');
   }
 };
 marked.use({ renderer });
