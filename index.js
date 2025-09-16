@@ -1,5 +1,6 @@
-const express = require("express");
-const chokidar = require("chokidar");
+import express from "express";
+import chokidar from "chokidar";
+import { buildSite } from "./build.js";
 
 const app = express();
 const PORT = 3000;

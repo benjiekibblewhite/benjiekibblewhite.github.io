@@ -1,11 +1,16 @@
-const express = require("express");
-const chokidar = require("chokidar");
-const { exec } = require("child_process");
-const path = require("path");
-const livereload = require("livereload");
-const connectLivereload = require("connect-livereload");
-const open = require("open");
-const net = require("net");
+import express from "express";
+import chokidar from "chokidar";
+import { exec } from "child_process";
+import path from "path";
+import livereload from "livereload";
+import connectLivereload from "connect-livereload";
+import open from "open";
+import net from "net";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 const PORT = 3000;

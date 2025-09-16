@@ -1,7 +1,14 @@
-const fs = require("fs-extra");
-const path = require("path");
-const fm = require("front-matter");
-const marked = require("marked");
+import fs from "fs-extra";
+import path from "path";
+import fm from "front-matter";
+import { marked } from "marked";
+import { markedSmartypants } from "marked-smartypants";
+
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const postsDir = path.join(__dirname, "posts");
 const outputDir = path.join(__dirname, "dist");
@@ -13,30 +20,28 @@ const SITE_DESCRIPTION =
 
 // Configure marked for better output and security
 marked.setOptions({
-  headerIds: true,
   gfm: true,
   breaks: false,
   pedantic: false,
-  sanitize: false,
-  smartLists: true,
-  smartypants: true,
 });
 
 // Add lazyloading to images in markdown
-const renderer = new marked.Renderer();
-const originalImageRenderer = renderer.image.bind(renderer);
-renderer.image = function (href, title, text) {
-  const html = originalImageRenderer(href, title, text);
-  return html.replace("<img", '<img loading="lazy" decoding="async"');
+const renderer = {
+  image(href, title, text) {
+    const titleAttr = title ? ` title="${title}"` : '';
+    const altAttr = text ? ` alt="${text}"` : '';
+    return `<img src="${href}"${titleAttr}${altAttr} loading="lazy" decoding="async" />`;
+  }
 };
 marked.use({ renderer });
+marked.use(markedSmartypants());
 
 // Create a reusable function to generate complete HTML pages
 function generateCompletePage({
-  content,
-  title,
-  header,
-  sharedHead,
+  content = "",
+  title = "",
+  header = "",
+  sharedHead = "",
   skipHeader = false,
   skipMain = false,
 } = {}) {
@@ -128,6 +133,58 @@ function escapeXML(text) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&apos;");
+}
+
+// Helper function to detect and extract complete markdown links
+function extractCompleteLinks(text) {
+  // Regular expression to match markdown links: [text](url) or [text](url "title")
+  const linkRegex = /\[([^\]]+)\]\(([^)]+)(?:\s+"([^"]*)")?\)/g;
+  const links = [];
+  let match;
+  
+  while ((match = linkRegex.exec(text)) !== null) {
+    links.push({
+      fullMatch: match[0],
+      text: match[1],
+      url: match[2],
+      title: match[3] || ''
+    });
+  }
+  
+  return links;
+}
+
+// Helper function to generate preview text that includes complete links
+function generatePreviewWithLinks(text, maxLength = 150) {
+  const links = extractCompleteLinks(text);
+  
+  if (links.length === 0) {
+    // No links found, use simple truncation
+    return text.substring(0, maxLength) + (text.length > maxLength ? "..." : "");
+  }
+  
+  // Find the first link and ensure it's included in the preview
+  const firstLink = links[0];
+  const linkStartIndex = text.indexOf(firstLink.fullMatch);
+  
+  if (linkStartIndex === -1) {
+    // Link not found in text (shouldn't happen), fallback to simple truncation
+    return text.substring(0, maxLength) + (text.length > maxLength ? "..." : "");
+  }
+  
+  // Calculate where to end the preview to include the complete first link
+  const linkEndIndex = linkStartIndex + firstLink.fullMatch.length;
+  const previewEndIndex = Math.max(linkEndIndex, maxLength);
+  
+  // Extract preview text
+  let preview = text.substring(0, previewEndIndex);
+  
+  // Add ellipsis if we truncated the text
+  if (previewEndIndex < text.length) {
+    preview += "...";
+  }
+  
+  return preview;
 }
 
 async function copyStaticFiles(header, sharedHead) {
@@ -246,7 +303,7 @@ async function getAllPosts() {
     posts.push({
       title: attributes.title,
       date: attributes.date,
-      preview: firstParagraph.substring(0, 150) + "...",
+      preview: generatePreviewWithLinks(firstParagraph, 150),
       filename: file.replace(".md", ".html"),
       content: body,
       attributes,
@@ -256,7 +313,7 @@ async function getAllPosts() {
 
   return posts.sort((a, b) => {
     if (!a.fileDate || !b.fileDate) return 0;
-    return new Date(b.fileDate) - new Date(a.fileDate);
+    return new Date(b.fileDate).getTime() - new Date(a.fileDate).getTime();
   });
 }
 
@@ -376,7 +433,7 @@ async function createIndexPages(posts, header, sharedHead) {
               <article>
                 <h2><a id='${postId}' href="${post.url}" class='post-link' style="view-transition-name: post-${postId}">${post.title}</a></h2>
                 <p>${post.date}</p>
-                <p>${post.preview}</p>
+                <p>${marked.parse(post.preview)}</p>
               </article>
             `;
         })
@@ -420,4 +477,10 @@ async function buildSite() {
   ]);
 }
 
-buildSite().then(() => console.log("Site built!"));
+// Export the buildSite function for use in other modules
+export { buildSite };
+
+// Run buildSite if this file is executed directly
+if (import.meta.url === `file://${process.argv[1]}`) {
+  buildSite().then(() => console.log("Site built!"));
+}

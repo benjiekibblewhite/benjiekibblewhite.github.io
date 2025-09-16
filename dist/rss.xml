@@ -4,14 +4,14 @@
   <title>Benjie Kibblewhite</title>
   <link>https://benjie.ca</link>
   <description>A personal blog about web development, accessibility, photography, and whatever else I want.</description>
-  <lastBuildDate>Mon, 26 May 2025 18:03:20 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 16 Sep 2025 23:04:34 GMT</lastBuildDate>
   <atom:link href="https://benjie.ca/rss.xml" rel="self" type="application/rss+xml" />
   <item>
     <title>Writing vs AI: It&apos;s Worth Doing Badly</title>
     <link>https://benjie.ca/blog/2025/05/06/ai-its-worth-doing-badly.html</link>
     <guid>https://benjie.ca/blog/2025/05/06/ai-its-worth-doing-badly.html</guid>
     <pubDate>Invalid Date</pubDate>
-    <description>LLMs, when to use them, and if we even should, are the hot-ticket question of the day. (Well, minus the facism) I loved [Clayton Ramsey&apos;s take](https:...</description>
+    <description>LLMs, when to use them, and if we even should, are the hot-ticket question of the day. (Well, minus the facism) I loved [Clayton Ramsey&apos;s take](https://claytonwramsey.com/blog/prompt/)...</description>
   </item>
   <item>
     <title>Finding the centre of a web page</title>
@@ -25,7 +25,7 @@
     <link>https://benjie.ca/blog/2024/05/29/TIL-Knolling.html</link>
     <guid>https://benjie.ca/blog/2024/05/29/TIL-Knolling.html</guid>
     <pubDate>Invalid Date</pubDate>
-    <description>**Knolling**: The process of arranging objects so they are parallel or at 90-degree angles....</description>
+    <description>**Knolling**: The process of arranging objects so they are parallel or at 90-degree angles.</description>
   </item>
   <item>
     <title>Accessible Inline Links in React Native</title>
@@ -39,7 +39,7 @@
     <link>https://benjie.ca/blog/2021/06/17/TIL-React-Native-Dynamic-See-More-Based-On-Number-Of-Lines.html</link>
     <guid>https://benjie.ca/blog/2021/06/17/TIL-React-Native-Dynamic-See-More-Based-On-Number-Of-Lines.html</guid>
     <pubDate>Invalid Date</pubDate>
-    <description>The solution for this problem comes fully from [this great page on Stack Overflow](https://stackoverflow.com/questions/55805233/how-to-show-for-text-m...</description>
+    <description>The solution for this problem comes fully from [this great page on Stack Overflow](https://stackoverflow.com/questions/55805233/how-to-show-for-text-more-less-in-react-naitve-javascript)...</description>
   </item>
   <item>
     <title>Lately -  New team, less imposter syndrome</title>
