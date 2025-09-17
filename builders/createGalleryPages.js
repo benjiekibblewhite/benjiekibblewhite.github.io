@@ -72,6 +72,7 @@ export async function createGalleryPages(header, sharedHead) {
       url: galleryUrl,
       folder,
       photoCount: photos.length,
+      photos: photos,
       tags: attributes.tags || [],
     });
   }

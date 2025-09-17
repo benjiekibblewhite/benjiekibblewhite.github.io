@@ -36,6 +36,21 @@ export async function createGalleryIndex(galleries, header, sharedHead) {
         `
             : ""
         }
+        ${
+          gallery.photos.length > 0
+            ? `
+          <div class="gallery-preview_images">
+            ${gallery.photos
+              .map((photo, index) =>
+                index <= 6
+                  ? `<div class="gallery-preview_image"><img src="${photo.optimizedPath}" /></div>`
+                  : ""
+              )
+              .join("")}
+          </div>
+          `
+            : ""
+        }
       </div>
     </article>
   `
@@ -74,8 +89,6 @@ export async function createGalleryIndex(galleries, header, sharedHead) {
       .gallery-preview {
         margin-bottom: 2rem;
         padding: 1.5rem;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
         transition: box-shadow 0.2s ease;
       }
       
@@ -119,6 +132,20 @@ export async function createGalleryIndex(galleries, header, sharedHead) {
         border-radius: 4px;
         font-size: 0.8rem;
         color: #666;
+      }
+
+      .gallery-preview_images {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px
+      }
+
+      .gallery-preview_image {
+        flex: 0 0 100px;
+        img {
+        height: 100%;
+          object-fit: cover;
+        }
       }
       
       .no-galleries {
