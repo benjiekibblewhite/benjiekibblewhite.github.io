@@ -6,6 +6,8 @@ import {
   createPostPages,
   createPostIndexPages,
   generateRSSFeed,
+  createGalleryPages,
+  createGalleryIndex,
 } from "./builders/index.js";
 import { __dirname } from "./utils/index.js";
 
@@ -25,12 +27,16 @@ async function buildSite() {
 
   const posts = await getAllPosts();
 
+  // Create gallery pages and get gallery data
+  const galleries = await createGalleryPages(header, sharedHead);
+
   // First create post pages (this will update post.url for each post)
   await createPostPages(posts, header, sharedHead);
 
   // Then create index pages using the updated URLs
   await Promise.all([
     createPostIndexPages(posts, header, sharedHead),
+    createGalleryIndex(galleries, header, sharedHead),
     copyStaticFiles(header, sharedHead),
     generateRSSFeed(posts),
   ]);

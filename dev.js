@@ -55,10 +55,13 @@ app.use(connectLivereload());
 app.use(express.static(DIST_DIR));
 
 // Watch for changes in the source files
-const watcher = chokidar.watch(["posts", "pages", "ui", "static", "build.js"], {
-  ignored: /(^|[\/\\])\../, // Ignore dotfiles
-  persistent: true,
-});
+const watcher = chokidar.watch(
+  ["posts", "pages", "ui", "static", "build.js", "builders", "utils"],
+  {
+    ignored: /(^|[\/\\])\../, // Ignore dotfiles
+    persistent: true,
+  }
+);
 
 // Rebuild the site on file changes
 watcher.on("change", (filePath) => {

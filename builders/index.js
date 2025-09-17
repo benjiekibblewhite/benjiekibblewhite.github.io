@@ -3,3 +3,5 @@ export { createPostPages } from "./createPostsPages.js";
 export { createPostIndexPages } from "./createIndexPage.js";
 export { generateRSSFeed } from "./generateRSSFeed.js";
 export { generateCompletePage } from "./generateCompletePage.js";
+export { createGalleryPages } from "./createGalleryPages.js";
+export { createGalleryIndex } from "./createGalleryIndex.js";

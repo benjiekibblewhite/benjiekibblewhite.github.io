@@ -5,13 +5,14 @@ import { generateCompletePage } from "./index.js";
 
 export async function copyStaticFiles(header, sharedHead) {
   // Copy pages directory to dist if it exists
-  const pagesDir = path.join(__dirname, "pages");
-  const staticDir = path.join(__dirname, "static");
+  const pagesDir = path.join(__dirname, "../pages");
+  const staticDir = path.join(__dirname, "../static");
   if (await fs.pathExists(pagesDir)) {
     const pageFiles = await fs.readdir(pagesDir);
 
     // Process each file
     for (const file of pageFiles) {
+      console.log({ file });
       const filePath = path.join(pagesDir, file);
       const fileStats = await fs.stat(filePath);
 
@@ -70,7 +71,7 @@ export async function copyStaticFiles(header, sharedHead) {
   }
 
   // Copy menu.html to dist
-  const menuFile = path.join(__dirname, "pages/menu.html");
+  const menuFile = path.join(__dirname, "../pages/menu.html");
   const exists = await fs.pathExists(menuFile);
   if (exists) {
     const menuContent = await fs.readFile(menuFile, "utf-8");
