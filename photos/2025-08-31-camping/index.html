@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>RV Trip to Bass Lake and Finlayson Point Provincial Parks - Gallery</title>
+  <!-- Google tag (gtag.js) -->
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=G-5EME2SP63J"
+  ></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+
+    gtag("config", "G-5EME2SP63J");
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Benjie K on the web" />
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Preload critical images (logo and background) -->
+  <link
+    rel="preload"
+    as="image"
+    href="/static/optimized/logo.webp"
+    type="image/webp"
+  />
+  <link
+    rel="preload"
+    as="image"
+    href="/static/optimized/logo.png"
+    imagesrcset="/static/optimized/logo.png"
+    imagesizes="100vw"
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="preload"
+    media="print"
+    onload="this.media='all'"
+  />
+  <!-- Optimize font loading with display=swap -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'"
+  />
+
+  <!-- Non-JS fallback for fonts -->
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    />
+  </noscript>
+
+  <!-- Critical CSS inlined for performance -->
+  <style>
+    body {
+      margin: 0;
+      font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Helvetica, Arial, sans-serif;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: "Lora", Georgia, serif;
+    }
+    a {
+      color: #58aceb;
+    }
+    /* Add image sizing for better CLS performance */
+    img,
+    picture {
+      max-width: 100%;
+      height: auto;
+      display: block; /* Prevents layout shifts */
+    }
+    /* Ensure images in articles maintain aspect ratio */
+    article img {
+      aspect-ratio: attr(width) / attr(height);
+    }
+  </style>
+
+  <!-- Main stylesheet loaded asynchronously -->
+  <link rel="stylesheet" href="/static/styles.css" />
+  <noscript><link rel="stylesheet" href="/static/styles.css" /></noscript>
+
+  <!-- Favicon -->
+  <link rel="icon" href="/static/optimized/logo.png" />
+
+  <!-- RSS Feed discovery -->
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    title="Blog RSS Feed"
+    href="/rss.xml"
+  />
+
+  <!-- Default structured data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Benjie Kibblewhite's site",
+      "url": "https://benjie.ca",
+      "description": "A personal blog about web development, accessibility, photography, and whatever else I want."
+    }
+  </script>
+</head>
+
+    
+    <style>
+      .gallery-container {
+        display: flex;
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      
+      .gallery-info {
+        flex: 0 0 300px;
+      }
+      
+      .gallery-photos {
+        flex: 1;
+      }
+      
+      .gallery-info h1 {
+        margin-bottom: 1rem;
+        font-size: 2rem;
+      }
+      
+      .gallery-info .date {
+        color: #666;
+        margin-bottom: 1rem;
+      }
+      
+      .gallery-info .tags {
+        margin-bottom: 1rem;
+      }
+      
+      .gallery-info .tags span {
+        background: #f0f0f0;
+        padding: 0.25rem 0.5rem;
+        margin-right: 0.5rem;
+        border-radius: 4px;
+        font-size: 0.9rem;
+      }
+      
+      .gallery-info .description {
+        line-height: 1.6;
+      }
+      
+      .photo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+      
+      .photo-item {
+        position: relative;
+        cursor: pointer;
+        overflow: hidden;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease;
+      }
+      
+      .photo-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+      
+      .photo-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+      }
+      
+      .photo-item .filename {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0,0,0,0.7));
+        color: white;
+        padding: 1rem 0.5rem 0.5rem;
+        font-size: 0.8rem;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+      
+      .photo-item:hover .filename {
+        opacity: 1;
+      }
+      
+      /* Modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.9);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .modal.active {
+        display: flex;
+      }
+      
+      .modal-content {
+        position: relative;
+        max-width: 90vw;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .modal img {
+        max-width: 100%;
+        max-height: 80vh;
+        object-fit: contain;
+      }
+      
+      .modal-info {
+        color: white;
+        text-align: center;
+        margin-top: 1rem;
+      }
+      
+      .modal-filename {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+      }
+      
+      .modal-controls {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.1);
+        border: none;
+        color: white;
+        font-size: 2rem;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s ease;
+      }
+      
+      .modal-controls:hover {
+        background: rgba(255,255,255,0.2);
+      }
+      
+      .modal-prev {
+        left: 20px;
+      }
+      
+      .modal-next {
+        right: 20px;
+      }
+      
+      .modal-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(255,255,255,0.1);
+        border: none;
+        color: white;
+        font-size: 2rem;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .modal-close:hover {
+        background: rgba(255,255,255,0.2);
+      }
+      
+      .modal-original-link {
+        color: #58aceb;
+        text-decoration: none;
+        margin-top: 0.5rem;
+        display: inline-block;
+      }
+      
+      .modal-original-link:hover {
+        text-decoration: underline;
+      }
+      
+      @media (max-width: 768px) {
+        .gallery-container {
+          flex-direction: column;
+          padding: 1rem;
+        }
+        
+        .gallery-info {
+          flex: none;
+        }
+        
+        .photo-grid {
+          grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        }
+        
+        .photo-item img {
+          height: 150px;
+        }
+        
+        .modal-controls {
+          width: 50px;
+          height: 50px;
+          font-size: 1.5rem;
+        }
+        
+        .modal-prev {
+          left: 10px;
+        }
+        
+        .modal-next {
+          right: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header role="banner">
+  <a href="/" aria-label="Go to homepage">
+    <img
+      src="/static/logo.webp"
+      alt="Blog Logo"
+      class="header-logo"
+      width="150px"
+    />
+  </a>
+  <div class="header-right">
+    <a
+      href="/rss.xml"
+      class="rss-link"
+      title="Subscribe to RSS feed"
+      aria-label="RSS Feed"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="rss-icon"
+        aria-hidden="true"
+        role="img"
+      >
+        <path d="M4 11a9 9 0 0 1 9 9"></path>
+        <path d="M4 4a16 16 0 0 1 16 16"></path>
+        <circle cx="5" cy="19" r="1"></circle>
+      </svg>
+    </a>
+    <a href="/menu.html" class="menu-button" aria-label="Open menu">☰</a>
+  </div>
+</header>
+
+    <main>
+      <div class="gallery-container">
+        <div class="gallery-info">
+          <h1>RV Trip to Bass Lake and Finlayson Point Provincial Parks</h1>
+          <div class="date">2017-08-31</div>
+          <div class="tags">
+            
+          </div>
+          <div class="description"><p>My husband and I borrowed a friend&#8217;s RV and went on some adventures.</p>
+</div>
+        </div>
+        
+        <div class="gallery-photos">
+          <div class="photo-grid">
+            
+      <div class="photo-item" onclick="openModal(0)">
+        <img src="/static/optimized/2025-08-31-camping/(kate) moss.webp" alt="(kate) moss.jpg" loading="lazy">
+        <div class="filename">(kate) moss.jpg</div>
+      </div>
+    
+      <div class="photo-item" onclick="openModal(1)">
+        <img src="/static/optimized/2025-08-31-camping/a good rock 1.webp" alt="a good rock 1.jpg" loading="lazy">
+        <div class="filename">a good rock 1.jpg</div>
+      </div>
+    
+      <div class="photo-item" onclick="openModal(2)">
+        <img src="/static/optimized/2025-08-31-camping/a good rock 2.webp" alt="a good rock 2.jpg" loading="lazy">
+        <div class="filename">a good rock 2.jpg</div>
+      </div>
+    
+      <div class="photo-item" onclick="openModal(3)">
+        <img src="/static/optimized/2025-08-31-camping/a good rock 3.webp" alt="a good rock 3.jpg" loading="lazy">
+        <div class="filename">a good rock 3.jpg</div>
+      </div>
+    
+      <div class="photo-item" onclick="openModal(4)">
+        <img src="/static/optimized/2025-08-31-camping/a nice gull.webp" alt="a nice gull.jpg" loading="lazy">
+        <div class="filename">a nice gull.jpg</div>
+      </div>
+    
+      <div class="photo-item" onclick="openModal(5)">
+        <img src="/static/optimized/2025-08-31-camping/a nice stump.webp" alt="a nice stump.jpg" loading="lazy">
+        <div class="filename">a nice stump.jpg</div>
+      </div>
+    
+      <div class="photo-item" onclick="openModal(6)">
+        <img src="/static/optimized/2025-08-31-camping/a nice walk 2.webp" alt="a nice walk 2.jpg" loading="lazy">
+        <div class="filename">a nice walk 2.jpg</div>
+      </div>
+    
+      <div class="photo-item" onclick="openModal(7)">
+        <img src="/static/optimized/2025-08-31-camping/a nice walk.webp" alt="a nice walk.jpg" loading="lazy">
+        <div class="filename">a nice walk.jpg</div>
+      </div>
+    
+      <div class="photo-item" onclick="openModal(8)">
+        <img src="/static/optimized/2025-08-31-camping/oozing tree.webp" alt="oozing tree.jpg" loading="lazy">
+        <div class="filename">oozing tree.jpg</div>
+      </div>
+    
+      <div class="photo-item" onclick="openModal(9)">
+        <img src="/static/optimized/2025-08-31-camping/orange shroom.webp" alt="orange shroom.jpg" loading="lazy">
+        <div class="filename">orange shroom.jpg</div>
+      </div>
+    
+          </div>
+        </div>
+      </div>
+    </main>
+    
+    <!-- Modal -->
+    <div id="photoModal" class="modal">
+      <div class="modal-content">
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+        <button class="modal-controls modal-prev" onclick="previousPhoto()">‹</button>
+        <img id="modalImage" src="" alt="">
+        <button class="modal-controls modal-next" onclick="nextPhoto()">›</button>
+        <div class="modal-info">
+          <div class="modal-filename" id="modalFilename"></div>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      let currentPhotoIndex = 0;
+      const photos = [{"filename":"(kate) moss.jpg","originalPath":"/photos/2025-08-31-camping/(kate) moss.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/(kate) moss.webp"},{"filename":"a good rock 1.jpg","originalPath":"/photos/2025-08-31-camping/a good rock 1.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a good rock 1.webp"},{"filename":"a good rock 2.jpg","originalPath":"/photos/2025-08-31-camping/a good rock 2.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a good rock 2.webp"},{"filename":"a good rock 3.jpg","originalPath":"/photos/2025-08-31-camping/a good rock 3.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a good rock 3.webp"},{"filename":"a nice gull.jpg","originalPath":"/photos/2025-08-31-camping/a nice gull.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a nice gull.webp"},{"filename":"a nice stump.jpg","originalPath":"/photos/2025-08-31-camping/a nice stump.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a nice stump.webp"},{"filename":"a nice walk 2.jpg","originalPath":"/photos/2025-08-31-camping/a nice walk 2.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a nice walk 2.webp"},{"filename":"a nice walk.jpg","originalPath":"/photos/2025-08-31-camping/a nice walk.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a nice walk.webp"},{"filename":"oozing tree.jpg","originalPath":"/photos/2025-08-31-camping/oozing tree.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/oozing tree.webp"},{"filename":"orange shroom.jpg","originalPath":"/photos/2025-08-31-camping/orange shroom.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/orange shroom.webp"}];
+      
+      function openModal(index) {
+        currentPhotoIndex = index;
+        updateModal();
+        document.getElementById('photoModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+      
+      function closeModal() {
+        document.getElementById('photoModal').classList.remove('active');
+        document.body.style.overflow = 'auto';
+      }
+      
+      function updateModal() {
+        const photo = photos[currentPhotoIndex];
+        document.getElementById('modalImage').src = photo.optimizedPath;
+        document.getElementById('modalImage').alt = photo.filename;
+        document.getElementById('modalFilename').textContent = photo.filename;
+        // document.getElementById('modalOriginalLink').href = photo.originalPath;
+        
+        // Update navigation button visibility
+        const prevBtn = document.querySelector('.modal-prev');
+        const nextBtn = document.querySelector('.modal-next');
+        
+        prevBtn.style.display = photos.length > 1 ? 'flex' : 'none';
+        nextBtn.style.display = photos.length > 1 ? 'flex' : 'none';
+      }
+      
+      function previousPhoto() {
+        if (photos.length <= 1) return;
+        currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
+        updateModal();
+      }
+      
+      function nextPhoto() {
+        if (photos.length <= 1) return;
+        currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+        updateModal();
+      }
+      
+      // Keyboard navigation
+      document.addEventListener('keydown', function(e) {
+        const modal = document.getElementById('photoModal');
+        if (!modal.classList.contains('active')) return;
+        
+        switch(e.key) {
+          case 'Escape':
+            closeModal();
+            break;
+          case 'ArrowLeft':
+            previousPhoto();
+            break;
+          case 'ArrowRight':
+            nextPhoto();
+            break;
+        }
+      });
+      
+      // Close modal when clicking outside
+      document.getElementById('photoModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+          closeModal();
+        }
+      });
+    </script>
+  </body>
+</html>

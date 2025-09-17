@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-            <html lang="en">
-              <head>
-  <title>Ponyfoo’s Magical Newsletter Call To Action Made Me Weep For Joy</title>
+<html lang="en">
+  <head>
+    <title>Photo Galleries</title>
   <!-- Google tag (gtag.js) -->
   <script
     async
@@ -120,8 +120,106 @@
   </script>
 </head>
 
-              <body>
-                <header role="banner">
+    
+    <style>
+      .galleries-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      
+      .galleries-header {
+        margin-bottom: 3rem;
+        text-align: center;
+      }
+      
+      .galleries-header h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+      
+      .galleries-header p {
+        color: #666;
+        font-size: 1.1rem;
+      }
+      
+      .gallery-preview {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        transition: box-shadow 0.2s ease;
+      }
+      
+      .gallery-preview:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      }
+      
+      .gallery-preview h2 {
+        margin: 0 0 1rem 0;
+        font-size: 1.5rem;
+      }
+      
+      .gallery-preview h2 a {
+        color: #333;
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+      
+      .gallery-preview h2 a:hover {
+        color: #58aceb;
+      }
+      
+      .gallery-meta {
+        margin-bottom: 1rem;
+        color: #666;
+        font-size: 0.9rem;
+      }
+      
+      .gallery-meta span {
+        margin-right: 1rem;
+      }
+      
+      .gallery-tags {
+        margin-top: 1rem;
+      }
+      
+      .gallery-tags .tag {
+        background: #f0f0f0;
+        padding: 0.25rem 0.5rem;
+        margin-right: 0.5rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        color: #666;
+      }
+      
+      .no-galleries {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: #666;
+      }
+      
+      .no-galleries h2 {
+        margin-bottom: 1rem;
+      }
+      
+      @media (max-width: 768px) {
+        .galleries-container {
+          padding: 1rem;
+        }
+        
+        .galleries-header h1 {
+          font-size: 2rem;
+        }
+        
+        .gallery-preview {
+          padding: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header role="banner">
   <a href="/" aria-label="Go to homepage">
     <img
       src="/static/logo.webp"
@@ -160,18 +258,26 @@
   </div>
 </header>
 
-                <main>
-                  <h1 class='post-title' id="PonyfoosMagicalNewsletterCallToActionMadeMeWeepForJoy" style='view-transition-name: post-PonyfoosMagicalNewsletterCallToActionMadeMeWeepForJoy'">Ponyfoo’s Magical Newsletter Call To Action Made Me Weep For Joy</h1>
-                  <p>Wed Mar 29 2017 22:06:00 GMT-0400 (Eastern Daylight Time)</p>
-                  <div><p>I have a big hate-on for intrusive call-to-action modals. You know the ones — you’re in the middle of reading some article, and a pop-up appears, interrupting your flow, asking you to subscribe to another damn newsletter, or subscribe, or donate, or whatever. It’s the surest way to make sure I never, ever sign up, or subscribe, or donate, and more than once I’ve rage-quit rather than finish reading.</p>
-<p>Still, though, we want people to sign up for whatever it is we’re hawking, and to do that, they need to know we’re hawking it in the first place. I love the way Nicolás Bevacqu at Ponyfoo handles this.</p>
-<p><img src="[object Object]" loading="lazy" decoding="async" /></p>
-<p>You’re reading an article, scrolling along, and at some point, after you’ve been reading for a bit, a charming and very obvious heart icon appears. It doesn’t block any content, but you definitely know it’s there. “Golly,” I thought, “I do love this article. I’m going to click that heart so Nic knows that I do.”</p>
-<p><img src="[object Object]" loading="lazy" decoding="async" /></p>
-<p>Well golly gee! Look at that! He gets the information he wants me to have in front of my eyes, but I only see it if I actually liked what I’m reading. I read at least half the article, I liked what I saw, and ONLY THEN do I get pestered to sign up. If I wasn’t already a subscriber, by George, you betcha I would be after this delightful interaction.</p>
-</div>
-                  <p>by Benjie Kibblewhite</p>
-                  <p>Tags: wonder, ux, ui, marketing</p>
-                </main>
-              </body>
-            </html>
+    <main>
+      <div class="galleries-container">
+        <div class="galleries-header">
+          <h1>Photos</h1>
+          <p>I'm trying to get better at photography. Here's a few things that I've liked.</p>
+        </div>
+        
+        
+    <article class="gallery-preview">
+      <div class="gallery-preview-content">
+        <h2><a href="/photos/2025-08-31-camping">RV Trip to Bass Lake and Finlayson Point Provincial Parks</a></h2>
+        <div class="gallery-meta">
+          <span class="gallery-date">2017-08-31</span>
+          <span class="gallery-count">10 photos</span>
+        </div>
+        
+      </div>
+    </article>
+  
+      </div>
+    </main>
+  </body>
+</html>

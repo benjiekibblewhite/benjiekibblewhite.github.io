@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-          <html lang="en">
-            <head>
+            <html lang="en">
+              <head>
   <title>TIL - React Native Dynamic "See More" based on number of lines of text</title>
   <!-- Google tag (gtag.js) -->
   <script
@@ -120,8 +120,8 @@
   </script>
 </head>
 
-            <body>
-              <header role="banner">
+              <body>
+                <header role="banner">
   <a href="/" aria-label="Go to homepage">
     <img
       src="/static/logo.webp"
@@ -160,10 +160,10 @@
   </div>
 </header>
 
-              <main>
-                <h1 class='post-title' id="TILReactNativeDynamicSeeMorebasedonnumberoflinesoftext" style='view-transition-name: post-TILReactNativeDynamicSeeMorebasedonnumberoflinesoftext'">TIL - React Native Dynamic "See More" based on number of lines of text</h1>
-                <p>2021-06-17 5:00pm</p>
-                <div><p>The solution for this problem comes fully from <a target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/questions/55805233/how-to-show-for-text-more-less-in-react-naitve-javascript">this great page on Stack Overflow</a>, I just came to the problem from a slightly different angle.</p>
+                <main>
+                  <h1 class='post-title' id="TILReactNativeDynamicSeeMorebasedonnumberoflinesoftext" style='view-transition-name: post-TILReactNativeDynamicSeeMorebasedonnumberoflinesoftext'">TIL - React Native Dynamic "See More" based on number of lines of text</h1>
+                  <p>2021-06-17 5:00pm</p>
+                  <div><p>The solution for this problem comes fully from <a target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/questions/55805233/how-to-show-for-text-more-less-in-react-naitve-javascript">this great page on Stack Overflow</a>, I just came to the problem from a slightly different angle.</p>
 <p>We had two competing priorities for a component that appeared at the very top of our home screen. On the one hand, we want to allow users to increase the font size in our app if they need to. On the other hand, we didn&#8217;t want this component to potentially take up the entire screen.</p>
 <p>I wondered if there was a way to dynamically have a &#8220;Read More&#8221; button of some kind along a block of text. If that text overflows beyond some constraint, we&#8217;ll add some ellipses and this button. The solution in that Stack Overflow thread involves using the <code>onTextLayout</code> event from the <code>Text</code> component to limit the block to a set number of lines.</p>
 <p>If a user has a large font size, the component will still probably have a larger height than we designed, but we can intelligently set some kind of limit to that, hopefully keeping said component from taking over the whole screen and hiding other, potentially more important content.</p>
@@ -219,8 +219,8 @@ export const DynamicOverflowBox = () =&gt; {
 };
 </code></pre>
 </div>
-                <p>by Benjie Kibblewhite</p>
-                <p>Tags: til, a11y, accessibility, react-native</p>
-              </main>
-            </body>
-          </html>
+                  <p>by Benjie Kibblewhite</p>
+                  <p>Tags: til, a11y, accessibility, react-native</p>
+                </main>
+              </body>
+            </html>
