@@ -146,8 +146,6 @@
       .gallery-preview {
         margin-bottom: 2rem;
         padding: 1.5rem;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
         transition: box-shadow 0.2s ease;
       }
       
@@ -191,6 +189,20 @@
         border-radius: 4px;
         font-size: 0.8rem;
         color: #666;
+      }
+
+      .gallery-preview_images {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px
+      }
+
+      .gallery-preview_image {
+        flex: 0 0 100px;
+        img {
+        height: 100%;
+          object-fit: cover;
+        }
       }
       
       .no-galleries {
@@ -274,6 +286,11 @@
           <span class="gallery-count">10 photos</span>
         </div>
         
+        
+          <div class="gallery-preview_images">
+            <div class="gallery-preview_image"><img src="/static/optimized/2025-08-31-camping/(kate) moss.webp" /></div><div class="gallery-preview_image"><img src="/static/optimized/2025-08-31-camping/a good rock 1.webp" /></div><div class="gallery-preview_image"><img src="/static/optimized/2025-08-31-camping/a good rock 2.webp" /></div><div class="gallery-preview_image"><img src="/static/optimized/2025-08-31-camping/a good rock 3.webp" /></div><div class="gallery-preview_image"><img src="/static/optimized/2025-08-31-camping/a nice gull.webp" /></div><div class="gallery-preview_image"><img src="/static/optimized/2025-08-31-camping/a nice stump.webp" /></div><div class="gallery-preview_image"><img src="/static/optimized/2025-08-31-camping/a nice walk 2.webp" /></div>
+          </div>
+          
       </div>
     </article>
   
