@@ -18,41 +18,43 @@ export async function createGalleryIndex(galleries, header, sharedHead) {
   const galleriesHtml = galleries
     .map(
       (gallery) => `
-    <article class="gallery-preview">
-      <div class="gallery-preview-content">
-        <h2><a href="${gallery.url}">${gallery.title}</a></h2>
-        <div class="gallery-meta">
-          <span class="gallery-date">${gallery.date}</span>
-          <span class="gallery-count">${gallery.photoCount} photos</span>
-        </div>
-        ${
-          gallery.tags.length > 0
-            ? `
-          <div class="gallery-tags">
-            ${gallery.tags
-              .map((tag) => `<span class="tag">${tag}</span>`)
-              .join("")}
+    <a href="${gallery.url}">
+      <article class="gallery-preview">
+          <div class="gallery-preview-content">
+            <h2>${gallery.title}</h2>
+            <div class="gallery-meta">
+              <span class="gallery-date">${gallery.date}</span>
+              <span class="gallery-count">${gallery.photoCount} photos</span>
+            </div>
+            ${
+              gallery.tags.length > 0
+                ? `
+              <div class="gallery-tags">
+                ${gallery.tags
+                  .map((tag) => `<span class="tag">${tag}</span>`)
+                  .join("")}
+              </div>
+            `
+                : ""
+            }
+            ${
+              gallery.photos.length > 0
+                ? `
+              <div class="gallery-preview_images">
+                ${gallery.photos
+                  .map((photo, index) =>
+                    index <= 6
+                      ? `<div class="gallery-preview_image"><img src="${photo.optimizedPath}" /></div>`
+                      : ""
+                  )
+                  .join("")}
+              </div>
+              `
+                : ""
+            }
           </div>
-        `
-            : ""
-        }
-        ${
-          gallery.photos.length > 0
-            ? `
-          <div class="gallery-preview_images">
-            ${gallery.photos
-              .map((photo, index) =>
-                index <= 6
-                  ? `<div class="gallery-preview_image"><img src="${photo.optimizedPath}" /></div>`
-                  : ""
-              )
-              .join("")}
-          </div>
-          `
-            : ""
-        }
-      </div>
-    </article>
+        </article>
+      </a>
   `
     )
     .join("");
