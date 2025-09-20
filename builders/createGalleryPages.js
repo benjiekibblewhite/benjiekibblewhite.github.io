@@ -3,6 +3,13 @@ import path from "path";
 import { marked, outputDir } from "../utils/index.js";
 import fm from "front-matter";
 
+// Generate imageId from filename and index
+function generateImageId(title, index) {
+  // Remove spaces from title for imageId
+  const cleanTitle = title.replace(/\s+/g, "");
+  return cleanTitle + "_" + index;
+}
+
 export async function createGalleryPages(header, sharedHead) {
   const photosDir = path.join(process.cwd(), "photos");
 
@@ -38,14 +45,20 @@ export async function createGalleryPages(header, sharedHead) {
     if (imageFiles.length === 0) continue;
 
     // Create photo objects with optimized and original paths
-    const photos = imageFiles.map((filename) => ({
-      filename,
-      originalPath: `/photos/${folder}/${filename}`,
-      optimizedPath: `/static/optimized/${folder}/${filename.replace(
-        /\.(jpg|jpeg|png|gif)$/i,
-        ".webp"
-      )}`,
-    }));
+    const photos = imageFiles.map((filename, index) => {
+      const title = filename.replace(/\.[^.]*$/, "");
+
+      return {
+        filename,
+        title,
+        imageId: generateImageId(title, index),
+        originalPath: `/photos/${folder}/${filename}`,
+        optimizedPath: `/static/optimized/${folder}/${filename.replace(
+          /\.(jpg|jpeg|png|gif)$/i,
+          ".webp"
+        )}`,
+      };
+    });
 
     // Create gallery URL
     const galleryUrl = `/photos/${folder}`;
@@ -87,49 +100,6 @@ export async function createGalleryPages(header, sharedHead) {
   return galleries;
 }
 
-// function parseMarkdown(content) {
-//   // Simple frontmatter parser
-//   const frontmatterRegex = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/;
-//   const match = content.match(frontmatterRegex);
-
-//   if (!match) {
-//     return { attributes: {}, content };
-//   }
-
-//   const [, frontmatter, markdownContent] = match;
-//   const attributes = {};
-
-//   // Parse YAML-like frontmatter
-//   const lines = frontmatter.split("\n");
-//   for (const line of lines) {
-//     const colonIndex = line.indexOf(":");
-//     if (colonIndex === -1) continue;
-
-//     const key = line.substring(0, colonIndex).trim();
-//     let value = line.substring(colonIndex + 1).trim();
-
-//     // Remove quotes if present
-//     if (
-//       (value.startsWith('"') && value.endsWith('"')) ||
-//       (value.startsWith("'") && value.endsWith("'"))
-//     ) {
-//       value = value.slice(1, -1);
-//     }
-
-//     // Handle arrays (tags, categories)
-//     if (value.startsWith("[") && value.endsWith("]")) {
-//       value = value
-//         .slice(1, -1)
-//         .split(",")
-//         .map((item) => item.trim().replace(/^["']|["']$/g, ""));
-//     }
-
-//     attributes[key] = value;
-//   }
-
-//   return { attributes, content: markdownContent };
-// }
-
 function generateGalleryHTML({
   title,
   date,
@@ -153,8 +123,8 @@ function generateGalleryHTML({
       .map(
         (photo, index) => `
       <div class="photo-item" onclick="openModal(${index})">
-        <img src="${photo.optimizedPath}" alt="${photo.filename}" loading="lazy">
-        <div class="filename">${photo.filename}</div>
+        <img src="${photo.optimizedPath}" alt="${photo.title}" loading="lazy">
+        <div class="filename">${photo.title}</div>
       </div>
     `
       )
@@ -172,7 +142,8 @@ function generateGalleryHTML({
   <body>
     ${header}
     <main>
-      <div class="gallery-container">
+    <a href="/photos" class='back-link'><- Back to list</a>
+    <div class="gallery-container">
         <div class="gallery-info">
           <h1>${title}</h1>
           <div class="date">${date}</div>
@@ -207,23 +178,52 @@ function generateGalleryHTML({
       let currentPhotoIndex = 0;
       const photos = ${photosJson};
       
+   
+      
+      // Get imageId from query parameter
+      function getImageIdFromQuery() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('openImage');
+      }
+      
+      // Find photo index by imageId
+      function findPhotoIndexByImageId(imageId) {
+        for (let i = 0; i < photos.length; i++) {
+          if (photos[i].imageId === imageId) {
+            return i;
+          }
+        }
+        return -1;
+      }
+      
       function openModal(index) {
         currentPhotoIndex = index;
         updateModal();
         document.getElementById('photoModal').classList.add('active');
         document.body.style.overflow = 'hidden';
+        
+        // Set query parameter
+        const imageId = photos[index].imageId
+        const url = new URL(window.location);
+        url.searchParams.set('openImage', imageId);
+        window.history.pushState({}, '', url);
       }
       
       function closeModal() {
         document.getElementById('photoModal').classList.remove('active');
         document.body.style.overflow = 'auto';
+        
+        // Remove query parameter
+        const url = new URL(window.location);
+        url.searchParams.delete('openImage');
+        window.history.pushState({}, '', url);
       }
       
       function updateModal() {
         const photo = photos[currentPhotoIndex];
         document.getElementById('modalImage').src = photo.optimizedPath;
-        document.getElementById('modalImage').alt = photo.filename;
-        document.getElementById('modalFilename').textContent = photo.filename;
+        document.getElementById('modalImage').alt = photo.title;
+        document.getElementById('modalFilename').textContent = photo.title;
         // document.getElementById('modalOriginalLink').href = photo.originalPath;
         
         // Update navigation button visibility
@@ -238,12 +238,24 @@ function generateGalleryHTML({
         if (photos.length <= 1) return;
         currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
         updateModal();
+        
+        // Update query parameter
+        const imageId = photos[currentPhotoIndex].imageId;
+        const url = new URL(window.location);
+        url.searchParams.set('openImage', imageId);
+        window.history.pushState({}, '', url);
       }
       
       function nextPhoto() {
         if (photos.length <= 1) return;
         currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
         updateModal();
+        
+        // Update query parameter
+        const imageId = photos[currentPhotoIndex].imageId;
+        const url = new URL(window.location);
+        url.searchParams.set('openImage', imageId);
+        window.history.pushState({}, '', url);
       }
       
       // Keyboard navigation
@@ -268,6 +280,37 @@ function generateGalleryHTML({
       document.getElementById('photoModal').addEventListener('click', function(e) {
         if (e.target === this) {
           closeModal();
+        }
+      });
+      
+      // Check for openImage query parameter on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        const imageId = getImageIdFromQuery();
+        if (imageId) {
+          const photoIndex = findPhotoIndexByImageId(imageId);
+          if (photoIndex !== -1) {
+            openModal(photoIndex);
+          }
+        }
+      });
+      
+      // Handle browser back/forward button navigation
+      window.addEventListener('popstate', function() {
+        const imageId = getImageIdFromQuery();
+        if (imageId) {
+          const photoIndex = findPhotoIndexByImageId(imageId);
+          if (photoIndex !== -1) {
+            currentPhotoIndex = photoIndex;
+            updateModal();
+            document.getElementById('photoModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+          }
+        } else {
+          // No imageId in URL, close modal if open
+          if (document.getElementById('photoModal').classList.contains('active')) {
+            document.getElementById('photoModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+          }
         }
       });
     </script>

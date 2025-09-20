@@ -61,7 +61,7 @@ export async function createPostIndexPages(posts, header, sharedHead) {
     ${headContent}
     <body>
       ${header}
-      <main>
+      <main class='blog-page'>
         ${pagePosts
           .map((post) => {
             const postId = post.title.replace(/[^A-Z0-9]/gi, "");

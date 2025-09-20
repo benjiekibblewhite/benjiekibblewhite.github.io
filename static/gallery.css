@@ -1,3 +1,7 @@
+.back-link {
+    margin-left: 2rem;
+}
+
 .gallery-container {
     display: flex;
     gap: 2rem;

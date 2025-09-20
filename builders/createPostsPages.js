@@ -29,7 +29,7 @@ export async function createPostPages(posts, header, sharedHead) {
               ${headContent}
               <body>
                 ${header}
-                <main>
+                <main class='blog-page'>
                   <h1 class='post-title' id="${postId}" style='view-transition-name: post-${postId}'">${
       post.title
     }</h1>

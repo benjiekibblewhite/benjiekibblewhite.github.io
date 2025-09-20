@@ -163,7 +163,8 @@
 </header>
 
     <main>
-      <div class="gallery-container">
+    <a href="/photos" class='back-link'><- Back to list</a>
+    <div class="gallery-container">
         <div class="gallery-info">
           <h1>RV Trip to Bass Lake and Finlayson Point Provincial Parks</h1>
           <div class="date">Sat Aug 30 2025</div>
@@ -178,53 +179,53 @@
           <div class="photo-grid">
             
       <div class="photo-item" onclick="openModal(0)">
-        <img src="/static/optimized/2025-08-31-camping/(kate) moss.webp" alt="(kate) moss.jpg" loading="lazy">
-        <div class="filename">(kate) moss.jpg</div>
+        <img src="/static/optimized/2025-08-31-camping/(kate) moss.webp" alt="(kate) moss" loading="lazy">
+        <div class="filename">(kate) moss</div>
       </div>
     
       <div class="photo-item" onclick="openModal(1)">
-        <img src="/static/optimized/2025-08-31-camping/a good rock 1.webp" alt="a good rock 1.jpg" loading="lazy">
-        <div class="filename">a good rock 1.jpg</div>
+        <img src="/static/optimized/2025-08-31-camping/a good rock 1.webp" alt="a good rock 1" loading="lazy">
+        <div class="filename">a good rock 1</div>
       </div>
     
       <div class="photo-item" onclick="openModal(2)">
-        <img src="/static/optimized/2025-08-31-camping/a good rock 2.webp" alt="a good rock 2.jpg" loading="lazy">
-        <div class="filename">a good rock 2.jpg</div>
+        <img src="/static/optimized/2025-08-31-camping/a good rock 2.webp" alt="a good rock 2" loading="lazy">
+        <div class="filename">a good rock 2</div>
       </div>
     
       <div class="photo-item" onclick="openModal(3)">
-        <img src="/static/optimized/2025-08-31-camping/a good rock 3.webp" alt="a good rock 3.jpg" loading="lazy">
-        <div class="filename">a good rock 3.jpg</div>
+        <img src="/static/optimized/2025-08-31-camping/a good rock 3.webp" alt="a good rock 3" loading="lazy">
+        <div class="filename">a good rock 3</div>
       </div>
     
       <div class="photo-item" onclick="openModal(4)">
-        <img src="/static/optimized/2025-08-31-camping/a nice gull.webp" alt="a nice gull.jpg" loading="lazy">
-        <div class="filename">a nice gull.jpg</div>
+        <img src="/static/optimized/2025-08-31-camping/a nice gull.webp" alt="a nice gull" loading="lazy">
+        <div class="filename">a nice gull</div>
       </div>
     
       <div class="photo-item" onclick="openModal(5)">
-        <img src="/static/optimized/2025-08-31-camping/a nice stump.webp" alt="a nice stump.jpg" loading="lazy">
-        <div class="filename">a nice stump.jpg</div>
+        <img src="/static/optimized/2025-08-31-camping/a nice stump.webp" alt="a nice stump" loading="lazy">
+        <div class="filename">a nice stump</div>
       </div>
     
       <div class="photo-item" onclick="openModal(6)">
-        <img src="/static/optimized/2025-08-31-camping/a nice walk 2.webp" alt="a nice walk 2.jpg" loading="lazy">
-        <div class="filename">a nice walk 2.jpg</div>
+        <img src="/static/optimized/2025-08-31-camping/a nice walk 2.webp" alt="a nice walk 2" loading="lazy">
+        <div class="filename">a nice walk 2</div>
       </div>
     
       <div class="photo-item" onclick="openModal(7)">
-        <img src="/static/optimized/2025-08-31-camping/a nice walk.webp" alt="a nice walk.jpg" loading="lazy">
-        <div class="filename">a nice walk.jpg</div>
+        <img src="/static/optimized/2025-08-31-camping/a nice walk.webp" alt="a nice walk" loading="lazy">
+        <div class="filename">a nice walk</div>
       </div>
     
       <div class="photo-item" onclick="openModal(8)">
-        <img src="/static/optimized/2025-08-31-camping/oozing tree.webp" alt="oozing tree.jpg" loading="lazy">
-        <div class="filename">oozing tree.jpg</div>
+        <img src="/static/optimized/2025-08-31-camping/oozing tree.webp" alt="oozing tree" loading="lazy">
+        <div class="filename">oozing tree</div>
       </div>
     
       <div class="photo-item" onclick="openModal(9)">
-        <img src="/static/optimized/2025-08-31-camping/orange shroom.webp" alt="orange shroom.jpg" loading="lazy">
-        <div class="filename">orange shroom.jpg</div>
+        <img src="/static/optimized/2025-08-31-camping/orange shroom.webp" alt="orange shroom" loading="lazy">
+        <div class="filename">orange shroom</div>
       </div>
     
           </div>
@@ -247,25 +248,54 @@
     
     <script>
       let currentPhotoIndex = 0;
-      const photos = [{"filename":"(kate) moss.jpg","originalPath":"/photos/2025-08-31-camping/(kate) moss.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/(kate) moss.webp"},{"filename":"a good rock 1.jpg","originalPath":"/photos/2025-08-31-camping/a good rock 1.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a good rock 1.webp"},{"filename":"a good rock 2.jpg","originalPath":"/photos/2025-08-31-camping/a good rock 2.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a good rock 2.webp"},{"filename":"a good rock 3.jpg","originalPath":"/photos/2025-08-31-camping/a good rock 3.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a good rock 3.webp"},{"filename":"a nice gull.jpg","originalPath":"/photos/2025-08-31-camping/a nice gull.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a nice gull.webp"},{"filename":"a nice stump.jpg","originalPath":"/photos/2025-08-31-camping/a nice stump.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a nice stump.webp"},{"filename":"a nice walk 2.jpg","originalPath":"/photos/2025-08-31-camping/a nice walk 2.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a nice walk 2.webp"},{"filename":"a nice walk.jpg","originalPath":"/photos/2025-08-31-camping/a nice walk.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a nice walk.webp"},{"filename":"oozing tree.jpg","originalPath":"/photos/2025-08-31-camping/oozing tree.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/oozing tree.webp"},{"filename":"orange shroom.jpg","originalPath":"/photos/2025-08-31-camping/orange shroom.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/orange shroom.webp"}];
+      const photos = [{"filename":"(kate) moss.jpg","title":"(kate) moss","imageId":"(kate)moss_0","originalPath":"/photos/2025-08-31-camping/(kate) moss.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/(kate) moss.webp"},{"filename":"a good rock 1.jpg","title":"a good rock 1","imageId":"agoodrock1_1","originalPath":"/photos/2025-08-31-camping/a good rock 1.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a good rock 1.webp"},{"filename":"a good rock 2.jpg","title":"a good rock 2","imageId":"agoodrock2_2","originalPath":"/photos/2025-08-31-camping/a good rock 2.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a good rock 2.webp"},{"filename":"a good rock 3.jpg","title":"a good rock 3","imageId":"agoodrock3_3","originalPath":"/photos/2025-08-31-camping/a good rock 3.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a good rock 3.webp"},{"filename":"a nice gull.jpg","title":"a nice gull","imageId":"anicegull_4","originalPath":"/photos/2025-08-31-camping/a nice gull.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a nice gull.webp"},{"filename":"a nice stump.jpg","title":"a nice stump","imageId":"anicestump_5","originalPath":"/photos/2025-08-31-camping/a nice stump.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a nice stump.webp"},{"filename":"a nice walk 2.jpg","title":"a nice walk 2","imageId":"anicewalk2_6","originalPath":"/photos/2025-08-31-camping/a nice walk 2.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a nice walk 2.webp"},{"filename":"a nice walk.jpg","title":"a nice walk","imageId":"anicewalk_7","originalPath":"/photos/2025-08-31-camping/a nice walk.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a nice walk.webp"},{"filename":"oozing tree.jpg","title":"oozing tree","imageId":"oozingtree_8","originalPath":"/photos/2025-08-31-camping/oozing tree.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/oozing tree.webp"},{"filename":"orange shroom.jpg","title":"orange shroom","imageId":"orangeshroom_9","originalPath":"/photos/2025-08-31-camping/orange shroom.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/orange shroom.webp"}];
+      
+   
+      
+      // Get imageId from query parameter
+      function getImageIdFromQuery() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('openImage');
+      }
+      
+      // Find photo index by imageId
+      function findPhotoIndexByImageId(imageId) {
+        for (let i = 0; i < photos.length; i++) {
+          if (photos[i].imageId === imageId) {
+            return i;
+          }
+        }
+        return -1;
+      }
       
       function openModal(index) {
         currentPhotoIndex = index;
         updateModal();
         document.getElementById('photoModal').classList.add('active');
         document.body.style.overflow = 'hidden';
+        
+        // Set query parameter
+        const imageId = photos[index].imageId
+        const url = new URL(window.location);
+        url.searchParams.set('openImage', imageId);
+        window.history.pushState({}, '', url);
       }
       
       function closeModal() {
         document.getElementById('photoModal').classList.remove('active');
         document.body.style.overflow = 'auto';
+        
+        // Remove query parameter
+        const url = new URL(window.location);
+        url.searchParams.delete('openImage');
+        window.history.pushState({}, '', url);
       }
       
       function updateModal() {
         const photo = photos[currentPhotoIndex];
         document.getElementById('modalImage').src = photo.optimizedPath;
-        document.getElementById('modalImage').alt = photo.filename;
-        document.getElementById('modalFilename').textContent = photo.filename;
+        document.getElementById('modalImage').alt = photo.title;
+        document.getElementById('modalFilename').textContent = photo.title;
         // document.getElementById('modalOriginalLink').href = photo.originalPath;
         
         // Update navigation button visibility
@@ -280,12 +310,24 @@
         if (photos.length <= 1) return;
         currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
         updateModal();
+        
+        // Update query parameter
+        const imageId = photos[currentPhotoIndex].imageId;
+        const url = new URL(window.location);
+        url.searchParams.set('openImage', imageId);
+        window.history.pushState({}, '', url);
       }
       
       function nextPhoto() {
         if (photos.length <= 1) return;
         currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
         updateModal();
+        
+        // Update query parameter
+        const imageId = photos[currentPhotoIndex].imageId;
+        const url = new URL(window.location);
+        url.searchParams.set('openImage', imageId);
+        window.history.pushState({}, '', url);
       }
       
       // Keyboard navigation
@@ -310,6 +352,37 @@
       document.getElementById('photoModal').addEventListener('click', function(e) {
         if (e.target === this) {
           closeModal();
+        }
+      });
+      
+      // Check for openImage query parameter on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        const imageId = getImageIdFromQuery();
+        if (imageId) {
+          const photoIndex = findPhotoIndexByImageId(imageId);
+          if (photoIndex !== -1) {
+            openModal(photoIndex);
+          }
+        }
+      });
+      
+      // Handle browser back/forward button navigation
+      window.addEventListener('popstate', function() {
+        const imageId = getImageIdFromQuery();
+        if (imageId) {
+          const photoIndex = findPhotoIndexByImageId(imageId);
+          if (photoIndex !== -1) {
+            currentPhotoIndex = photoIndex;
+            updateModal();
+            document.getElementById('photoModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+          }
+        } else {
+          // No imageId in URL, close modal if open
+          if (document.getElementById('photoModal').classList.contains('active')) {
+            document.getElementById('photoModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+          }
         }
       });
     </script>

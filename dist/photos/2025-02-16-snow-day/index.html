@@ -163,7 +163,8 @@
 </header>
 
     <main>
-      <div class="gallery-container">
+    <a href="/photos" class='back-link'><- Back to list</a>
+    <div class="gallery-container">
         <div class="gallery-info">
           <h1>Snow Day</h1>
           <div class="date">Sat Feb 15 2025</div>
@@ -178,23 +179,23 @@
           <div class="photo-grid">
             
       <div class="photo-item" onclick="openModal(0)">
-        <img src="/static/optimized/2025-02-16-snow-day/bush.webp" alt="bush.jpg" loading="lazy">
-        <div class="filename">bush.jpg</div>
+        <img src="/static/optimized/2025-02-16-snow-day/bush.webp" alt="bush" loading="lazy">
+        <div class="filename">bush</div>
       </div>
     
       <div class="photo-item" onclick="openModal(1)">
-        <img src="/static/optimized/2025-02-16-snow-day/cone.webp" alt="cone.jpg" loading="lazy">
-        <div class="filename">cone.jpg</div>
+        <img src="/static/optimized/2025-02-16-snow-day/cone.webp" alt="cone" loading="lazy">
+        <div class="filename">cone</div>
       </div>
     
       <div class="photo-item" onclick="openModal(2)">
-        <img src="/static/optimized/2025-02-16-snow-day/street.webp" alt="street.jpg" loading="lazy">
-        <div class="filename">street.jpg</div>
+        <img src="/static/optimized/2025-02-16-snow-day/street.webp" alt="street" loading="lazy">
+        <div class="filename">street</div>
       </div>
     
       <div class="photo-item" onclick="openModal(3)">
-        <img src="/static/optimized/2025-02-16-snow-day/thistle.webp" alt="thistle.jpg" loading="lazy">
-        <div class="filename">thistle.jpg</div>
+        <img src="/static/optimized/2025-02-16-snow-day/thistle.webp" alt="thistle" loading="lazy">
+        <div class="filename">thistle</div>
       </div>
     
           </div>
@@ -217,25 +218,54 @@
     
     <script>
       let currentPhotoIndex = 0;
-      const photos = [{"filename":"bush.jpg","originalPath":"/photos/2025-02-16-snow-day/bush.jpg","optimizedPath":"/static/optimized/2025-02-16-snow-day/bush.webp"},{"filename":"cone.jpg","originalPath":"/photos/2025-02-16-snow-day/cone.jpg","optimizedPath":"/static/optimized/2025-02-16-snow-day/cone.webp"},{"filename":"street.jpg","originalPath":"/photos/2025-02-16-snow-day/street.jpg","optimizedPath":"/static/optimized/2025-02-16-snow-day/street.webp"},{"filename":"thistle.jpg","originalPath":"/photos/2025-02-16-snow-day/thistle.jpg","optimizedPath":"/static/optimized/2025-02-16-snow-day/thistle.webp"}];
+      const photos = [{"filename":"bush.jpg","title":"bush","imageId":"bush_0","originalPath":"/photos/2025-02-16-snow-day/bush.jpg","optimizedPath":"/static/optimized/2025-02-16-snow-day/bush.webp"},{"filename":"cone.jpg","title":"cone","imageId":"cone_1","originalPath":"/photos/2025-02-16-snow-day/cone.jpg","optimizedPath":"/static/optimized/2025-02-16-snow-day/cone.webp"},{"filename":"street.jpg","title":"street","imageId":"street_2","originalPath":"/photos/2025-02-16-snow-day/street.jpg","optimizedPath":"/static/optimized/2025-02-16-snow-day/street.webp"},{"filename":"thistle.jpg","title":"thistle","imageId":"thistle_3","originalPath":"/photos/2025-02-16-snow-day/thistle.jpg","optimizedPath":"/static/optimized/2025-02-16-snow-day/thistle.webp"}];
+      
+   
+      
+      // Get imageId from query parameter
+      function getImageIdFromQuery() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('openImage');
+      }
+      
+      // Find photo index by imageId
+      function findPhotoIndexByImageId(imageId) {
+        for (let i = 0; i < photos.length; i++) {
+          if (photos[i].imageId === imageId) {
+            return i;
+          }
+        }
+        return -1;
+      }
       
       function openModal(index) {
         currentPhotoIndex = index;
         updateModal();
         document.getElementById('photoModal').classList.add('active');
         document.body.style.overflow = 'hidden';
+        
+        // Set query parameter
+        const imageId = photos[index].imageId
+        const url = new URL(window.location);
+        url.searchParams.set('openImage', imageId);
+        window.history.pushState({}, '', url);
       }
       
       function closeModal() {
         document.getElementById('photoModal').classList.remove('active');
         document.body.style.overflow = 'auto';
+        
+        // Remove query parameter
+        const url = new URL(window.location);
+        url.searchParams.delete('openImage');
+        window.history.pushState({}, '', url);
       }
       
       function updateModal() {
         const photo = photos[currentPhotoIndex];
         document.getElementById('modalImage').src = photo.optimizedPath;
-        document.getElementById('modalImage').alt = photo.filename;
-        document.getElementById('modalFilename').textContent = photo.filename;
+        document.getElementById('modalImage').alt = photo.title;
+        document.getElementById('modalFilename').textContent = photo.title;
         // document.getElementById('modalOriginalLink').href = photo.originalPath;
         
         // Update navigation button visibility
@@ -250,12 +280,24 @@
         if (photos.length <= 1) return;
         currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
         updateModal();
+        
+        // Update query parameter
+        const imageId = photos[currentPhotoIndex].imageId;
+        const url = new URL(window.location);
+        url.searchParams.set('openImage', imageId);
+        window.history.pushState({}, '', url);
       }
       
       function nextPhoto() {
         if (photos.length <= 1) return;
         currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
         updateModal();
+        
+        // Update query parameter
+        const imageId = photos[currentPhotoIndex].imageId;
+        const url = new URL(window.location);
+        url.searchParams.set('openImage', imageId);
+        window.history.pushState({}, '', url);
       }
       
       // Keyboard navigation
@@ -280,6 +322,37 @@
       document.getElementById('photoModal').addEventListener('click', function(e) {
         if (e.target === this) {
           closeModal();
+        }
+      });
+      
+      // Check for openImage query parameter on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        const imageId = getImageIdFromQuery();
+        if (imageId) {
+          const photoIndex = findPhotoIndexByImageId(imageId);
+          if (photoIndex !== -1) {
+            openModal(photoIndex);
+          }
+        }
+      });
+      
+      // Handle browser back/forward button navigation
+      window.addEventListener('popstate', function() {
+        const imageId = getImageIdFromQuery();
+        if (imageId) {
+          const photoIndex = findPhotoIndexByImageId(imageId);
+          if (photoIndex !== -1) {
+            currentPhotoIndex = photoIndex;
+            updateModal();
+            document.getElementById('photoModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+          }
+        } else {
+          // No imageId in URL, close modal if open
+          if (document.getElementById('photoModal').classList.contains('active')) {
+            document.getElementById('photoModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+          }
         }
       });
     </script>
