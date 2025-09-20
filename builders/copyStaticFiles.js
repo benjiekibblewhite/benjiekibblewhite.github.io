@@ -12,7 +12,6 @@ export async function copyStaticFiles(header, sharedHead) {
 
     // Process each file
     for (const file of pageFiles) {
-      console.log({ file });
       const filePath = path.join(pagesDir, file);
       const fileStats = await fs.stat(filePath);
 

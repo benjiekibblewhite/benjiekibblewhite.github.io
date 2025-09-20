@@ -1,12 +1,12 @@
 ---
 title: RV Trip to Bass Lake and Finlayson Point Provincial Parks
-date: 2017-08-31
+date: 2025-08-31
 categories:
   - photos
 tags:
   - nature
-  - portraits
   - mushrooms
+  - rocks
 layout: gallery
 author: "Benjie Kibblewhite"
 ---

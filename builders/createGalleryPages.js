@@ -1,6 +1,7 @@
 import fs from "fs-extra";
 import path from "path";
 import { marked, outputDir } from "../utils/index.js";
+import fm from "front-matter";
 
 export async function createGalleryPages(header, sharedHead) {
   const photosDir = path.join(process.cwd(), "photos");
@@ -24,7 +25,9 @@ export async function createGalleryPages(header, sharedHead) {
 
     // Read the index.md file to get metadata
     const indexContent = await fs.readFile(indexPath, "utf-8");
-    const { attributes, content } = parseMarkdown(indexContent);
+    const { attributes, body } = fm(indexContent);
+
+    // const { attributes, content } = parseMarkdown(indexContent);
 
     // Get all image files in the folder
     const files = await fs.readdir(folderPath);
@@ -46,13 +49,15 @@ export async function createGalleryPages(header, sharedHead) {
 
     // Create gallery URL
     const galleryUrl = `/photos/${folder}`;
-
+    console.log(attributes);
     // Generate HTML content
     const htmlContent = generateGalleryHTML({
       title: attributes.title || folder,
-      date: attributes.date || new Date().toISOString().split("T")[0],
+      date:
+        new Date(attributes.date).toDateString() ||
+        new Date().toISOString().split("T")[0],
       tags: attributes.tags || [],
-      description: marked.parse(content),
+      description: marked.parse(body),
       photos,
       photosJson: JSON.stringify(photos),
       header,
@@ -68,7 +73,9 @@ export async function createGalleryPages(header, sharedHead) {
 
     galleries.push({
       title: attributes.title || folder,
-      date: attributes.date || new Date().toISOString().split("T")[0],
+      date:
+        new Date(attributes.date).toDateString() ||
+        new Date().toISOString().split("T")[0],
       url: galleryUrl,
       folder,
       photoCount: photos.length,
@@ -80,48 +87,48 @@ export async function createGalleryPages(header, sharedHead) {
   return galleries;
 }
 
-function parseMarkdown(content) {
-  // Simple frontmatter parser
-  const frontmatterRegex = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/;
-  const match = content.match(frontmatterRegex);
+// function parseMarkdown(content) {
+//   // Simple frontmatter parser
+//   const frontmatterRegex = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/;
+//   const match = content.match(frontmatterRegex);
 
-  if (!match) {
-    return { attributes: {}, content };
-  }
+//   if (!match) {
+//     return { attributes: {}, content };
+//   }
 
-  const [, frontmatter, markdownContent] = match;
-  const attributes = {};
+//   const [, frontmatter, markdownContent] = match;
+//   const attributes = {};
 
-  // Parse YAML-like frontmatter
-  const lines = frontmatter.split("\n");
-  for (const line of lines) {
-    const colonIndex = line.indexOf(":");
-    if (colonIndex === -1) continue;
+//   // Parse YAML-like frontmatter
+//   const lines = frontmatter.split("\n");
+//   for (const line of lines) {
+//     const colonIndex = line.indexOf(":");
+//     if (colonIndex === -1) continue;
 
-    const key = line.substring(0, colonIndex).trim();
-    let value = line.substring(colonIndex + 1).trim();
+//     const key = line.substring(0, colonIndex).trim();
+//     let value = line.substring(colonIndex + 1).trim();
 
-    // Remove quotes if present
-    if (
-      (value.startsWith('"') && value.endsWith('"')) ||
-      (value.startsWith("'") && value.endsWith("'"))
-    ) {
-      value = value.slice(1, -1);
-    }
+//     // Remove quotes if present
+//     if (
+//       (value.startsWith('"') && value.endsWith('"')) ||
+//       (value.startsWith("'") && value.endsWith("'"))
+//     ) {
+//       value = value.slice(1, -1);
+//     }
 
-    // Handle arrays (tags, categories)
-    if (value.startsWith("[") && value.endsWith("]")) {
-      value = value
-        .slice(1, -1)
-        .split(",")
-        .map((item) => item.trim().replace(/^["']|["']$/g, ""));
-    }
+//     // Handle arrays (tags, categories)
+//     if (value.startsWith("[") && value.endsWith("]")) {
+//       value = value
+//         .slice(1, -1)
+//         .split(",")
+//         .map((item) => item.trim().replace(/^["']|["']$/g, ""));
+//     }
 
-    attributes[key] = value;
-  }
+//     attributes[key] = value;
+//   }
 
-  return { attributes, content: markdownContent };
-}
+//   return { attributes, content: markdownContent };
+// }
 
 function generateGalleryHTML({
   title,
@@ -160,233 +167,7 @@ function generateGalleryHTML({
     "<head>",
     `<head>\n    <title>${title} - Gallery</title>`
   )}
-    
-    <style>
-      .gallery-container {
-        display: flex;
-        gap: 2rem;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 2rem;
-      }
-      
-      .gallery-info {
-        flex: 0 0 300px;
-      }
-      
-      .gallery-photos {
-        flex: 1;
-      }
-      
-      .gallery-info h1 {
-        margin-bottom: 1rem;
-        font-size: 2rem;
-      }
-      
-      .gallery-info .date {
-        color: #666;
-        margin-bottom: 1rem;
-      }
-      
-      .gallery-info .tags {
-        margin-bottom: 1rem;
-      }
-      
-      .gallery-info .tags span {
-        background: #f0f0f0;
-        padding: 0.25rem 0.5rem;
-        margin-right: 0.5rem;
-        border-radius: 4px;
-        font-size: 0.9rem;
-      }
-      
-      .gallery-info .description {
-        line-height: 1.6;
-      }
-      
-      .photo-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 1rem;
-      }
-      
-      .photo-item {
-        position: relative;
-        cursor: pointer;
-        overflow: hidden;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        transition: transform 0.2s ease;
-      }
-      
-      .photo-item:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      }
-      
-      .photo-item img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        display: block;
-      }
-      
-      .photo-item .filename {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(transparent, rgba(0,0,0,0.7));
-        color: white;
-        padding: 1rem 0.5rem 0.5rem;
-        font-size: 0.8rem;
-        opacity: 0;
-        transition: opacity 0.2s ease;
-      }
-      
-      .photo-item:hover .filename {
-        opacity: 1;
-      }
-      
-      /* Modal styles */
-      .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.9);
-        z-index: 1000;
-        align-items: center;
-        justify-content: center;
-      }
-      
-      .modal.active {
-        display: flex;
-      }
-      
-      .modal-content {
-        position: relative;
-        max-width: 90vw;
-        max-height: 90vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .modal img {
-        max-width: 100%;
-        max-height: 80vh;
-        object-fit: contain;
-      }
-      
-      .modal-info {
-        color: white;
-        text-align: center;
-        margin-top: 1rem;
-      }
-      
-      .modal-filename {
-        font-size: 1.2rem;
-        margin-bottom: 0.5rem;
-      }
-      
-      .modal-controls {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background: rgba(255,255,255,0.1);
-        border: none;
-        color: white;
-        font-size: 2rem;
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background 0.2s ease;
-      }
-      
-      .modal-controls:hover {
-        background: rgba(255,255,255,0.2);
-      }
-      
-      .modal-prev {
-        left: 20px;
-      }
-      
-      .modal-next {
-        right: 20px;
-      }
-      
-      .modal-close {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        background: rgba(255,255,255,0.1);
-        border: none;
-        color: white;
-        font-size: 2rem;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      
-      .modal-close:hover {
-        background: rgba(255,255,255,0.2);
-      }
-      
-      .modal-original-link {
-        color: #58aceb;
-        text-decoration: none;
-        margin-top: 0.5rem;
-        display: inline-block;
-      }
-      
-      .modal-original-link:hover {
-        text-decoration: underline;
-      }
-      
-      @media (max-width: 768px) {
-        .gallery-container {
-          flex-direction: column;
-          padding: 1rem;
-        }
-        
-        .gallery-info {
-          flex: none;
-        }
-        
-        .photo-grid {
-          grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        }
-        
-        .photo-item img {
-          height: 150px;
-        }
-        
-        .modal-controls {
-          width: 50px;
-          height: 50px;
-          font-size: 1.5rem;
-        }
-        
-        .modal-prev {
-          left: 10px;
-        }
-        
-        .modal-next {
-          right: 10px;
-        }
-      }
-    </style>
+     <link rel="stylesheet" href="/static/gallery.css" />
   </head>
   <body>
     ${header}
@@ -395,7 +176,7 @@ function generateGalleryHTML({
         <div class="gallery-info">
           <h1>${title}</h1>
           <div class="date">${date}</div>
-          <div class="tags">
+          <div class="gallery-tags">
             ${tagsHtml}
           </div>
           <div class="description">${description}</div>
@@ -412,10 +193,10 @@ function generateGalleryHTML({
     <!-- Modal -->
     <div id="photoModal" class="modal">
       <div class="modal-content">
-        <button class="modal-close" onclick="closeModal()">&times;</button>
-        <button class="modal-controls modal-prev" onclick="previousPhoto()">‹</button>
+        <button aria-label="Close gallery window" class="modal-close" onclick="closeModal()"><svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></button>
+        <button aria-label="View previous image" class="modal-controls modal-prev" onclick="previousPhoto()"><svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#e3e3e3"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg></button>
         <img id="modalImage" src="" alt="">
-        <button class="modal-controls modal-next" onclick="nextPhoto()">›</button>
+        <button aria-label="View next image" class="modal-controls modal-next" onclick="nextPhoto()"><svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#e3e3e3"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg></button>
         <div class="modal-info">
           <div class="modal-filename" id="modalFilename"></div>
         </div>
