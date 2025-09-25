@@ -61,7 +61,6 @@ export async function copyStaticFiles(header, sharedHead) {
   const unbuiltPagesDir = path.join(__dirname, "../unbuilt-pages");
   if (await fs.pathExists(unbuiltPagesDir)) {
     const unbuiltFiles = await fs.readdir(unbuiltPagesDir);
-    console.log(unbuiltFiles);
     for (const file of unbuiltFiles) {
       const filePath = path.join(unbuiltPagesDir, file);
       await fs.copy(filePath, path.join(outputDir, file), {

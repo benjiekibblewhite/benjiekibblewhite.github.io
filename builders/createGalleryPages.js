@@ -62,7 +62,6 @@ export async function createGalleryPages(header, sharedHead) {
 
     // Create gallery URL
     const galleryUrl = `/photos/${folder}`;
-    console.log(attributes);
     // Generate HTML content
     const htmlContent = generateGalleryHTML({
       title: attributes.title || folder,
