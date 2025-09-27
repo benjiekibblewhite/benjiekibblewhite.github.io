@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Rogue Park Spring Walk - Gallery</title>
+  <!-- Google tag (gtag.js) -->
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=G-5EME2SP63J"
+  ></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+
+    gtag("config", "G-5EME2SP63J");
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Benjie K on the web" />
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Preload critical images (logo and background) -->
+  <link
+    rel="preload"
+    as="image"
+    href="/static/optimized/logo.webp"
+    type="image/webp"
+  />
+  <link
+    rel="preload"
+    as="image"
+    href="/static/optimized/logo.png"
+    imagesrcset="/static/optimized/logo.png"
+    imagesizes="100vw"
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="preload"
+    media="print"
+    onload="this.media='all'"
+  />
+  <!-- Optimize font loading with display=swap -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'"
+  />
+
+  <!-- Non-JS fallback for fonts -->
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    />
+  </noscript>
+
+  <!-- Critical CSS inlined for performance -->
+  <style>
+    body {
+      margin: 0;
+      font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Helvetica, Arial, sans-serif;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: "Lora", Georgia, serif;
+    }
+    a {
+      color: #58aceb;
+    }
+    /* Add image sizing for better CLS performance */
+    img,
+    picture {
+      max-width: 100%;
+      height: auto;
+      display: block; /* Prevents layout shifts */
+    }
+    /* Ensure images in articles maintain aspect ratio */
+    article img {
+      aspect-ratio: attr(width) / attr(height);
+    }
+  </style>
+
+  <!-- Main stylesheet loaded asynchronously -->
+  <link rel="stylesheet" href="/static/styles.css" />
+  <noscript><link rel="stylesheet" href="/static/styles.css" /></noscript>
+
+  <!-- Favicon -->
+  <link rel="icon" href="/static/optimized/logo.png" />
+
+  <!-- RSS Feed discovery -->
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    title="Blog RSS Feed"
+    href="/rss.xml"
+  />
+
+  <!-- Default structured data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Benjie Kibblewhite's site",
+      "url": "https://benjie.ca",
+      "description": "A personal blog about web development, accessibility, photography, and whatever else I want."
+    }
+  </script>
+</head>
+
+     <link rel="stylesheet" href="/static/gallery.css" />
+  </head>
+  <body>
+    <header role="banner">
+  <a href="/" aria-label="Go to homepage">
+    <img
+      src="/static/logo.webp"
+      alt="Blog Logo"
+      class="header-logo"
+      width="150px"
+    />
+  </a>
+  <div class="header-right">
+    <a
+      href="/rss.xml"
+      class="rss-link"
+      title="Subscribe to RSS feed"
+      aria-label="RSS Feed"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="rss-icon"
+        aria-hidden="true"
+        role="img"
+      >
+        <path d="M4 11a9 9 0 0 1 9 9"></path>
+        <path d="M4 4a16 16 0 0 1 16 16"></path>
+        <circle cx="5" cy="19" r="1"></circle>
+      </svg>
+    </a>
+    <a href="/menu.html" class="menu-button" aria-label="Open menu">☰</a>
+  </div>
+</header>
+
+    <main>
+    <a href="/photos" class='back-link'><- Back to list</a>
+    <div class="gallery-container">
+        <div class="gallery-info">
+          <h1>Rogue Park Spring Walk</h1>
+          <div class="date">Sat May 10 2025</div>
+          <div class="gallery-tags">
+            <span>birds</span><span>rogue park</span><span>flowers</span><span>plants</span><span>macro</span>
+          </div>
+          <div class="description"><p>Rogue National Urban Park is one of my favourite places to go take photos. Here&#8217;s a few. That female blackbird isn&#8217;t really in focus, which is a shame, but I like the photo anyway.</p>
+</div>
+        </div>
+        
+        <div class="gallery-photos">
+          <div class="photo-grid">
+            
+      <div class="photo-item" onclick="openModal(0)">
+        <img src="/static/optimized/2025-05-11-rouge-park/a nice bud.webp" alt="a nice bud" loading="lazy">
+        <div class="filename">a nice bud</div>
+      </div>
+    
+      <div class="photo-item" onclick="openModal(1)">
+        <img src="/static/optimized/2025-05-11-rouge-park/goldfinch.webp" alt="goldfinch" loading="lazy">
+        <div class="filename">goldfinch</div>
+      </div>
+    
+      <div class="photo-item" onclick="openModal(2)">
+        <img src="/static/optimized/2025-05-11-rouge-park/redwinged_blackbird_female.webp" alt="redwinged_blackbird_female" loading="lazy">
+        <div class="filename">redwinged_blackbird_female</div>
+      </div>
+    
+      <div class="photo-item" onclick="openModal(3)">
+        <img src="/static/optimized/2025-05-11-rouge-park/swan.webp" alt="swan" loading="lazy">
+        <div class="filename">swan</div>
+      </div>
+    
+      <div class="photo-item" onclick="openModal(4)">
+        <img src="/static/optimized/2025-05-11-rouge-park/trillium.webp" alt="trillium" loading="lazy">
+        <div class="filename">trillium</div>
+      </div>
+    
+          </div>
+        </div>
+      </div>
+    </main>
+    
+    <!-- Modal -->
+    <div id="photoModal" class="modal">
+      <div class="modal-content">
+        <button aria-label="Close gallery window" class="modal-close" onclick="closeModal()"><svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></button>
+        <button aria-label="View previous image" class="modal-controls modal-prev" onclick="previousPhoto()"><svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#e3e3e3"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg></button>
+        <img id="modalImage" src="" alt="">
+        <button aria-label="View next image" class="modal-controls modal-next" onclick="nextPhoto()"><svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#e3e3e3"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg></button>
+        <div class="modal-info">
+          <div class="modal-filename" id="modalFilename"></div>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      let currentPhotoIndex = 0;
+      const photos = [{"filename":"a nice bud.jpg","title":"a nice bud","imageId":"anicebud_0","originalPath":"/photos/2025-05-11-rouge-park/a nice bud.jpg","optimizedPath":"/static/optimized/2025-05-11-rouge-park/a nice bud.webp"},{"filename":"goldfinch.jpg","title":"goldfinch","imageId":"goldfinch_1","originalPath":"/photos/2025-05-11-rouge-park/goldfinch.jpg","optimizedPath":"/static/optimized/2025-05-11-rouge-park/goldfinch.webp"},{"filename":"redwinged_blackbird_female.jpg","title":"redwinged_blackbird_female","imageId":"redwinged_blackbird_female_2","originalPath":"/photos/2025-05-11-rouge-park/redwinged_blackbird_female.jpg","optimizedPath":"/static/optimized/2025-05-11-rouge-park/redwinged_blackbird_female.webp"},{"filename":"swan.jpg","title":"swan","imageId":"swan_3","originalPath":"/photos/2025-05-11-rouge-park/swan.jpg","optimizedPath":"/static/optimized/2025-05-11-rouge-park/swan.webp"},{"filename":"trillium.jpg","title":"trillium","imageId":"trillium_4","originalPath":"/photos/2025-05-11-rouge-park/trillium.jpg","optimizedPath":"/static/optimized/2025-05-11-rouge-park/trillium.webp"}];
+      
+   
+      
+      // Get imageId from query parameter
+      function getImageIdFromQuery() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('openImage');
+      }
+      
+      // Find photo index by imageId
+      function findPhotoIndexByImageId(imageId) {
+        for (let i = 0; i < photos.length; i++) {
+          if (photos[i].imageId === imageId) {
+            return i;
+          }
+        }
+        return -1;
+      }
+      
+      function openModal(index) {
+        currentPhotoIndex = index;
+        updateModal();
+        document.getElementById('photoModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // Set query parameter
+        const imageId = photos[index].imageId
+        const url = new URL(window.location);
+        url.searchParams.set('openImage', imageId);
+        window.history.pushState({}, '', url);
+      }
+      
+      function closeModal() {
+        document.getElementById('photoModal').classList.remove('active');
+        document.body.style.overflow = 'auto';
+        
+        // Remove query parameter
+        const url = new URL(window.location);
+        url.searchParams.delete('openImage');
+        window.history.pushState({}, '', url);
+      }
+      
+      function updateModal() {
+        const photo = photos[currentPhotoIndex];
+        document.getElementById('modalImage').src = photo.optimizedPath;
+        document.getElementById('modalImage').alt = photo.title;
+        document.getElementById('modalFilename').textContent = photo.title;
+        // document.getElementById('modalOriginalLink').href = photo.originalPath;
+        
+        // Update navigation button visibility
+        const prevBtn = document.querySelector('.modal-prev');
+        const nextBtn = document.querySelector('.modal-next');
+        
+        prevBtn.style.display = photos.length > 1 ? 'flex' : 'none';
+        nextBtn.style.display = photos.length > 1 ? 'flex' : 'none';
+      }
+      
+      function previousPhoto() {
+        if (photos.length <= 1) return;
+        currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
+        updateModal();
+        
+        // Update query parameter
+        const imageId = photos[currentPhotoIndex].imageId;
+        const url = new URL(window.location);
+        url.searchParams.set('openImage', imageId);
+        window.history.pushState({}, '', url);
+      }
+      
+      function nextPhoto() {
+        if (photos.length <= 1) return;
+        currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+        updateModal();
+        
+        // Update query parameter
+        const imageId = photos[currentPhotoIndex].imageId;
+        const url = new URL(window.location);
+        url.searchParams.set('openImage', imageId);
+        window.history.pushState({}, '', url);
+      }
+      
+      // Keyboard navigation
+      document.addEventListener('keydown', function(e) {
+        const modal = document.getElementById('photoModal');
+        if (!modal.classList.contains('active')) return;
+        
+        switch(e.key) {
+          case 'Escape':
+            closeModal();
+            break;
+          case 'ArrowLeft':
+            previousPhoto();
+            break;
+          case 'ArrowRight':
+            nextPhoto();
+            break;
+        }
+      });
+      
+      // Close modal when clicking outside
+      document.getElementById('photoModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+          closeModal();
+        }
+      });
+      
+      // Check for openImage query parameter on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        const imageId = getImageIdFromQuery();
+        if (imageId) {
+          const photoIndex = findPhotoIndexByImageId(imageId);
+          if (photoIndex !== -1) {
+            openModal(photoIndex);
+          }
+        }
+      });
+      
+      // Handle browser back/forward button navigation
+      window.addEventListener('popstate', function() {
+        const imageId = getImageIdFromQuery();
+        if (imageId) {
+          const photoIndex = findPhotoIndexByImageId(imageId);
+          if (photoIndex !== -1) {
+            currentPhotoIndex = photoIndex;
+            updateModal();
+            document.getElementById('photoModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+          }
+        } else {
+          // No imageId in URL, close modal if open
+          if (document.getElementById('photoModal').classList.contains('active')) {
+            document.getElementById('photoModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
