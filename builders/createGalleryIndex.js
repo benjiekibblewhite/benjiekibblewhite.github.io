@@ -18,10 +18,10 @@ export async function createGalleryIndex(galleries, header, sharedHead) {
   const galleriesHtml = galleries
     .map(
       (gallery) => `
-    <a href="${gallery.url}">
+   
       <article class="gallery-preview">
           <div class="gallery-preview-content">
-            <h2>${gallery.title}</h2>
+             <a href="${gallery.url}"><h2>${gallery.title}</h2></a>
             <div class="gallery-meta">
               <span class="gallery-date">${gallery.date}</span>
               <span class="gallery-count">${gallery.photoCount} photos</span>
@@ -54,7 +54,7 @@ export async function createGalleryIndex(galleries, header, sharedHead) {
             }
           </div>
         </article>
-      </a>
+      
   `
     )
     .join("");
