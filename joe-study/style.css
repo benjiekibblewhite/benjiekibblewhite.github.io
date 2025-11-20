@@ -1,0 +1,274 @@
+:root {
+    --bg-color: #0f172a;
+    --text-color: #e2e8f0;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --card-hover-bg: rgba(255, 255, 255, 0.1);
+    --accent-1: #8b5cf6;
+    --accent-2: #ec4899;
+    --accent-3: #3b82f6;
+    --font-main: 'Outfit', sans-serif;
+    --font-serif: 'Playfair Display', serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    touch-action: none;
+    /* Prevent default touch actions like scrolling on the card stack */
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    overflow: hidden;
+    /* Prevent scrolling */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Background Shapes */
+.background-shapes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    animation: float 20s infinite ease-in-out;
+}
+
+.shape-1 {
+    width: 400px;
+    height: 400px;
+    background: var(--accent-1);
+    top: -100px;
+    left: -100px;
+}
+
+.shape-2 {
+    width: 300px;
+    height: 300px;
+    background: var(--accent-2);
+    bottom: 10%;
+    right: -50px;
+    animation-delay: -5s;
+}
+
+.shape-3 {
+    width: 250px;
+    height: 250px;
+    background: var(--accent-3);
+    top: 40%;
+    left: 30%;
+    animation-delay: -10s;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(50px, 50px);
+    }
+
+    50% {
+        transform: translate(0, 100px);
+    }
+
+    75% {
+        transform: translate(-50px, 50px);
+    }
+}
+
+/* Layout */
+.container {
+    width: 100%;
+    max-width: 600px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+    flex-shrink: 0;
+}
+
+h1 {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.highlight {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+p {
+    font-size: 1rem;
+    color: #94a3b8;
+}
+
+/* Card Stack */
+.card-stack {
+    position: relative;
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+}
+
+/* Card Styles */
+.card {
+    background: rgba(30, 41, 59, 0.8);
+    /* Slightly more opaque for stacking */
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    padding: 2rem;
+    cursor: grab;
+    position: absolute;
+    width: 100%;
+    max-width: 400px;
+    height: 500px;
+    /* Fixed height for stack uniformity */
+    backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
+    will-change: transform, opacity;
+}
+
+.card:active {
+    cursor: grabbing;
+}
+
+.card-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    pointer-events: none;
+    /* Let clicks pass through to card */
+}
+
+.quote-text {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    font-style: italic;
+    color: #f1f5f9;
+}
+
+.quote-mark {
+    font-size: 5rem;
+    position: absolute;
+    top: -3rem;
+    left: -1rem;
+    opacity: 0.1;
+    font-family: var(--font-serif);
+    color: var(--accent-1);
+}
+
+.reveal-content {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.card.revealed .reveal-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.author {
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: var(--accent-2);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.work {
+    font-size: 1rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.hint {
+    position: absolute;
+    bottom: 2rem;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.3);
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.card.revealed .hint {
+    opacity: 0;
+}
+
+/* Swipe Animations */
+.card.swiping {
+    transition: none;
+}
+
+.card.fly-out-left {
+    transform: translate(-150%, 0) rotate(-30deg) !important;
+    opacity: 0;
+}
+
+.card.fly-out-right {
+    transform: translate(150%, 0) rotate(30deg) !important;
+    opacity: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .container {
+        padding: 1rem;
+    }
+
+    .card {
+        height: 60vh;
+        padding: 1.5rem;
+    }
+
+    .quote-text {
+        font-size: 1.2rem;
+    }
+}
