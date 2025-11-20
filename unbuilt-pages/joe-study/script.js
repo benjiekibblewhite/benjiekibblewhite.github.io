@@ -112,6 +112,7 @@ function createCard(quote) {
 
     const handleStart = (e) => {
         startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        currentX = startX; // Initialize currentX to startX
         isDragging = true;
         card.style.transition = 'none';
         card.setAttribute('data-swiped', 'false');
