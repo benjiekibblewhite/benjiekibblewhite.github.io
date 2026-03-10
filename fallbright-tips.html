@@ -16,7 +16,7 @@
             <div class="field">
                 <label class="label">Sales Summary CSV</label>
                 <div class="control">
-                    <input class="input" type="file" id="salesCsv" accept=".csv">
+                    <input class="input" type="file" id="salesCsv" accept=".csv" multiple>
                 </div>
             </div>
             <div class="field">
@@ -31,67 +31,275 @@
                     <button class="button is-link" id="downloadBtn" style="display:none;">Download CSV</button>
                 </div>
             </div>
-            <div id="results"></div>
+            <div id="shiftReview" class="mt-5"></div>
+            <div id="results" class="mt-5" style="overflow-x: auto;"></div>
         </div>
     </section>
     <script>
-        function parseSalesTips(salesData) {
-            const header = salesData[0].slice(1);
-            const tipRow = salesData.find(row => row[0] && row[0].trim() === 'Tip');
-            const dateTipMap = {};
-            if (!tipRow) return dateTipMap;
-            header.forEach((date, i) => {
-                let tipStr = (tipRow[i + 1] || '').replace(/[$",]/g, '');
-                let tip = parseFloat(tipStr) || 0;
-                dateTipMap[date.trim()] = tip;
+        let _tipNames = [];
+        let _tipDates = [];
+        let _tipMap = {};
+        let _dateShiftMap = {};
+        let _dateEmployeesRaw = {};
+        let _assignments = {};
+
+        function parseSalesTips(filesData) {
+            const dateShiftMap = {};
+            filesData.forEach(file => {
+                const salesData = file.data;
+                const filename = file.filename || '';
+                if (!salesData || !salesData.length) return;
+                const headerRow = salesData[0] || [];
+                const header = headerRow.slice(1);
+                const tipRow = salesData.find(row => row[0] && row[0].trim() === 'Tip');
+                if (!tipRow) return;
+                const lowerName = filename.toLowerCase();
+                let shiftType = 'single';
+                if (lowerName.includes('1000am-0400pm')) {
+                    shiftType = 'brunch';
+                } else if (lowerName.includes('0500pm-0100am')) {
+                    shiftType = 'dinner';
+                }
+                header.forEach((date, i) => {
+                    if (!date || !date.trim()) return;
+                    let tipStr = (tipRow[i + 1] || '').replace(/[$",]/g, '');
+                    let tip = parseFloat(tipStr) || 0;
+                    if (tip <= 0) return;
+                    const d = date.trim();
+                    if (!dateShiftMap[d]) {
+                        dateShiftMap[d] = { total: 0, brunch: 0, dinner: 0, single: 0 };
+                    }
+                    if (shiftType === 'brunch') {
+                        dateShiftMap[d].brunch += tip;
+                    } else if (shiftType === 'dinner') {
+                        dateShiftMap[d].dinner += tip;
+                    } else {
+                        dateShiftMap[d].single += tip;
+                    }
+                    dateShiftMap[d].total += tip;
+                });
             });
-            return dateTipMap;
+            // If a date has explicit brunch and/or dinner tips, ignore any
+            // all-day "single" tips for that same date to avoid double counting.
+            Object.keys(dateShiftMap).forEach(d => {
+                const info = dateShiftMap[d];
+                if ((info.brunch > 0 || info.dinner > 0) && info.single > 0) {
+                    info.single = 0;
+                    info.total = info.brunch + info.dinner;
+                }
+            });
+            return dateShiftMap;
         }
+
         function parseShifts(shiftsData) {
             const dateEmployees = {};
-            const header = shiftsData[0];
+            const header = shiftsData[0] || [];
             const idx = name => header.indexOf(name);
+
+            function parseTimeToMinutes(timeStr) {
+                if (!timeStr) return null;
+                const match = timeStr.match(/(\d+):(\d+):(\d+)\s+(AM|PM)/);
+                if (!match) return null;
+                let hour = parseInt(match[1], 10);
+                const minute = parseInt(match[2], 10);
+                const ampm = match[4];
+                if (ampm === 'PM' && hour < 12) hour += 12;
+                if (ampm === 'AM' && hour === 12) hour = 0;
+                return hour * 60 + minute;
+            }
+
             for (let i = 1; i < shiftsData.length; i++) {
                 const row = shiftsData[i];
+                if (!row || !row.length) continue;
                 const paidHours = parseFloat(row[idx('Total paid hours')] || '0');
                 const clockinDate = row[idx('Clockin date')];
-                if (paidHours > 0 && clockinDate && /^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(clockinDate)) {
-                    let [m, d, y] = clockinDate.split('/');
-                    m = m.padStart(2, '0');
-                    d = d.padStart(2, '0');
-                    y = y.length === 2 ? '20' + y : y;
-                    const date = `${m}/${d}/${y}`;
-                    const name = `${row[idx('First name')]} ${row[idx('Last name')]}`;
-                    if (!dateEmployees[date]) dateEmployees[date] = new Set();
-                    dateEmployees[date].add(name);
+                const clockinTime = row[idx('Clockin time')];
+                const clockoutDate = row[idx('Clockout date')];
+                const clockoutTime = row[idx('Clockout time')];
+                if (paidHours <= 0 || !clockinDate || !clockinTime || !clockoutDate || !clockoutTime) continue;
+                if (!/^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(clockinDate)) continue;
+
+                let [m, d, y] = clockinDate.split('/');
+                m = m.padStart(2, '0');
+                d = d.padStart(2, '0');
+                y = y.length === 2 ? '20' + y : y;
+                const date = `${m}/${d}/${y}`;
+
+                const inMinutes = parseTimeToMinutes(clockinTime);
+                let outMinutes = parseTimeToMinutes(clockoutTime);
+                if (inMinutes == null || outMinutes == null) continue;
+                if (clockoutDate !== clockinDate) {
+                    outMinutes += 24 * 60;
                 }
+
+                const name = `${row[idx('First name')]} ${row[idx('Last name')]}`;
+                if (!dateEmployees[date]) dateEmployees[date] = [];
+                dateEmployees[date].push({ name, inMinutes, outMinutes, clockinTime, clockoutTime });
             }
             return dateEmployees;
         }
-        function calculateTipsPerDay(dateTipMap, dateEmployees) {
+
+        function buildInitialAssignments(dateShiftMap, dateEmployees) {
+            const assignments = {};
+            Object.keys(dateEmployees).forEach(date => {
+                const employees = dateEmployees[date];
+                const shiftInfo = dateShiftMap[date] || { brunch: 0, dinner: 0, single: 0, total: 0 };
+                const hasBrunch = shiftInfo.brunch > 0;
+                const hasDinner = shiftInfo.dinner > 0;
+                if (!assignments[date]) assignments[date] = {};
+                employees.forEach(rec => {
+                    let brunch = false;
+                    let dinner = false;
+                    if (hasBrunch || hasDinner) {
+                        if (hasBrunch && hasDinner) {
+                            const threePm = 15 * 60;
+                            const sixPm = 18 * 60;
+                            // Both brunch and dinner: in before 3pm, out after 6pm
+                            if (rec.inMinutes < threePm && rec.outMinutes > sixPm) {
+                                brunch = true;
+                                dinner = true;
+                            // Dinner only: in at/after 3pm
+                            } else if (rec.inMinutes >= threePm) {
+                                dinner = true;
+                            // Brunch only: remaining brunch/dinner-day cases (in before 3pm, out on/before 6pm)
+                            } else if (rec.outMinutes <= sixPm) {
+                                brunch = true;
+                            }
+                        } else if (hasBrunch) {
+                            brunch = true;
+                        } else if (hasDinner) {
+                            dinner = true;
+                        }
+                    }
+                    assignments[date][rec.name] = {
+                        brunch,
+                        dinner,
+                        inMinutes: rec.inMinutes,
+                        outMinutes: rec.outMinutes,
+                        clockinTime: rec.clockinTime,
+                        clockoutTime: rec.clockoutTime
+                    };
+                });
+            });
+            return assignments;
+        }
+
+        function renderShiftReview(dateShiftMap, assignments) {
+            const container = document.getElementById('shiftReview');
+            const dates = Object.keys(assignments).sort();
+            let html = '';
+            html += '<h2 class="title is-4">Review shift assignments</h2>';
+            html += '<p>Use the checkboxes to adjust which shifts each employee should receive tips for.</p>';
+
+            dates.forEach(date => {
+                const shiftInfo = dateShiftMap[date] || { brunch: 0, dinner: 0, single: 0, total: 0 };
+                const hasBrunch = shiftInfo.brunch > 0;
+                const hasDinner = shiftInfo.dinner > 0;
+                if (!hasBrunch && !hasDinner) {
+                    return;
+                }
+                const employees = Object.keys(assignments[date]).sort();
+                html += '<div class="box">';
+                html += `<h3 class="title is-5">${date}</h3>`;
+                html += '<table class="table is-fullwidth is-striped">';
+                html += '<thead><tr><th>Employee</th><th>Punch in / out</th>';
+                if (hasBrunch) html += '<th>Brunch</th>';
+                if (hasDinner) html += '<th>Dinner</th>';
+                html += '</tr></thead><tbody>';
+                employees.forEach(name => {
+                    const a = assignments[date][name];
+                    html += '<tr>';
+                    html += `<td>${name}</td>`;
+                    const inTime = a.clockinTime || '';
+                    const outTime = a.clockoutTime || '';
+                    html += `<td>${inTime} – ${outTime}</td>`;
+                    if (hasBrunch) {
+                        const checked = a.brunch ? 'checked' : '';
+                        html += `<td><input type="checkbox" data-shift-checkbox="1" data-date="${date}" data-name="${name}" data-shift="brunch" ${checked}></td>`;
+                    }
+                    if (hasDinner) {
+                        const checked = a.dinner ? 'checked' : '';
+                        html += `<td><input type="checkbox" data-shift-checkbox="1" data-date="${date}" data-name="${name}" data-shift="dinner" ${checked}></td>`;
+                    }
+                    html += '</tr>';
+                });
+                html += '</tbody></table>';
+                html += '</div>';
+            });
+
+            if (!dates.length) {
+                html += '<p>No shifts found.</p>';
+            }
+
+            html += '<button class="button is-primary" id="runReportBtn">Run tip report</button>';
+
+            container.innerHTML = html;
+        }
+
+        function syncAssignmentsFromDom(assignments) {
+            const checkboxes = document.querySelectorAll('input[data-shift-checkbox="1"]');
+            checkboxes.forEach(cb => {
+                const date = cb.getAttribute('data-date');
+                const name = cb.getAttribute('data-name');
+                const shift = cb.getAttribute('data-shift');
+                if (!assignments[date]) assignments[date] = {};
+                if (!assignments[date][name]) {
+                    assignments[date][name] = { brunch: false, dinner: false };
+                }
+                assignments[date][name][shift] = cb.checked;
+            });
+        }
+
+        function calculateTipsPerDayWithShifts(dateShiftMap, dateEmployees, assignments) {
             const tipsPerDay = [];
-            Object.entries(dateTipMap).forEach(([date, tipAmount]) => {
-                if (tipAmount > 0 && dateEmployees[date]) {
-                    const employees = Array.from(dateEmployees[date]);
-                    const share = tipAmount / employees.length;
-                    employees.forEach(name => {
-                        tipsPerDay.push({ name, date, tipShare: share });
-                    });
+            const allDates = Array.from(new Set([
+                ...Object.keys(dateShiftMap),
+                ...Object.keys(dateEmployees)
+            ]));
+
+            allDates.forEach(date => {
+                const shiftInfo = dateShiftMap[date] || { total: 0, brunch: 0, dinner: 0, single: 0 };
+                const employeesForDate = dateEmployees[date] || [];
+                const namesForDate = Array.from(new Set(employeesForDate.map(e => e.name)));
+                const a = assignments[date] || {};
+
+                const brunchNames = namesForDate.filter(name => a[name] && a[name].brunch);
+                const dinnerNames = namesForDate.filter(name => a[name] && a[name].dinner);
+
+                if (shiftInfo.brunch > 0 && brunchNames.length > 0) {
+                    const colLabel = `${date} brunch`;
+                    const share = shiftInfo.brunch / brunchNames.length;
+                    brunchNames.forEach(name => tipsPerDay.push({ name, date: colLabel, tipShare: share }));
+                }
+
+                if (shiftInfo.dinner > 0 && dinnerNames.length > 0) {
+                    const colLabel = `${date} dinner`;
+                    const share = shiftInfo.dinner / dinnerNames.length;
+                    dinnerNames.forEach(name => tipsPerDay.push({ name, date: colLabel, tipShare: share }));
+                }
+
+                if (shiftInfo.single > 0 && namesForDate.length > 0) {
+                    const share = shiftInfo.single / namesForDate.length;
+                    namesForDate.forEach(name => tipsPerDay.push({ name, date, tipShare: share }));
                 }
             });
+
             return tipsPerDay;
         }
+
         function buildPivotTable(tipsPerDay) {
             const names = Array.from(new Set(tipsPerDay.map(t => t.name))).sort();
             const dates = Array.from(new Set(tipsPerDay.map(t => t.date))).sort();
             const tipMap = {};
             tipsPerDay.forEach(({ name, date, tipShare }) => {
                 if (!tipMap[name]) tipMap[name] = {};
-                tipMap[name][date] = tipShare;
+                tipMap[name][date] = (tipMap[name][date] || 0) + tipShare;
             });
             let html = '<table class="table is-striped is-fullwidth"><thead><tr><th>Name</th>';
             dates.forEach(date => html += `<th>${date}</th>`);
             html += '<th>Total</th></tr></thead><tbody>';
+            const columnTotals = {};
+            let grandTotal = 0;
             names.forEach(name => {
                 let total = 0;
                 html += `<tr><td>${name}</td>`;
@@ -99,15 +307,28 @@
                     const val = tipMap[name][date] || '';
                     html += `<td>${val === '' ? '' : val.toFixed(2)}</td>`;
                     if (val !== '') total += val;
+                    if (val !== '') {
+                        columnTotals[date] = (columnTotals[date] || 0) + val;
+                        grandTotal += val;
+                    }
                 });
                 html += `<td>${total.toFixed(2)}</td></tr>`;
             });
+            // Add final row with per-column totals based on computed shares
+            html += '<tr><th>Shift total</th>';
+            dates.forEach(date => {
+                const colTotal = columnTotals[date] || 0;
+                html += `<th>${colTotal === 0 ? '' : colTotal.toFixed(2)}</th>`;
+            });
+            html += `<th>${grandTotal === 0 ? '' : grandTotal.toFixed(2)}</th></tr>`;
             html += '</tbody></table>';
             return { html, names, dates, tipMap };
         }
         function toCsv(names, dates, tipMap) {
             let rows = [];
             rows.push(['Name', ...dates, 'Total']);
+            const columnTotals = {};
+            let grandTotal = 0;
             names.forEach(name => {
                 let total = 0;
                 let row = [name];
@@ -115,41 +336,73 @@
                     const val = tipMap[name][date] || '';
                     row.push(val === '' ? '' : val.toFixed(2));
                     if (val !== '') total += val;
+                    if (val !== '') {
+                        columnTotals[date] = (columnTotals[date] || 0) + val;
+                        grandTotal += val;
+                    }
                 });
                 row.push(total.toFixed(2));
                 rows.push(row);
             });
+            const totalRow = ['Shift total'];
+            dates.forEach(date => {
+                const colTotal = columnTotals[date] || 0;
+                totalRow.push(colTotal === 0 ? '' : colTotal.toFixed(2));
+            });
+            totalRow.push(grandTotal === 0 ? '' : grandTotal.toFixed(2));
+            rows.push(totalRow);
             return rows.map(r => r.join(',')).join('\n');
         }
         document.getElementById('processBtn').onclick = function () {
-            const salesFile = document.getElementById('salesCsv').files[0];
+            const salesFiles = Array.from(document.getElementById('salesCsv').files || []);
             const shiftsFile = document.getElementById('shiftsCsv').files[0];
-            if (!salesFile || !shiftsFile) {
-                alert('Please select both files.');
+            if (!salesFiles.length || !shiftsFile) {
+                alert('Please select at least one sales summary file and a shifts export file.');
                 return;
             }
             Promise.all([
-                new Promise(res => Papa.parse(salesFile, { complete: r => res(r.data) })),
+                Promise.all(salesFiles.map(file =>
+                    new Promise(res => Papa.parse(file, { complete: r => res({ data: r.data, filename: file.name }) }))
+                )),
                 new Promise(res => Papa.parse(shiftsFile, { complete: r => res(r.data) }))
-            ]).then(([salesData, shiftsData]) => {
-                const dateTipMap = parseSalesTips(salesData);
-                const dateEmployees = parseShifts(shiftsData);
-                const tipsPerDay = calculateTipsPerDay(dateTipMap, dateEmployees);
-                const { html, names, dates, tipMap } = buildPivotTable(tipsPerDay);
-                document.getElementById('results').innerHTML = html;
-                document.getElementById('downloadBtn').style.display = '';
-                document.getElementById('downloadBtn').onclick = function () {
-                    const csv = toCsv(names, dates, tipMap);
-                    const blob = new Blob([csv], { type: 'text/csv' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'tips-summary.csv';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                };
+            ]).then(([salesFilesData, shiftsData]) => {
+                _dateShiftMap = parseSalesTips(salesFilesData);
+                _dateEmployeesRaw = parseShifts(shiftsData);
+                _assignments = buildInitialAssignments(_dateShiftMap, _dateEmployeesRaw);
+                _tipNames = [];
+                _tipDates = [];
+                _tipMap = {};
+                document.getElementById('results').innerHTML = '';
+                document.getElementById('downloadBtn').style.display = 'none';
+
+                renderShiftReview(_dateShiftMap, _assignments);
+
+                const runBtn = document.getElementById('runReportBtn');
+                if (runBtn) {
+                    runBtn.onclick = function () {
+                        syncAssignmentsFromDom(_assignments);
+                        const tipsPerDay = calculateTipsPerDayWithShifts(_dateShiftMap, _dateEmployeesRaw, _assignments);
+                        const { html, names, dates, tipMap } = buildPivotTable(tipsPerDay);
+                        document.getElementById('results').innerHTML = html;
+                        _tipNames = names;
+                        _tipDates = dates;
+                        _tipMap = tipMap;
+                        const downloadBtn = document.getElementById('downloadBtn');
+                        downloadBtn.style.display = '';
+                        downloadBtn.onclick = function () {
+                            const csv = toCsv(_tipNames, _tipDates, _tipMap);
+                            const blob = new Blob([csv], { type: 'text/csv' });
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = 'tips-summary.csv';
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                            URL.revokeObjectURL(url);
+                        };
+                    };
+                }
             });
         };
     </script>
