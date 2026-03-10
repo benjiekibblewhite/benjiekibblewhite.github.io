@@ -1,0 +1,12 @@
+---
+description: Avoid editing built artifacts in dist unless explicitly requested
+alwaysApply: true
+---
+
+# Build artifacts and dist directory
+
+- Do not edit files under `dist/` by default. Treat this directory as containing build artifacts.
+- Only modify a file in `dist/` when the user **explicitly** asks to change that specific file or path.
+- When implementing code changes, prefer editing the corresponding **source files** (for example, under `unbuilt-pages/` or other source directories), and let the build process regenerate `dist/`.
+- If a change appears necessary in `dist/`, first look for the matching source file and propose updating that instead; only touch `dist/` if the user insists on a direct change there.
+

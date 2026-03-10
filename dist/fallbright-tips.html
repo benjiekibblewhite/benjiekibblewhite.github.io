@@ -32,6 +32,7 @@
                     <button class="button is-link" id="downloadBtn" style="display:none;">Download CSV</button>
                 </div>
             </div>
+            <div id="warnings" class="mt-4"></div>
             <div id="shiftReview" class="mt-5"></div>
             <div id="results" class="mt-5" style="overflow-x: auto;"></div>
         </div>
@@ -45,6 +46,7 @@
         let _assignments = {};
         let _salesFilesData = []; // [{ id, filename, size, lastModified, data }]
         let _salesFileErrors = [];
+        let _warnings = [];
 
         function escapeHtml(str) {
             return String(str || '')
@@ -53,6 +55,42 @@
                 .replace(/>/g, '&gt;')
                 .replace(/"/g, '&quot;')
                 .replace(/'/g, '&#39;');
+        }
+
+        function guessShiftTypeFromFilename(filename) {
+            const lowerName = (filename || '').toLowerCase();
+            if (lowerName.includes('1000am-0400pm')) {
+                return 'brunch';
+            }
+            if (lowerName.includes('0500pm-0100am')) {
+                return 'dinner';
+            }
+            return 'single';
+        }
+
+        function renderWarnings() {
+            const container = document.getElementById('warnings');
+            if (!container) return;
+            if (!_warnings.length) {
+                container.innerHTML = '';
+                return;
+            }
+            let html = '';
+            html += '<div class="notification is-warning is-light">';
+            html += '<button class="delete" aria-label="dismiss" id="dismissWarnings"></button>';
+            html += '<p><strong>Warnings:</strong></p><ul>';
+            _warnings.forEach(msg => {
+                html += `<li>${escapeHtml(msg)}</li>`;
+            });
+            html += '</ul></div>';
+            container.innerHTML = html;
+            const dismiss = document.getElementById('dismissWarnings');
+            if (dismiss) {
+                dismiss.onclick = function () {
+                    _warnings = [];
+                    renderWarnings();
+                };
+            }
         }
 
         function renderSalesFilesList() {
@@ -79,11 +117,23 @@
                 }
                 return;
             }
-            html += '<div class="tags">';
+            html += '<table class="table is-fullwidth is-striped is-narrow">';
+            html += '<thead><tr><th>Sales file</th><th>Shift type</th><th></th></tr></thead><tbody>';
             _salesFilesData.forEach(f => {
-                html += `<span class="tag is-info is-light">${escapeHtml(f.filename)}<button class="delete is-small" aria-label="remove" data-remove-sales-file="${f.id}"></button></span>`;
+                const shiftType = f.shiftType || 'single';
+                html += '<tr>';
+                html += `<td>${escapeHtml(f.filename)}</td>`;
+                html += '<td>';
+                html += `<div class="select is-small"><select data-sales-shift-type="1" data-sales-file-id="${f.id}">`;
+                html += `<option value="brunch"${shiftType === 'brunch' ? ' selected' : ''}>Brunch</option>`;
+                html += `<option value="dinner"${shiftType === 'dinner' ? ' selected' : ''}>Dinner</option>`;
+                html += `<option value="single"${shiftType === 'single' ? ' selected' : ''}>Single / all-day</option>`;
+                html += '</select></div>';
+                html += '</td>';
+                html += `<td class="has-text-right"><button class="delete is-small" aria-label="remove" data-remove-sales-file="${f.id}"></button></td>`;
+                html += '</tr>';
             });
-            html += '</div>';
+            html += '</tbody></table>';
             container.innerHTML = html;
             const dismiss = document.getElementById('dismissSalesFileErrors');
             if (dismiss) {
@@ -92,6 +142,17 @@
                     renderSalesFilesList();
                 };
             }
+            const selects = container.querySelectorAll('select[data-sales-shift-type="1"]');
+            selects.forEach(sel => {
+                sel.addEventListener('change', function () {
+                    const id = this.getAttribute('data-sales-file-id');
+                    const val = this.value;
+                    const file = _salesFilesData.find(f => f.id === id);
+                    if (file) {
+                        file.shiftType = val;
+                    }
+                });
+            });
         }
 
         function addSalesFiles(files) {
@@ -112,14 +173,18 @@
             }
             const parsePromises = filteredFiles.map(file => {
                 const key = `${file.name}__${file.size}__${file.lastModified}`;
+                const guessedShiftType = guessShiftTypeFromFilename(file.name);
                 return new Promise(res => {
-                    Papa.parse(file, { complete: r => res({
-                        id: key,
-                        filename: file.name,
-                        size: file.size,
-                        lastModified: file.lastModified,
-                        data: r.data
-                    }) });
+                    Papa.parse(file, {
+                        complete: r => res({
+                            id: key,
+                            filename: file.name,
+                            size: file.size,
+                            lastModified: file.lastModified,
+                            data: r.data,
+                            shiftType: guessedShiftType
+                        })
+                    });
                 });
             });
             return Promise.all(parsePromises).then(parsed => {
@@ -139,19 +204,18 @@
                 const headerRow = salesData[0] || [];
                 const header = headerRow.slice(1);
                 const tipRow = salesData.find(row => row[0] && row[0].trim() === 'Tip');
-                if (!tipRow) return;
-                const lowerName = filename.toLowerCase();
-                let shiftType = 'single';
-                if (lowerName.includes('1000am-0400pm')) {
-                    shiftType = 'brunch';
-                } else if (lowerName.includes('0500pm-0100am')) {
-                    shiftType = 'dinner';
+                if (!tipRow) {
+                    _warnings.push(`Sales file "${filename}" does not contain a "Tip" row and was ignored.`);
+                    return;
                 }
+                let shiftType = file.shiftType || guessShiftTypeFromFilename(filename);
+                let hasPositiveTipsForFile = false;
                 header.forEach((date, i) => {
                     if (!date || !date.trim()) return;
                     let tipStr = (tipRow[i + 1] || '').replace(/[$",]/g, '');
                     let tip = parseFloat(tipStr) || 0;
                     if (tip <= 0) return;
+                    hasPositiveTipsForFile = true;
                     const d = date.trim();
                     if (!dateShiftMap[d]) {
                         dateShiftMap[d] = { total: 0, brunch: 0, dinner: 0, single: 0 };
@@ -165,6 +229,9 @@
                     }
                     dateShiftMap[d].total += tip;
                 });
+                if (!hasPositiveTipsForFile) {
+                    _warnings.push(`Sales file "${filename}" has a "Tip" row but no positive tip amounts.`);
+                }
             });
             // If a date has explicit brunch and/or dinner tips, ignore any
             // all-day "single" tips for that same date to avoid double counting.
@@ -182,6 +249,21 @@
             const dateEmployees = {};
             const header = shiftsData[0] || [];
             const idx = name => header.indexOf(name);
+
+            const requiredShiftColumns = [
+                'Total paid hours',
+                'Clockin date',
+                'Clockin time',
+                'Clockout date',
+                'Clockout time',
+                'First name',
+                'Last name'
+            ];
+            const missingColumns = requiredShiftColumns.filter(col => idx(col) === -1);
+            if (missingColumns.length) {
+                _warnings.push(`Shifts CSV is missing required columns: ${missingColumns.join(', ')}. No shifts were parsed.`);
+                return {};
+            }
 
             function parseTimeToMinutes(timeStr) {
                 if (!timeStr) return null;
@@ -271,7 +353,7 @@
             return assignments;
         }
 
-        function renderShiftReview(dateShiftMap, assignments) {
+        function renderShiftReview(dateShiftMap, assignments, dateEmployees) {
             const container = document.getElementById('shiftReview');
             const dates = Object.keys(assignments).sort();
             let html = '';
@@ -297,9 +379,22 @@
                     const a = assignments[date][name];
                     html += '<tr>';
                     html += `<td>${name}</td>`;
-                    const inTime = a.clockinTime || '';
-                    const outTime = a.clockoutTime || '';
-                    html += `<td>${inTime} – ${outTime}</td>`;
+                    const allPunches = (dateEmployees && dateEmployees[date])
+                        ? dateEmployees[date].filter(rec => rec.name === name)
+                        : [];
+                    let punchHtml = '';
+                    if (allPunches.length) {
+                        punchHtml = allPunches.map(rec => {
+                            const inTime = rec.clockinTime || '';
+                            const outTime = rec.clockoutTime || '';
+                            return `${inTime} – ${outTime}`;
+                        }).join('<br>');
+                    } else {
+                        const inTime = a.clockinTime || '';
+                        const outTime = a.clockoutTime || '';
+                        punchHtml = `${inTime} – ${outTime}`;
+                    }
+                    html += `<td>${punchHtml}</td>`;
                     if (hasBrunch) {
                         const checked = a.brunch ? 'checked' : '';
                         html += `<td><input type="checkbox" data-shift-checkbox="1" data-date="${date}" data-name="${name}" data-shift="brunch" ${checked}></td>`;
@@ -335,6 +430,33 @@
                 }
                 assignments[date][name][shift] = cb.checked;
             });
+        }
+
+        function collectUnallocatedTipWarnings(dateShiftMap, dateEmployees, assignments) {
+            const messages = [];
+            const allDates = Array.from(new Set([
+                ...Object.keys(dateShiftMap),
+                ...Object.keys(dateEmployees)
+            ]));
+            allDates.forEach(date => {
+                const shiftInfo = dateShiftMap[date] || { total: 0, brunch: 0, dinner: 0, single: 0 };
+                const employeesForDate = dateEmployees[date] || [];
+                const namesForDate = Array.from(new Set(employeesForDate.map(e => e.name)));
+                const a = assignments[date] || {};
+                const brunchNames = namesForDate.filter(name => a[name] && a[name].brunch);
+                const dinnerNames = namesForDate.filter(name => a[name] && a[name].dinner);
+
+                if (shiftInfo.brunch > 0 && brunchNames.length === 0) {
+                    messages.push(`Brunch tips on ${date} will not be allocated to anyone (no employees assigned to brunch).`);
+                }
+                if (shiftInfo.dinner > 0 && dinnerNames.length === 0) {
+                    messages.push(`Dinner tips on ${date} will not be allocated to anyone (no employees assigned to dinner).`);
+                }
+                if (shiftInfo.single > 0 && namesForDate.length === 0) {
+                    messages.push(`Tips on ${date} will not be allocated to anyone (no employees worked that date in the shifts file).`);
+                }
+            });
+            return messages;
         }
 
         function calculateTipsPerDayWithShifts(dateShiftMap, dateEmployees, assignments) {
@@ -465,24 +587,42 @@
                 alert('Please add at least one sales summary file and select a shifts export file.');
                 return;
             }
+            _warnings = [];
+            renderWarnings();
             Promise.all([
                 new Promise(res => Papa.parse(shiftsFile, { complete: r => res(r.data) }))
             ]).then(([shiftsData]) => {
                 _dateShiftMap = parseSalesTips(_salesFilesData);
                 _dateEmployeesRaw = parseShifts(shiftsData);
                 _assignments = buildInitialAssignments(_dateShiftMap, _dateEmployeesRaw);
+                const tipDates = Object.keys(_dateShiftMap);
+                const shiftDates = Object.keys(_dateEmployeesRaw);
+                const tipOnlyDates = tipDates.filter(d => !shiftDates.includes(d));
+                const shiftOnlyDates = shiftDates.filter(d => !tipDates.includes(d));
+                if (tipOnlyDates.length) {
+                    _warnings.push(`There are tip totals for dates with no matching shifts: ${tipOnlyDates.join(', ')}.`);
+                }
+                if (shiftOnlyDates.length) {
+                    _warnings.push(`There are shifts for dates with no tip totals: ${shiftOnlyDates.join(', ')}.`);
+                }
+                renderWarnings();
                 _tipNames = [];
                 _tipDates = [];
                 _tipMap = {};
                 document.getElementById('results').innerHTML = '';
                 document.getElementById('downloadBtn').style.display = 'none';
 
-                renderShiftReview(_dateShiftMap, _assignments);
+                renderShiftReview(_dateShiftMap, _assignments, _dateEmployeesRaw);
 
                 const runBtn = document.getElementById('runReportBtn');
                 if (runBtn) {
                     runBtn.onclick = function () {
                         syncAssignmentsFromDom(_assignments);
+                        const unallocated = collectUnallocatedTipWarnings(_dateShiftMap, _dateEmployeesRaw, _assignments);
+                        if (unallocated.length) {
+                            _warnings = _warnings.concat(unallocated);
+                            renderWarnings();
+                        }
                         const tipsPerDay = calculateTipsPerDayWithShifts(_dateShiftMap, _dateEmployeesRaw, _assignments);
                         const { html, names, dates, tipMap } = buildPivotTable(tipsPerDay);
                         document.getElementById('results').innerHTML = html;
