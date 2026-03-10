@@ -18,6 +18,7 @@
                 <div class="control">
                     <input class="input" type="file" id="salesCsv" accept=".csv" multiple>
                 </div>
+                <div id="salesFilesList" class="mt-2"></div>
             </div>
             <div class="field">
                 <label class="label">Shifts Export CSV</label>
@@ -42,6 +43,92 @@
         let _dateShiftMap = {};
         let _dateEmployeesRaw = {};
         let _assignments = {};
+        let _salesFilesData = []; // [{ id, filename, size, lastModified, data }]
+        let _salesFileErrors = [];
+
+        function escapeHtml(str) {
+            return String(str || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function renderSalesFilesList() {
+            const container = document.getElementById('salesFilesList');
+            let html = '';
+            if (_salesFileErrors.length) {
+                html += '<div class="notification is-warning is-light">';
+                html += '<button class="delete" aria-label="dismiss" id="dismissSalesFileErrors"></button>';
+                html += '<p><strong>Some files were not added:</strong></p><ul>';
+                _salesFileErrors.forEach(msg => {
+                    html += `<li>${escapeHtml(msg)}</li>`;
+                });
+                html += '</ul></div>';
+            }
+            if (!_salesFilesData.length) {
+                html += '<p class="help">No sales files added yet. You can add more files later.</p>';
+                container.innerHTML = html;
+                const dismiss = document.getElementById('dismissSalesFileErrors');
+                if (dismiss) {
+                    dismiss.onclick = function () {
+                        _salesFileErrors = [];
+                        renderSalesFilesList();
+                    };
+                }
+                return;
+            }
+            html += '<div class="tags">';
+            _salesFilesData.forEach(f => {
+                html += `<span class="tag is-info is-light">${escapeHtml(f.filename)}<button class="delete is-small" aria-label="remove" data-remove-sales-file="${f.id}"></button></span>`;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+            const dismiss = document.getElementById('dismissSalesFileErrors');
+            if (dismiss) {
+                dismiss.onclick = function () {
+                    _salesFileErrors = [];
+                    renderSalesFilesList();
+                };
+            }
+        }
+
+        function addSalesFiles(files) {
+            const newFiles = Array.from(files || []);
+            if (!newFiles.length) return Promise.resolve();
+            const existingNames = new Set(_salesFilesData.map(f => f.filename));
+            const duplicates = newFiles
+                .map(f => f.name)
+                .filter(name => existingNames.has(name));
+            if (duplicates.length) {
+                const uniq = Array.from(new Set(duplicates)).sort();
+                _salesFileErrors.push(`Duplicate filename(s): ${uniq.join(', ')}. Remove the existing file first if you want to replace it.`);
+            }
+            const filteredFiles = newFiles.filter(f => !existingNames.has(f.name));
+            if (!filteredFiles.length) {
+                renderSalesFilesList();
+                return Promise.resolve();
+            }
+            const parsePromises = filteredFiles.map(file => {
+                const key = `${file.name}__${file.size}__${file.lastModified}`;
+                return new Promise(res => {
+                    Papa.parse(file, { complete: r => res({
+                        id: key,
+                        filename: file.name,
+                        size: file.size,
+                        lastModified: file.lastModified,
+                        data: r.data
+                    }) });
+                });
+            });
+            return Promise.all(parsePromises).then(parsed => {
+                parsed.filter(Boolean).forEach(p => _salesFilesData.push(p));
+                // Keep stable ordering for readability
+                _salesFilesData.sort((a, b) => a.filename.localeCompare(b.filename));
+                renderSalesFilesList();
+            });
+        }
 
         function parseSalesTips(filesData) {
             const dateShiftMap = {};
@@ -353,20 +440,35 @@
             rows.push(totalRow);
             return rows.map(r => r.join(',')).join('\n');
         }
+
+        document.getElementById('salesFilesList').addEventListener('click', function (e) {
+            const btn = e.target && e.target.closest && e.target.closest('button[data-remove-sales-file]');
+            if (!btn) return;
+            const id = btn.getAttribute('data-remove-sales-file');
+            _salesFilesData = _salesFilesData.filter(f => f.id !== id);
+            renderSalesFilesList();
+        });
+
+        document.getElementById('salesCsv').addEventListener('change', function () {
+            const input = this;
+            addSalesFiles(input.files).finally(() => {
+                // Clear so selecting the same file again triggers change
+                input.value = '';
+            });
+        });
+
+        renderSalesFilesList();
+
         document.getElementById('processBtn').onclick = function () {
-            const salesFiles = Array.from(document.getElementById('salesCsv').files || []);
             const shiftsFile = document.getElementById('shiftsCsv').files[0];
-            if (!salesFiles.length || !shiftsFile) {
-                alert('Please select at least one sales summary file and a shifts export file.');
+            if (!_salesFilesData.length || !shiftsFile) {
+                alert('Please add at least one sales summary file and select a shifts export file.');
                 return;
             }
             Promise.all([
-                Promise.all(salesFiles.map(file =>
-                    new Promise(res => Papa.parse(file, { complete: r => res({ data: r.data, filename: file.name }) }))
-                )),
                 new Promise(res => Papa.parse(shiftsFile, { complete: r => res(r.data) }))
-            ]).then(([salesFilesData, shiftsData]) => {
-                _dateShiftMap = parseSalesTips(salesFilesData);
+            ]).then(([shiftsData]) => {
+                _dateShiftMap = parseSalesTips(_salesFilesData);
                 _dateEmployeesRaw = parseShifts(shiftsData);
                 _assignments = buildInitialAssignments(_dateShiftMap, _dateEmployeesRaw);
                 _tipNames = [];
