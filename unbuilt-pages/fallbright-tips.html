@@ -210,25 +210,59 @@
                 }
                 let shiftType = file.shiftType || guessShiftTypeFromFilename(filename);
                 let hasPositiveTipsForFile = false;
-                header.forEach((date, i) => {
-                    if (!date || !date.trim()) return;
-                    let tipStr = (tipRow[i + 1] || '').replace(/[$",]/g, '');
+                const hasHeaderDates = header.some(d => d && d.trim());
+
+                // Case 1: standard multi-date export with dates in the header row
+                if (hasHeaderDates) {
+                    header.forEach((date, i) => {
+                        if (!date || !date.trim()) return;
+                        let tipStr = (tipRow[i + 1] || '').replace(/[$",]/g, '');
+                        let tip = parseFloat(tipStr) || 0;
+                        if (tip <= 0) return;
+                        hasPositiveTipsForFile = true;
+                        const d = date.trim();
+                        if (!dateShiftMap[d]) {
+                            dateShiftMap[d] = { total: 0, brunch: 0, dinner: 0, single: 0 };
+                        }
+                        if (shiftType === 'brunch') {
+                            dateShiftMap[d].brunch += tip;
+                        } else if (shiftType === 'dinner') {
+                            dateShiftMap[d].dinner += tip;
+                        } else {
+                            dateShiftMap[d].single += tip;
+                        }
+                        dateShiftMap[d].total += tip;
+                    });
+                } else {
+                    // Case 2: single-day export with only one Tip total (no per-date columns).
+                    // Example:
+                    // Tip,$293.62
+                    // Filename pattern: sales-summary-2026-03-08-2026-03-08(....).csv
+                    let tipStr = (tipRow[1] || '').replace(/[$",]/g, '');
                     let tip = parseFloat(tipStr) || 0;
-                    if (tip <= 0) return;
-                    hasPositiveTipsForFile = true;
-                    const d = date.trim();
-                    if (!dateShiftMap[d]) {
-                        dateShiftMap[d] = { total: 0, brunch: 0, dinner: 0, single: 0 };
+                    if (tip > 0) {
+                        // Try to derive the date from the filename (use the first date in the range).
+                        const m = filename.match(/sales-summary-(\d{4})-(\d{2})-(\d{2})-\d{4}-\d{2}-\d{2}/);
+                        if (m) {
+                            const year = m[1];
+                            const month = m[2];
+                            const day = m[3];
+                            const d = `${month}/${day}/${year}`;
+                            hasPositiveTipsForFile = true;
+                            if (!dateShiftMap[d]) {
+                                dateShiftMap[d] = { total: 0, brunch: 0, dinner: 0, single: 0 };
+                            }
+                            if (shiftType === 'brunch') {
+                                dateShiftMap[d].brunch += tip;
+                            } else if (shiftType === 'dinner') {
+                                dateShiftMap[d].dinner += tip;
+                            } else {
+                                dateShiftMap[d].single += tip;
+                            }
+                            dateShiftMap[d].total += tip;
+                        }
                     }
-                    if (shiftType === 'brunch') {
-                        dateShiftMap[d].brunch += tip;
-                    } else if (shiftType === 'dinner') {
-                        dateShiftMap[d].dinner += tip;
-                    } else {
-                        dateShiftMap[d].single += tip;
-                    }
-                    dateShiftMap[d].total += tip;
-                });
+                }
                 if (!hasPositiveTipsForFile) {
                     _warnings.push(`Sales file "${filename}" has a "Tip" row but no positive tip amounts.`);
                 }
