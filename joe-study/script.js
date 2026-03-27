@@ -1,70 +1,51 @@
 const quotes = [
-    // Beloved - Toni Morrison
-    { text: "124 was spiteful. Full of a baby's venom.", author: "Toni Morrison", work: "Beloved" },
-    { text: "It's so hard for me to believe in [time]. Some things go. Pass on. Some things just stay.", author: "Toni Morrison", work: "Beloved" },
-    { text: "Freeing yourself was one thing, claiming ownership of that freed self was another.", author: "Toni Morrison", work: "Beloved" },
-    { text: "Love is or it ain't. Thin love ain't love at all.", author: "Toni Morrison", work: "Beloved" },
-    { text: "She is a friend of my mind. She gather me, man. The pieces I am, she gather them and give them back to me in all the right order.", author: "Toni Morrison", work: "Beloved" },
-    { text: "You your best thing, Sethe. You are.", author: "Toni Morrison", work: "Beloved" },
-    { text: "Definitions belong to the definers, not the defined.", author: "Toni Morrison", work: "Beloved" },
-    { text: "A man ain't a goddamn ax. Chopping, hacking, busting every goddamn minute of the day. Things get to him.", author: "Toni Morrison", work: "Beloved" },
-    { text: "Unless carefree, mother love was a killer.", author: "Toni Morrison", work: "Beloved" },
-    { text: "The dark, dark liver—love it, love it and the beat and beating heart, love that too.", author: "Toni Morrison", work: "Beloved" },
+    // Hag-Seed - Margaret Atwood
+    { text: "You don't have to teach me my enemies. I can spot them for myself.", author: "Margaret Atwood", work: "Hag-Seed" },
+    { text: "These days, everyone is a snitch.", author: "Margaret Atwood", work: "Hag-Seed" },
+    { text: "Revenge is a dish best eaten cold.", author: "Margaret Atwood", work: "Hag-Seed" },
+    { text: "He'll make them feel his greatness, or else his nothingness.", author: "Margaret Atwood", work: "Hag-Seed" },
+    { text: "All it takes is the elimination of one generation.", author: "Margaret Atwood", work: "Hag-Seed" },
+    { text: "When you're excluded from power, the only power you have left is sabotage.", author: "Margaret Atwood", work: "Hag-Seed" },
+    { text: "It's dark as a tomb in there. He should know: it is a tomb.", author: "Margaret Atwood", work: "Hag-Seed" },
+    { text: "The best way to escape from a prison is to become a prisoner.", author: "Margaret Atwood", work: "Hag-Seed" },
+    { text: "When you take away all that a man has, you give him his freedom.", author: "Margaret Atwood", work: "Hag-Seed" },
+    { text: "We're doing The Tempest in an actual tempest.", author: "Margaret Atwood", work: "Hag-Seed" },
 
-    // Frankenstein - Mary Shelley
-    { text: "I was benevolent and good; misery made me a fiend. Make me happy, and I shall again be virtuous.", author: "Mary Shelley", work: "Frankenstein" },
-    { text: "Beware; for I am fearless, and therefore powerful.", author: "Mary Shelley", work: "Frankenstein" },
-    { text: "Life, although it may only be an accumulation of anguish, is dear to me, and I will defend it.", author: "Mary Shelley", work: "Frankenstein" },
-    { text: "Learn from me, if not by my precepts, at least by my example, how dangerous is the acquirement of knowledge...", author: "Mary Shelley", work: "Frankenstein" },
-    { text: "If I cannot inspire love, I will cause fear.", author: "Mary Shelley", work: "Frankenstein" },
-    { text: "I have no friend… when I am glowing with the enthusiasm of success, there will be none to participate in my joy.", author: "Mary Shelley", work: "Frankenstein" },
-    { text: "Satan had his companions, fellow-devils, to admire and encourage him; but I am solitary and abhorred.", author: "Mary Shelley", work: "Frankenstein" },
-    { text: "I ought to be thy Adam, but I am rather the fallen angel.", author: "Mary Shelley", work: "Frankenstein" },
-    { text: "Nothing is so painful to the human mind as a great and sudden change.", author: "Mary Shelley", work: "Frankenstein" },
-    { text: "How mutable are our feelings, and how strange is that clinging love we have of life even in the excess of misery!", author: "Mary Shelley", work: "Frankenstein" },
+    // Fun Home - Alison Bechdel
+    { text: "I was Spartan to my father's Athenian. Modern to his Victorian.", author: "Alison Bechdel", work: "Fun Home" },
+    { text: "He used his skillful artifice not to make things, but to make things appear to be what they were not.", author: "Alison Bechdel", work: "Fun Home" },
+    { text: "My father began to seem mortal to me.", author: "Alison Bechdel", work: "Fun Home" },
+    { text: "It's imprecise and insufficient, but I don't know how else to say it: I was different.", author: "Alison Bechdel", work: "Fun Home" },
+    { text: "Between my parents there was a fundamental difference of style.", author: "Alison Bechdel", work: "Fun Home" },
+    { text: "Our home was like an artists' colony. We ate together, but otherwise were absorbed in our separate pursuits.", author: "Alison Bechdel", work: "Fun Home" },
+    { text: "In the end, I could not have created this without the distance that my father's death gave me.", author: "Alison Bechdel", work: "Fun Home" },
+    { text: "My father could spin garbage...into gold.", author: "Alison Bechdel", work: "Fun Home" },
+    { text: "The end of his life is the beginning of mine.", author: "Alison Bechdel", work: "Fun Home" },
+    { text: "I employ these artistic conventions to indicate his silence.", author: "Alison Bechdel", work: "Fun Home" },
 
-    // The Tempest - Shakespeare
-    { text: "Be not afeard; the isle is full of noises, Sounds and sweet airs, that give delight and hurt not.", author: "William Shakespeare", work: "The Tempest" },
-    { text: "We are such stuff As dreams are made on, and our little life Is rounded with a sleep.", author: "William Shakespeare", work: "The Tempest" },
-    { text: "O brave new world, That has such people in't!", author: "William Shakespeare", work: "The Tempest" },
-    { text: "Hell is empty and all the devils are here.", author: "William Shakespeare", work: "The Tempest" },
-    { text: "What's past is prologue.", author: "William Shakespeare", work: "The Tempest" },
-    { text: "Full fathom five thy father lies; Of his bones are coral made.", author: "William Shakespeare", work: "The Tempest" },
-    { text: "My library Was dukedom large enough.", author: "William Shakespeare", work: "The Tempest" },
-    { text: "The rarer action is In virtue than in vengeance.", author: "William Shakespeare", work: "The Tempest" },
-    { text: "You taught me language, and my profit on't Is, I know how to curse.", author: "William Shakespeare", work: "The Tempest" },
+    // The Trees - Percival Everett
+    { text: "The past is never dead. It's not even past.", author: "Percival Everett", work: "The Trees" },
+    { text: "You can't drive down that road.", author: "Percival Everett", work: "The Trees" },
+    { text: "Emmett Till's body had shown up again.", author: "Percival Everett", work: "The Trees" },
+    { text: "Money, Mississippi was a real place.", author: "Percival Everett", work: "The Trees" },
+    { text: "Every lynching photograph is a group portrait.", author: "Percival Everett", work: "The Trees" },
+    { text: "The names kept coming.", author: "Percival Everett", work: "The Trees" },
+    { text: "Find what you're afraid of and run toward it.", author: "Percival Everett", work: "The Trees" },
+    { text: "This is America.", author: "Percival Everett", work: "The Trees" },
+    { text: "All those names. All those people.", author: "Percival Everett", work: "The Trees" },
+    { text: "We're just trying to make sense of the madness.", author: "Percival Everett", work: "The Trees" },
 
-    // The Rime of the Ancient Mariner - Coleridge
-    { text: "Water, water, every where, / And all the boards did shrink; / Water, water, every where, / Nor any drop to drink.", author: "Samuel Taylor Coleridge", work: "The Rime of the Ancient Mariner" },
-    { text: "He prayeth best, who loveth best / All things both great and small; / For the dear God who loveth us, / He made and loveth all.", author: "Samuel Taylor Coleridge", work: "The Rime of the Ancient Mariner" },
-    { text: "Alone, alone, all, all alone, / Alone on a wide wide sea!", author: "Samuel Taylor Coleridge", work: "The Rime of the Ancient Mariner" },
-
-    // The House of Asterion - Borges
-    { text: "I know they accuse me of arrogance, and perhaps misanthropy, and perhaps of madness. Such accusations (for which I shall exact punishment in due time) are derisory.", author: "Jorge Luis Borges", work: "The House of Asterion" },
-    { text: "It is true that I never leave my house, but it is also true that its doors (whose number is infinite) stand open night and day to men and also to animals.", author: "Jorge Luis Borges", work: "The House of Asterion" },
-    { text: "Perhaps I have created the stars and the sun and this huge house, and no longer remember it.", author: "Jorge Luis Borges", work: "The House of Asterion" },
-    { text: "Since then my loneliness does not pain me, because I know my redeemer lives and he will finally rise above the dust.", author: "Jorge Luis Borges", work: "The House of Asterion" },
-    { text: "—Would you believe it, Ariadne? —said Theseus—. The Minotaur scarcely defended himself.", author: "Jorge Luis Borges", work: "The House of Asterion" },
-    { text: "The house is as big as the world — or rather it is the world.", author: "Jorge Luis Borges", work: "The House of Asterion" },
-    { text: "Everything exists many times, fourteen times, but there are two things in the world that apparently exist but once — on high, the intricate sun, and below, Asterion.", author: "Jorge Luis Borges", work: "The House of Asterion" },
-    { text: "I hope he takes me to a place with fewer galleries and fewer doors.", author: "Jorge Luis Borges", work: "The House of Asterion" },
-
-    // Life of Theseus - Plutarch
-    { text: "These things sensibly affected Theseus, who, thinking it but just not to disregard, but rather partake of, the sufferings of his fellow citizens, offered himself for one without any lot.", author: "Plutarch", work: "Life of Theseus" },
-    { text: "Desiring still further to enlarge the city, he invited all men thither on equal terms, and the phrase 'Come hither all ye people,' they say was a proclamation of Theseus...", author: "Plutarch", work: "Life of Theseus" },
-    { text: "He without any difficulty set himself to the stone and lifted it up; but refused to take his journey by sea, though it was much the safer way...", author: "Plutarch", work: "Life of Theseus" },
-    { text: "Being pleased with the club, he took it, and made it his weapon...", author: "Plutarch", work: "Life of Theseus" },
-    { text: "Beyond this there is nothing but prodigies and fictions, the only inhabitants are the poets and inventors of fables...", author: "Plutarch", work: "Life of Theseus" },
-    { text: "A brave man need only punish wicked men when they came in his way but that in the case of wild beasts he must himself seek him out and attack them.", author: "Plutarch", work: "Life of Theseus" },
-    { text: "Theseus seemed to me to resemble Romulus in many particulars. Both of them, born out of wedlock and of uncertain parentage, had the repute of being sprung from the gods.", author: "Plutarch", work: "Life of Theseus" },
-    { text: "Fable may, in what shall follow, so submit to the purifying processes of Reason as to take the character of exact history.", author: "Plutarch", work: "Life of Theseus" },
-
-    // Speeches for Doctor Frankenstein - Atwood
-    { text: "I was insane with skill: I made you perfect.", author: "Margaret Atwood", work: "Speeches for Doctor Frankenstein" },
-    { text: "i stand in the presence of the destroyed god: a rubble of tendons, knuckles, and raw sinews knowing that the work is mine.", author: "Margaret Atwood", work: "Speeches for Doctor Frankenstein" },
-    { text: "how can I love you?", author: "Margaret Atwood", work: "Speeches for Doctor Frankenstein" },
-    { text: "you dangle on the leash of your own longing; your need grows teeth.", author: "Margaret Atwood", work: "Speeches for Doctor Frankenstein" },
-    { text: "you sliced me loose. and said it was creation. i could feel the knife. now you would like to heal that chasm in your side. but I recede i prowl i will not come when you call.", author: "Margaret Atwood", work: "Speeches for Doctor Frankenstein" }
+    // Metamorphosis - Kafka
+    { text: "As Gregor Samsa awoke one morning from uneasy dreams he found himself transformed in his bed into a gigantic insect.", author: "Franz Kafka", work: "Metamorphosis" },
+    { text: "What's happened to me?", author: "Franz Kafka", work: "Metamorphosis" },
+    { text: "I cannot make you understand. I cannot make anyone understand what is happening inside me. I cannot even explain it to myself.", author: "Franz Kafka", work: "Metamorphosis" },
+    { text: "He felt as if the way to the unknown nourishment he longed for were coming to light.", author: "Franz Kafka", work: "Metamorphosis" },
+    { text: "Was he an animal, that music could move him so?", author: "Franz Kafka", work: "Metamorphosis" },
+    { text: "I can't go on like this much longer.", author: "Franz Kafka", work: "Metamorphosis" },
+    { text: "Did he really want the warm room, so cozily fitted with furniture he had inherited, transformed into a cave?", author: "Franz Kafka", work: "Metamorphosis" },
+    { text: "He thought back on his family with deep emotion and love.", author: "Franz Kafka", work: "Metamorphosis" },
+    { text: "Now then, said Gregor, fully aware that he was the only one who had kept his composure.", author: "Franz Kafka", work: "Metamorphosis" },
+    { text: "The decision that he must disappear was one that he held to even more strongly than his sister.", author: "Franz Kafka", work: "Metamorphosis" }
 ];
 
 function shuffleArray(array) {
