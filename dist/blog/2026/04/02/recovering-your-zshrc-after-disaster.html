@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+            <html lang="en">
+              <head>
+  <title>AI Wiped Out My .zshrc File. Here's How I Got It Back.</title>
+  <!-- Google tag (gtag.js) -->
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=G-5EME2SP63J"
+  ></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+
+    gtag("config", "G-5EME2SP63J");
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Benjie K on the web" />
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Preload critical images (logo and background) -->
+  <link
+    rel="preload"
+    as="image"
+    href="/static/optimized/logo.webp"
+    type="image/webp"
+  />
+  <link
+    rel="preload"
+    as="image"
+    href="/static/optimized/logo.png"
+    imagesrcset="/static/optimized/logo.png"
+    imagesizes="100vw"
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="preload"
+    media="print"
+    onload="this.media='all'"
+  />
+  <!-- Optimize font loading with display=swap -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'"
+  />
+
+  <!-- Non-JS fallback for fonts -->
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    />
+  </noscript>
+
+  <!-- Critical CSS inlined for performance -->
+  <style>
+    body {
+      margin: 0;
+      font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Helvetica, Arial, sans-serif;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: "Lora", Georgia, serif;
+    }
+    a {
+      color: #58aceb;
+    }
+    /* Add image sizing for better CLS performance */
+    img,
+    picture {
+      max-width: 100%;
+      height: auto;
+      display: block; /* Prevents layout shifts */
+    }
+    /* Ensure images in articles maintain aspect ratio */
+    article img {
+      aspect-ratio: attr(width) / attr(height);
+    }
+  </style>
+
+  <!-- Main stylesheet loaded asynchronously -->
+  <link rel="stylesheet" href="/static/styles.css" />
+  <noscript><link rel="stylesheet" href="/static/styles.css" /></noscript>
+
+  <!-- Favicon -->
+  <link rel="icon" href="/static/optimized/logo.png" />
+
+  <!-- RSS Feed discovery -->
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    title="Blog RSS Feed"
+    href="/rss.xml"
+  />
+
+  <!-- Default structured data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Benjie Kibblewhite's site",
+      "url": "https://benjie.ca",
+      "description": "A personal blog about web development, accessibility, photography, and whatever else I want."
+    }
+  </script>
+</head>
+
+              <body>
+                <header role="banner">
+  <a href="/" aria-label="Go to homepage">
+    <img
+      src="/static/logo.webp"
+      alt="Blog Logo"
+      class="header-logo"
+      width="150px"
+    />
+  </a>
+  <div class="header-right">
+    <a
+      href="/rss.xml"
+      class="rss-link header-link"
+      title="Subscribe to RSS feed"
+      aria-label="RSS Feed"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="header-icon"
+        aria-hidden="true"
+        role="img"
+      >
+        <path d="M4 11a9 9 0 0 1 9 9"></path>
+        <path d="M4 4a16 16 0 0 1 16 16"></path>
+        <circle cx="5" cy="19" r="1"></circle>
+      </svg>
+    </a>
+    <a href="/menu.html" class="header-link" aria-label="Open menu"
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="24px"
+        fill="currentColor"
+        class="header-icon"
+        aria-hidden="true"
+      >
+        <path
+          d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
+        /></svg
+    ></a>
+  </div>
+</header>
+
+                <main class='blog-page'>
+                  <h1 class='post-title' id="AIWipedOutMyzshrcFileHeresHowIGotItBack" style='view-transition-name: post-AIWipedOutMyzshrcFileHeresHowIGotItBack'">AI Wiped Out My .zshrc File. Here's How I Got It Back.</h1>
+                  <p>2026-04-02 2:45pm</p>
+                  <div><p>Like everyone else under the sun, I&#8217;ve been leaning much more heavily into agentic coding these days. Also like everyone else, I have been seeing all of the stories of people&#8217;s agents wiping important files, or making other horrible mistakes. It finally happened to me! Claude wiped out my .zshrc file while I was trying to get it to troubleshoot an issue I was having with a global environment variable. This wasn&#8217;t catastrophic, but it was annoying. I had a lot of variables and aliases set up.</p>
+<p>Luckily, I had open terminal windows that still had the shell config file loaded. </p>
+<h2>What went wrong?</h2>
+<p>Claude ran this command: </p>
+<pre><code class="language-bash">sed -i &#39;&#39; &#39;s/export AWS_PROFILE=&quot;default&quot;/export AWS_PROFILE=&quot;sso-bedrock&quot;/&#39; ~/.zshrc
+</code></pre>
+<p>I have never used <code>sed</code> myself before. It&#8217;s one of those commands that Claude will not run normally on it&#8217;s own without my explicit approval. I didn&#8217;t really know what it was doing, but didn&#8217;t stop to think about it, and just accepted it. </p>
+<p>What was probably the problem is that, instead of <code>export AWS_PROFILE=&quot;default&quot;</code>, I had <code>export AWS_PROFILE=default</code>, without the quotes around <code>default</code>. The <code>-i</code> flag creates a temp file during editing, and replaces the original file with that temp, <em>even if the pattern matching fails</em>. Which it did. Resulting in an empty file. </p>
+<h2>What I should have done instead</h2>
+<p>Not let AI edit my system config files, obviously.</p>
+<p>But, also, when using sed to do inline edits, it seems like it&#8217;s smart to test the output first, just by omitting the <code>-i</code> flag. This just spits the output to stdout, letting you review it. And maybe, probably, if I do decide to do this, make a backup first. </p>
+<h2>How to fix it</h2>
+<p>Okay, so, hopefully you still have at least one terminal window open that has loaded your now missing .zshrc file. All of your variables and alises are still there. </p>
+<p>This was a place where I could use AI to fix AI problems. I had Claude create this script: </p>
+<pre><code class="language-bash">#!/bin/zsh
+# save this as recover.sh
+
+echo &quot;# Recovered .zshrc - $(date)&quot; &gt; ~/recovered-zshrc.txt
+echo &quot;&quot; &gt;&gt; ~/recovered-zshrc.txt
+
+echo &quot;# ALIASES&quot; &gt;&gt; ~/recovered-zshrc.txt
+alias &gt;&gt; ~/recovered-zshrc.txt
+echo &quot;&quot; &gt;&gt; ~/recovered-zshrc.txt
+
+echo &quot;# EXPORTED VARIABLES&quot; &gt;&gt; ~/recovered-zshrc.txt
+export -p &gt;&gt; ~/recovered-zshrc.txt
+echo &quot;&quot; &gt;&gt; ~/recovered-zshrc.txt
+
+echo &quot;# FUNCTIONS&quot; &gt;&gt; ~/recovered-zshrc.txt
+typeset -f &gt;&gt; ~/recovered-zshrc.txt
+echo &quot;&quot; &gt;&gt; ~/recovered-zshrc.txt
+
+echo &quot;# PATH&quot; &gt;&gt; ~/recovered-zshrc.txt
+echo &quot;export PATH=\&quot;$PATH\&quot;&quot; &gt;&gt; ~/recovered-zshrc.txt
+
+echo &quot;Recovery complete! Check ~/recovered-zshrc.txt&quot;
+</code></pre>
+<p>Run it:</p>
+<pre><code class="language-bash">chmod +x recover.sh
+./recover.sh
+</code></pre>
+<p>This dumps all your aliases, environment variables, functions, and PATH to a file. It&#8217;s not perfect, you&#8217;ll lose comments and conditional logic. But it captures the <em>runtime state</em> of your shell config. </p>
+<p>The trick is this dumps everything - a lot of variables and aliases will be there that aren&#8217;t things you added yourself to your config. </p>
+<p>In my case, I had Claude analyze the list of variables, and only add the ones that looked like something I would have added. It did a pretty good job here. </p>
+<p>For the aliases, I had it look through my most-used commands. I probably could have done this myself, I have a few custom aliases I use all the time. But, it&#8217;s fun to get the tool to do things for me. </p>
+<pre><code class="language-bash">cat ~/.zsh_history | awk &#39;{print $1}&#39; | sort | uniq -c | sort -rn | head -20
+</code></pre>
+<p>In my case, it saw commands like <code>gpush</code>, <code>gmp</code>, and <code>cb</code>. Those were aliases I needed to recover.</p>
+<h2>Rebuilding Your .zshrc</h2>
+<p>If you use oh-my-zsh, start with the template:</p>
+<pre><code class="language-bash">cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+</code></pre>
+<p>Then add back:</p>
+<ol>
+<li><strong>Your theme</strong> (check with <code>echo $ZSH_THEME</code> in a working terminal)</li>
+<li><strong>Your aliases</strong> (from the recovered file)</li>
+<li><strong>Environment variables</strong> (from the recovered file)</li>
+<li><strong>Tool initialization</strong> (nvm, rbenv, etc.)</li>
+</ol>
+<h2>Other Recovery Options</h2>
+<p>If you don&#8217;t have active terminals, you might still have options:</p>
+<ul>
+<li><strong>Time Machine backups</strong> (macOS): <code>tmutil listlocalsnapshots /</code></li>
+<li><strong>Editor auto-save files</strong>: Check <code>~/.vim/backup/</code>, VS Code backups, etc.</li>
+<li><strong>Cloud sync services</strong>: Dropbox, iCloud, Google Drive often keep previous versions</li>
+</ul>
+<hr>
+</div>
+                  <p>by Benjie Kibblewhite</p>
+                  <p>Tags: terminal, zsh, disaster recovery, sed, today i learned</p>
+                </main>
+              </body>
+            </html>
