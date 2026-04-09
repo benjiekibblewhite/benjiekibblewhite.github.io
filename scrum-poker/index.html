@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scrum Poker</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="./elements.cardmeister.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header>
+      <playing-card rank="Queen" suit="Hearts" letters="ABCD"></playing-card>
+
+      <h1>Scrum Poker</h1>
+
+      <button id="shareSession" data-sessionid="" disabled>Copy URL</button>
+    </header>
+    <main>
+      <div id="errors" class="hidden"></div>
+      <div class="landing" id="landing">
+        <playing-card rank="Ace" suit="Spades"></playing-card>
+        <button id="newSession">Start New Session</button>
+      </div>
+      <div id="nameInput" class="hidden">
+        <form>
+          <label
+            >Enter your name:
+            <input type="text" id="userName" placeholder="Your name" />
+          </label>
+          <button type="submit" id="joinSession">Join Session</button>
+        </form>
+      </div>
+      <div id="session" class="hidden">
+        <div id="connecting" class="connecting-state">
+          <h3>🔗 Connecting to session...</h3>
+          <p>Waiting for peer-to-peer connection to establish</p>
+        </div>
+
+        <div id="sessionContent" class="hidden">
+        <div id="voteButtons">
+          <!-- use playing cards for buttons -->
+          <button class="vote-button" data-value="1">
+            <playing-card rank="1" suit="hearts"></playing-card>
+          </button>
+          <button class="vote-button" data-value="2">
+            <playing-card rank="2" suit="clubs"></playing-card>
+          </button>
+          <button class="vote-button" data-value="3">
+            <playing-card rank="3" suit="diamonds"></playing-card>
+          </button>
+          <button class="vote-button" data-value="5">
+            <playing-card rank="5" suit="spades"></playing-card>
+          </button>
+          <button class="vote-button" data-value="8">
+            <playing-card rank="8" suit="hearts"></playing-card>
+          </button>
+          <button class="vote-button" data-value="13">
+            <div class="custom-number hearts"><span>13</span></div>
+          </button>
+          <button class="vote-button" data-value="21">
+            <div class="custom-number clubs"><span>21</span></div>
+          </button>
+          <button class="vote-button" data-value="34">
+            <div class="custom-number diamonds"><span>34</span></div>
+          </button>
+          <button class="vote-button" data-value="100">
+            <div class="custom-number spades"><span>100</span></div>
+          </button>
+          <button class="vote-button" data-value="?">
+            <div class="custom-number hearts"><span>?</span></div>
+          </button>
+        </div>
+        <button id="reveal" class="button-small">Reveal Votes</button>
+        <button id="clearVotes" class="button-small">Clear Votes</button>
+        <button id="hideVotes" class="button-small">Hide Votes</button>
+        <h2>Votes</h2>
+        <div id="votes" class="hidden"></div>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
