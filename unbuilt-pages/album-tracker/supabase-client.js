@@ -93,9 +93,16 @@ const db = {
       throw new Error('rating must be between 1 and 10');
     }
 
+    // Get current user ID
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) {
+      throw new Error('User not authenticated');
+    }
+
     const { data, error } = await supabaseClient
       .from('ratings')
       .insert({
+        user_id: user.id,
         album_id: albumId,
         rating: rating,
         review: review || null
@@ -115,6 +122,12 @@ const db = {
       throw new Error('rating must be between 1 and 10');
     }
 
+    // Get current user ID
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) {
+      throw new Error('User not authenticated');
+    }
+
     const { data, error } = await supabaseClient
       .from('ratings')
       .update({
@@ -122,6 +135,7 @@ const db = {
         review: review || null
       })
       .eq('album_id', albumId)
+      .eq('user_id', user.id)
       .select()
       .single();
 
