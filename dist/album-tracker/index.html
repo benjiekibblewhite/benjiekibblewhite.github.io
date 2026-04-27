@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Album Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Login View -->
+  <div id="login-view" class="view">
+    <div class="login-container">
+      <h1>Album Tracker</h1>
+      <p>Track your journey through 350 must-listen albums</p>
+
+      <div id="auth-form">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="your@email.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="••••••••" required>
+        </div>
+
+        <div class="auth-buttons">
+          <button type="button" id="sign-in-btn" class="btn-primary">Sign In</button>
+          <button type="button" id="sign-up-btn" class="btn-secondary">Sign Up</button>
+        </div>
+
+        <p id="auth-message" class="auth-message"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main App (hidden until logged in) -->
+  <div id="app" class="hidden">
+    <!-- Header -->
+    <header>
+      <h1>Album Tracker</h1>
+      <nav>
+        <button type="button" class="nav-btn" data-view="dashboard">Dashboard</button>
+        <button type="button" class="nav-btn" data-view="albums">My Albums</button>
+        <button type="button" id="sign-out-btn" class="btn-secondary">Sign Out</button>
+      </nav>
+    </header>
+
+    <!-- Dashboard View -->
+    <div id="dashboard-view" class="view">
+      <h2>Dashboard</h2>
+
+      <div id="todays-album-card" class="card">
+        <h3>Today's Album</h3>
+        <div id="todays-album-content">
+          <p class="loading">Loading...</p>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-rated">-</div>
+          <div class="stat-label">Albums Rated</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-remaining">-</div>
+          <div class="stat-label">Remaining</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-average">-</div>
+          <div class="stat-label">Average Rating</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rate Album Modal -->
+    <div id="rate-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="rate-modal-title">
+      <div class="modal-content">
+        <span class="modal-close" aria-label="Close modal">&times;</span>
+        <h2 id="rate-modal-title">Rate Album</h2>
+        <div id="rate-album-info"></div>
+
+        <div class="rating-input">
+          <label for="rating-selector">Rating (1-10):</label>
+          <fieldset id="rating-selector" class="star-selector">
+            <button type="button" class="star-btn" data-rating="1">1</button>
+            <button type="button" class="star-btn" data-rating="2">2</button>
+            <button type="button" class="star-btn" data-rating="3">3</button>
+            <button type="button" class="star-btn" data-rating="4">4</button>
+            <button type="button" class="star-btn" data-rating="5">5</button>
+            <button type="button" class="star-btn" data-rating="6">6</button>
+            <button type="button" class="star-btn" data-rating="7">7</button>
+            <button type="button" class="star-btn" data-rating="8">8</button>
+            <button type="button" class="star-btn" data-rating="9">9</button>
+            <button type="button" class="star-btn" data-rating="10">10</button>
+          </fieldset>
+          <div id="selected-rating"></div>
+        </div>
+
+        <div class="review-input">
+          <label for="review-text">Review (optional):</label>
+          <textarea id="review-text" rows="4" placeholder="Your thoughts on this album..."></textarea>
+        </div>
+
+        <button type="button" id="submit-rating-btn" class="btn-primary">Submit Rating</button>
+      </div>
+    </div>
+
+    <!-- Albums View -->
+    <div id="albums-view" class="view hidden">
+      <h2>My Albums</h2>
+
+      <div class="tabs">
+        <button type="button" class="tab-btn active" role="tab" aria-selected="true" aria-controls="unlistened-tab" data-tab="unlistened">Unlistened</button>
+        <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="rated-tab" data-tab="rated">Rated</button>
+        <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="favorites-tab" data-tab="favorites">Favorites</button>
+        <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="least-favorites-tab" data-tab="least-favorites">Least Favorites</button>
+      </div>
+
+      <div id="unlistened-tab" class="tab-content" role="tabpanel">
+        <table class="albums-table">
+          <thead>
+            <tr>
+              <th scope="col">Artist</th>
+              <th scope="col">Album</th>
+              <th scope="col">Year</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody id="unlistened-tbody"></tbody>
+        </table>
+      </div>
+
+      <div id="rated-tab" class="tab-content hidden" role="tabpanel">
+        <table class="albums-table">
+          <thead>
+            <tr>
+              <th scope="col">Artist</th>
+              <th scope="col">Album</th>
+              <th scope="col">Rating</th>
+              <th scope="col">Rated On</th>
+            </tr>
+          </thead>
+          <tbody id="rated-tbody"></tbody>
+        </table>
+      </div>
+
+      <div id="favorites-tab" class="tab-content hidden" role="tabpanel">
+        <table class="albums-table">
+          <thead>
+            <tr>
+              <th scope="col">Artist</th>
+              <th scope="col">Album</th>
+              <th scope="col">Rating</th>
+              <th scope="col">Review</th>
+            </tr>
+          </thead>
+          <tbody id="favorites-tbody"></tbody>
+        </table>
+      </div>
+
+      <div id="least-favorites-tab" class="tab-content hidden" role="tabpanel">
+        <table class="albums-table">
+          <thead>
+            <tr>
+              <th scope="col">Artist</th>
+              <th scope="col">Album</th>
+              <th scope="col">Rating</th>
+              <th scope="col">Review</th>
+            </tr>
+          </thead>
+          <tbody id="least-favorites-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load Supabase from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Load app files -->
+  <script src="config.js"></script>
+  <script src="supabase-client.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
