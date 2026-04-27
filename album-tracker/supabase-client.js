@@ -1,7 +1,7 @@
 // frontend/supabase-client.js
 
 // Initialize Supabase client
-const supabase = window.supabase.createClient(
+const supabaseClient = window.supabase.createClient(
   SUPABASE_CONFIG.url,
   SUPABASE_CONFIG.anonKey
 );
@@ -9,7 +9,7 @@ const supabase = window.supabase.createClient(
 // Auth helpers
 const auth = {
   async signUp(email, password) {
-    const { data, error } = await supabase.auth.signUp({
+    const { data, error } = await supabaseClient.auth.signUp({
       email: email,
       password: password
     });
@@ -18,7 +18,7 @@ const auth = {
   },
 
   async signIn(email, password) {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
       email: email,
       password: password
     });
@@ -27,24 +27,24 @@ const auth = {
   },
 
   async signOut() {
-    const { error } = await supabase.auth.signOut();
+    const { error } = await supabaseClient.auth.signOut();
     if (error) throw new Error(`Failed to sign out: ${error.message}`);
   },
 
   async getSession() {
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await supabaseClient.auth.getSession();
     return session;
   },
 
   onAuthStateChange(callback) {
-    return supabase.auth.onAuthStateChange(callback);
+    return supabaseClient.auth.onAuthStateChange(callback);
   }
 };
 
 // Database helpers
 const db = {
   async getAllAlbums() {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('albums')
       .select('*')
       .order('artist', { ascending: true });
@@ -54,7 +54,7 @@ const db = {
   },
 
   async getMyRatings() {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('ratings')
       .select(`
         *,
@@ -70,7 +70,7 @@ const db = {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('daily_picks')
       .select(`
         *,
@@ -93,7 +93,7 @@ const db = {
       throw new Error('rating must be between 1 and 10');
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('ratings')
       .insert({
         album_id: albumId,
@@ -115,7 +115,7 @@ const db = {
       throw new Error('rating must be between 1 and 10');
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('ratings')
       .update({
         rating: rating,
