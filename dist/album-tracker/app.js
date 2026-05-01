@@ -131,6 +131,9 @@ function setupEventListeners() {
 
   // Submit rating
   document.getElementById('submit-rating-btn').addEventListener('click', submitRating);
+
+  // Request new album
+  document.getElementById('request-new-album-btn').addEventListener('click', requestNewAlbum);
 }
 
 // View management
@@ -208,10 +211,12 @@ function renderDashboard() {
 
 function renderTodaysAlbum() {
   const content = document.getElementById('todays-album-content');
+  const requestBtn = document.getElementById('request-new-album-btn');
   if (!content) return;
 
   if (!todaysPick) {
     content.innerHTML = '<p>No album picked yet. Check back tomorrow or rate albums from "My Albums".</p>';
+    if (requestBtn) requestBtn.classList.add('hidden');
     return;
   }
 
@@ -239,12 +244,18 @@ function renderTodaysAlbum() {
     badge.className = 'rated-badge';
     badge.textContent = '✓ Already rated';
     content.appendChild(badge);
+
+    // Show "Request New Album" button
+    if (requestBtn) requestBtn.classList.remove('hidden');
   } else {
     const btn = document.createElement('button');
     btn.className = 'btn-primary';
     btn.textContent = 'Rate This Album';
     btn.addEventListener('click', () => openRateModal(album.id));
     content.appendChild(btn);
+
+    // Hide "Request New Album" button
+    if (requestBtn) requestBtn.classList.add('hidden');
   }
 }
 
@@ -549,6 +560,57 @@ function renderLeastFavorites() {
 
     tbody.appendChild(tr);
   });
+}
+
+// Request new album
+async function requestNewAlbum() {
+  const btn = document.getElementById('request-new-album-btn');
+  if (!btn) return;
+
+  // Disable button and show loading state
+  btn.disabled = true;
+  const originalText = btn.textContent;
+  btn.textContent = 'Loading...';
+
+  try {
+    // Call the edge function
+    const session = await auth.getSession();
+    if (!session) {
+      throw new Error('Not authenticated');
+    }
+
+    const response = await fetch(`${SUPABASE_CONFIG.url}/functions/v1/request-new-album`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${session.access_token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to request new album');
+    }
+
+    const data = await response.json();
+
+    // Reload today's pick
+    todaysPick = await db.getTodaysPick();
+
+    // Re-render dashboard
+    renderDashboard();
+
+    // Show success message
+    alert(`New album picked: ${data.album.artist} - ${data.album.album}`);
+
+  } catch (error) {
+    console.error('Failed to request new album:', error);
+    alert(error.message || 'Failed to request new album. Please try again.');
+
+    // Re-enable button
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }
 }
 
 // Start app when DOM is ready

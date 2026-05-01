@@ -185,6 +185,16 @@ nav {
   margin-bottom: 15px;
 }
 
+#todays-album-card #request-new-album-btn {
+  margin-top: 15px;
+  width: 100%;
+}
+
+#todays-album-card #request-new-album-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /* Stats Grid */
 .stats-grid {
   display: grid;
