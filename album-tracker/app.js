@@ -1,5 +1,14 @@
 // frontend/app.js
 
+// Publication to CSS class mapping for source badges
+const PUBLICATION_CLASS_MAP = {
+  'NPR': 'source-badge-npr',
+  'Rolling Stone': 'source-badge-rolling-stone',
+  'Rolling Stone (Top 50)': 'source-badge-rolling-stone',
+  'Pitchfork': 'source-badge-pitchfork',
+  'Beehype': 'source-badge-beehype'
+};
+
 // State
 let currentUser = null;
 let allAlbums = [];
@@ -238,6 +247,12 @@ function renderTodaysAlbum() {
     content.appendChild(yearP);
   }
 
+  // Add source badges
+  const badges = renderSourceBadges(album.sources);
+  if (badges) {
+    content.appendChild(badges);
+  }
+
   // Add rating badge or button
   if (isRated) {
     const badge = document.createElement('p');
@@ -378,6 +393,38 @@ async function submitRating() {
     submitBtn.disabled = false;
     submitBtn.textContent = 'Submit Rating';
   }
+}
+
+function renderSourceBadges(sources) {
+  if (!sources || sources.length === 0) {
+    return null;
+  }
+
+  const container = document.createElement('div');
+  container.className = 'source-badges';
+
+  sources.forEach(source => {
+    const publicationClass = PUBLICATION_CLASS_MAP[source.publication] || 'source-badge-default';
+    const label = source.rank ? `${source.publication} #${source.rank}` : source.publication;
+
+    const badge = source.list_url
+      ? document.createElement('a')
+      : document.createElement('span');
+
+    badge.className = `source-badge ${publicationClass}`;
+
+    if (source.list_url) {
+      badge.href = source.list_url;
+      badge.target = '_blank';
+      badge.rel = 'noopener noreferrer';
+      badge.classList.add('source-badge-link');
+    }
+
+    badge.textContent = label;
+    container.appendChild(badge);
+  });
+
+  return container;
 }
 
 // Make openRateModal global for onclick handlers

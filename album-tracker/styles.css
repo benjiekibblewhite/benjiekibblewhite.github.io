@@ -413,3 +413,56 @@ textarea:focus-visible {
   color: #999;
   font-style: italic;
 }
+
+.rated-badge {
+  color: #388e3c;
+  font-weight: 500;
+}
+
+/* Source Badges */
+.source-badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.source-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.source-badge.source-badge-link:hover {
+  border-color: currentColor;
+}
+
+/* Publication-specific colors */
+.source-badge-npr {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.source-badge-rolling-stone {
+  background: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.source-badge-pitchfork {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+
+.source-badge-beehype {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.source-badge-default {
+  background: #f5f5f5;
+  color: #616161;
+}
