@@ -495,15 +495,17 @@ function renderRatedAlbums() {
   if (myRatings.length === 0) {
     const tr = document.createElement('tr');
     const td = document.createElement('td');
-    td.colSpan = 4;
+    td.colSpan = 5;
     td.textContent = 'No rated albums yet.';
     tr.appendChild(td);
     tbody.appendChild(tr);
     return;
   }
 
-  myRatings.forEach(rating => {
+  myRatings.forEach((rating, index) => {
     const tr = document.createElement('tr');
+    tr.className = 'rated-album-row';
+    tr.dataset.ratingId = index;
 
     const artistTd = document.createElement('td');
     artistTd.textContent = rating.album.artist;
@@ -521,8 +523,64 @@ function renderRatedAlbums() {
     dateTd.textContent = new Date(rating.rated_at).toLocaleDateString();
     tr.appendChild(dateTd);
 
+    const reviewIndicatorTd = document.createElement('td');
+    reviewIndicatorTd.className = 'review-indicator';
+    if (rating.review) {
+      const chevron = document.createElement('span');
+      chevron.className = 'chevron';
+      chevron.textContent = '▼';
+      reviewIndicatorTd.appendChild(chevron);
+      tr.classList.add('has-review');
+      tr.style.cursor = 'pointer';
+
+      tr.addEventListener('click', () => toggleReviewRow(index, rating.review));
+    } else {
+      reviewIndicatorTd.textContent = '-';
+    }
+    tr.appendChild(reviewIndicatorTd);
+
     tbody.appendChild(tr);
   });
+}
+
+function toggleReviewRow(ratingId, reviewText) {
+  const tbody = document.getElementById('rated-tbody');
+  if (!tbody) return;
+
+  const existingReviewRow = tbody.querySelector(`tr.review-row[data-rating-id="${ratingId}"]`);
+  const albumRow = tbody.querySelector(`tr.rated-album-row[data-rating-id="${ratingId}"]`);
+
+  if (existingReviewRow) {
+    // Close the review
+    existingReviewRow.remove();
+    if (albumRow) {
+      albumRow.classList.remove('expanded');
+    }
+  } else {
+    // Close any other open reviews
+    const allReviewRows = tbody.querySelectorAll('tr.review-row');
+    allReviewRows.forEach(row => row.remove());
+    tbody.querySelectorAll('tr.rated-album-row').forEach(row => {
+      row.classList.remove('expanded');
+    });
+
+    // Open this review
+    const reviewRow = document.createElement('tr');
+    reviewRow.className = 'review-row';
+    reviewRow.dataset.ratingId = ratingId;
+
+    const reviewTd = document.createElement('td');
+    reviewTd.colSpan = 5;
+    reviewTd.className = 'review-content';
+    reviewTd.textContent = reviewText;
+
+    reviewRow.appendChild(reviewTd);
+
+    if (albumRow) {
+      albumRow.classList.add('expanded');
+      albumRow.after(reviewRow);
+    }
+  }
 }
 
 function renderFavorites() {
