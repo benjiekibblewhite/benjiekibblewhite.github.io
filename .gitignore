@@ -34,3 +34,11 @@ yarn-error.log*
 tmp/
 temp/
 .cache/
+**/.temp/
+
+# Album tracker configuration (contains credentials)
+album-tracker/frontend/config.js
+album-tracker/.env
+album-tracker/albums.json
+album-tracker/venv/
+album-tracker/__pycache__/
