@@ -66,6 +66,18 @@ const db = {
     return data;
   },
 
+  async getOldestRating() {
+    const { data, error } = await supabaseClient
+      .from('ratings')
+      .select('rated_at')
+      .order('rated_at', { ascending: true })
+      .limit(1)
+      .single();
+
+    if (error && error.code !== 'PGRST116') throw new Error(`Failed to fetch oldest rating: ${error.message}`); // PGRST116 = no rows
+    return data;
+  },
+
   async getTodaysPick() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);

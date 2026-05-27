@@ -16,6 +16,7 @@ let myRatings = [];
 let todaysPick = null;
 let currentAlbumToRate = null;
 let selectedRating = null;
+let oldestRating = null;
 
 // Initialize app
 async function init() {
@@ -203,6 +204,7 @@ async function loadApp() {
     allAlbums = await db.getAllAlbums();
     myRatings = await db.getMyRatings();
     todaysPick = await db.getTodaysPick();
+    oldestRating = await db.getOldestRating();
 
     // Show dashboard
     showView('dashboard');
@@ -285,6 +287,29 @@ function renderStats() {
   document.getElementById('stat-rated').textContent = ratedCount;
   document.getElementById('stat-remaining').textContent = remaining;
   document.getElementById('stat-average').textContent = avgRating;
+
+  // Calculate and display completion estimate
+  const completionEl = document.getElementById('stat-completion');
+  if (ratedCount === 0 || !oldestRating) {
+    completionEl.textContent = '-';
+  } else if (remaining === 0) {
+    completionEl.textContent = 'Complete!';
+  } else {
+    const startDate = new Date(oldestRating.rated_at);
+    const now = new Date();
+    const daysElapsed = (now - startDate) / (1000 * 60 * 60 * 24);
+
+    if (daysElapsed > 0) {
+      const albumsPerDay = ratedCount / daysElapsed;
+      const daysToCompletion = remaining / albumsPerDay;
+      const completionDate = new Date(now.getTime() + daysToCompletion * 24 * 60 * 60 * 1000);
+
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      completionEl.textContent = completionDate.toLocaleDateString('en-US', options);
+    } else {
+      completionEl.textContent = '-';
+    }
+  }
 }
 
 // Modal functions
@@ -377,6 +402,7 @@ async function submitRating() {
 
     // Reload data
     myRatings = await db.getMyRatings();
+    oldestRating = await db.getOldestRating();
 
     // Close modal
     closeModal();

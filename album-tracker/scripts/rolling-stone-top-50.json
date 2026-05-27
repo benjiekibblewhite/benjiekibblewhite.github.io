@@ -1,0 +1,302 @@
+[
+  {
+    "rank": 1,
+    "artist": "Jay-Z",
+    "album": "The Blueprint",
+    "year": 2001
+  },
+  {
+    "rank": 2,
+    "artist": "OutKast",
+    "album": "Aquemini",
+    "year": 1998
+  },
+  {
+    "rank": 3,
+    "artist": "Bob Marley and the Wailers",
+    "album": "Exodus",
+    "year": 1977
+  },
+  {
+    "rank": 4,
+    "artist": "Ramones",
+    "album": "Ramones",
+    "year": 1976
+  },
+  {
+    "rank": 5,
+    "artist": "Paul Simon",
+    "album": "Graceland",
+    "year": 1986
+  },
+  {
+    "rank": 6,
+    "artist": "Prince",
+    "album": "Sign O' the Times",
+    "year": 1987
+  },
+  {
+    "rank": 7,
+    "artist": "Nas",
+    "album": "Illmatic",
+    "year": 1994
+  },
+  {
+    "rank": 8,
+    "artist": "A Tribe Called Quest",
+    "album": "The Low End Theory",
+    "year": 1991
+  },
+  {
+    "rank": 9,
+    "artist": "Radiohead",
+    "album": "OK Computer",
+    "year": 1997
+  },
+  {
+    "rank": 10,
+    "artist": "The Rolling Stones",
+    "album": "Let It Bleed",
+    "year": 1969
+  },
+  {
+    "rank": 11,
+    "artist": "David Bowie",
+    "album": "The Rise and Fall of Ziggy Stardust and the Spiders From Mars",
+    "year": 1972
+  },
+  {
+    "rank": 12,
+    "artist": "Talking Heads",
+    "album": "Remain in Light",
+    "year": 1980
+  },
+  {
+    "rank": 13,
+    "artist": "Bob Dylan",
+    "album": "Blonde on Blonde",
+    "year": 1966
+  },
+  {
+    "rank": 14,
+    "artist": "Dr. Dre",
+    "album": "The Chronic",
+    "year": 1992
+  },
+  {
+    "rank": 15,
+    "artist": "Michael Jackson",
+    "album": "Off the Wall",
+    "year": 1979
+  },
+  {
+    "rank": 16,
+    "artist": "The Beatles",
+    "album": "Rubber Soul",
+    "year": 1965
+  },
+  {
+    "rank": 17,
+    "artist": "Stevie Wonder",
+    "album": "Innervisions",
+    "year": 1973
+  },
+  {
+    "rank": 18,
+    "artist": "Amy Winehouse",
+    "album": "Back to Black",
+    "year": 2006
+  },
+  {
+    "rank": 19,
+    "artist": "Beyoncé",
+    "album": "Lemonade",
+    "year": 2016
+  },
+  {
+    "rank": 20,
+    "artist": "Miles Davis",
+    "album": "Kind of Blue",
+    "year": 1959
+  },
+  {
+    "rank": 21,
+    "artist": "Jimi Hendrix",
+    "album": "Are You Experienced",
+    "year": 1967
+  },
+  {
+    "rank": 22,
+    "artist": "The Beatles",
+    "album": "The Beatles",
+    "year": 1968
+  },
+  {
+    "rank": 23,
+    "artist": "D'Angelo",
+    "album": "Voodoo",
+    "year": 2000
+  },
+  {
+    "rank": 24,
+    "artist": "Wu-Tang Clan",
+    "album": "Enter the Wu-Tang (36 Chambers)",
+    "year": 1993
+  },
+  {
+    "rank": 25,
+    "artist": "Patti Smith",
+    "album": "Horses",
+    "year": 1975
+  },
+  {
+    "rank": 26,
+    "artist": "Carole King",
+    "album": "Tapestry",
+    "year": 1971
+  },
+  {
+    "rank": 27,
+    "artist": "The Beatles",
+    "album": "Sgt. Pepper's Lonely Hearts Club Band",
+    "year": 1967
+  },
+  {
+    "rank": 28,
+    "artist": "The Velvet Underground",
+    "album": "The Velvet Underground and Nico",
+    "year": 1967
+  },
+  {
+    "rank": 29,
+    "artist": "The Notorious B.I.G.",
+    "album": "Ready to Die",
+    "year": 1994
+  },
+  {
+    "rank": 30,
+    "artist": "Bruce Springsteen",
+    "album": "Born to Run",
+    "year": 1975
+  },
+  {
+    "rank": 31,
+    "artist": "Radiohead",
+    "album": "Kid A",
+    "year": 2000
+  },
+  {
+    "rank": 32,
+    "artist": "Kendrick Lamar",
+    "album": "To Pimp a Butterfly",
+    "year": 2015
+  },
+  {
+    "rank": 33,
+    "artist": "Bob Dylan",
+    "album": "Highway 61 Revisited",
+    "year": 1965
+  },
+  {
+    "rank": 34,
+    "artist": "Kanye West",
+    "album": "My Beautiful Dark Twisted Fantasy",
+    "year": 2010
+  },
+  {
+    "rank": 35,
+    "artist": "The Clash",
+    "album": "London Calling",
+    "year": 1979
+  },
+  {
+    "rank": 36,
+    "artist": "Public Enemy",
+    "album": "It Takes a Nation of Millions to Hold Us Back",
+    "year": 1988
+  },
+  {
+    "rank": 37,
+    "artist": "The Rolling Stones",
+    "album": "Exile on Main St.",
+    "year": 1972
+  },
+  {
+    "rank": 38,
+    "artist": "Aretha Franklin",
+    "album": "I Never Loved a Man the Way I Love You",
+    "year": 1967
+  },
+  {
+    "rank": 39,
+    "artist": "Michael Jackson",
+    "album": "Thriller",
+    "year": 1982
+  },
+  {
+    "rank": 40,
+    "artist": "The Beatles",
+    "album": "Revolver",
+    "year": 1966
+  },
+  {
+    "rank": 41,
+    "artist": "Lauryn Hill",
+    "album": "The Miseducation of Lauryn Hill",
+    "year": 1998
+  },
+  {
+    "rank": 42,
+    "artist": "Bob Dylan",
+    "album": "Blood on the Tracks",
+    "year": 1975
+  },
+  {
+    "rank": 43,
+    "artist": "Prince and the Revolution",
+    "album": "Purple Rain",
+    "year": 1984
+  },
+  {
+    "rank": 44,
+    "artist": "Fleetwood Mac",
+    "album": "Rumours",
+    "year": 1977
+  },
+  {
+    "rank": 45,
+    "artist": "Nirvana",
+    "album": "Nevermind",
+    "year": 1991
+  },
+  {
+    "rank": 46,
+    "artist": "The Beatles",
+    "album": "Abbey Road",
+    "year": 1969
+  },
+  {
+    "rank": 47,
+    "artist": "Stevie Wonder",
+    "album": "Songs in the Key of Life",
+    "year": 1976
+  },
+  {
+    "rank": 48,
+    "artist": "Joni Mitchell",
+    "album": "Blue",
+    "year": 1971
+  },
+  {
+    "rank": 49,
+    "artist": "The Beach Boys",
+    "album": "Pet Sounds",
+    "year": 1966
+  },
+  {
+    "rank": 50,
+    "artist": "Marvin Gaye",
+    "album": "What's Going On",
+    "year": 1971
+  }
+]

@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# Node.js
+node_modules/
+package-lock.json
+
+# Output
+albums.json
+
+# Frontend configuration (credentials)
+frontend/config.js
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

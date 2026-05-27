@@ -8,6 +8,7 @@ import {
   generateRSSFeed,
   createGalleryPages,
   createGalleryIndex,
+  buildAlbumTracker,
 } from "./builders/index.js";
 import { __dirname } from "./utils/index.js";
 
@@ -39,6 +40,7 @@ async function buildSite() {
     createGalleryIndex(galleries, header, sharedHead),
     copyStaticFiles(header, sharedHead),
     generateRSSFeed(posts),
+    buildAlbumTracker(),
   ]);
 }
 

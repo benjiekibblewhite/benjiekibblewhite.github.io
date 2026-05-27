@@ -217,6 +217,10 @@ nav {
   color: #4285f4;
 }
 
+.stat-value.estimate {
+  font-size: 20px;
+}
+
 .stat-label {
   color: #666;
   margin-top: 5px;

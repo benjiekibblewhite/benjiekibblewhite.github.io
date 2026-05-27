@@ -1,0 +1,48 @@
+<h2>Badges with clickable links - looks good?</h2>
+<p class="subtitle">When a source has a list_url, the badge becomes a clickable link. Notice the subtle styling difference.</p>
+
+<div class="mockup" style="max-width: 600px; margin: 2rem auto;">
+  <div class="mockup-body" style="padding: 1.5rem;">
+    <h3 style="margin: 0 0 0.5rem 0;">Carole King - Tapestry</h3>
+    <p style="margin: 0 0 0.75rem 0; color: #666;">Year: 1971</p>
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+      <a href="#" style="display: inline-block; padding: 0.25rem 0.5rem; background: #e3f2fd; color: #1976d2; border-radius: 4px; font-size: 0.85rem; text-decoration: none; border: 1px solid transparent; transition: border-color 0.2s;"
+         onmouseover="this.style.borderColor='#1976d2'"
+         onmouseout="this.style.borderColor='transparent'">
+        NPR #10
+      </a>
+      <a href="#" style="display: inline-block; padding: 0.25rem 0.5rem; background: #f3e5f5; color: #7b1fa2; border-radius: 4px; font-size: 0.85rem; text-decoration: none; border: 1px solid transparent; transition: border-color 0.2s;"
+         onmouseover="this.style.borderColor='#7b1fa2'"
+         onmouseout="this.style.borderColor='transparent'">
+        Rolling Stone #26
+      </a>
+    </div>
+    <button style="padding: 0.5rem 1rem; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">Rate This Album</button>
+  </div>
+</div>
+
+<div class="section" style="max-width: 600px; margin: 2rem auto;">
+  <h3>Behavior details:</h3>
+  <ul>
+    <li>Badges with a list_url will be clickable links (open in new tab)</li>
+    <li>Hover shows a subtle border to indicate it's clickable</li>
+    <li>Badges without a url remain as plain text (same styling, just not clickable)</li>
+    <li>Each publication gets a distinct color (NPR = blue, Rolling Stone = purple, etc.)</li>
+  </ul>
+</div>
+
+<div class="options">
+  <div class="option" data-choice="approved" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>Looks good, proceed with this design</h3>
+    </div>
+  </div>
+  <div class="option" data-choice="adjust" onclick="toggleSelect(this)">
+    <div class="letter">~</div>
+    <div class="content">
+      <h3>I'd like to adjust something</h3>
+      <p style="margin: 0.5rem 0 0 0; color: #666; font-size: 0.9rem;">Tell me in the terminal what you'd like changed</p>
+    </div>
+  </div>
+</div>

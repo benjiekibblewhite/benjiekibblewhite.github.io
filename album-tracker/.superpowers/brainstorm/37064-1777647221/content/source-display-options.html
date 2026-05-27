@@ -1,0 +1,154 @@
+<h2>How should we display album sources on the dashboard?</h2>
+<p class="subtitle">Albums come from publications like NPR, Rolling Stone, Pitchfork, etc. Each album can appear in multiple lists with different rankings.</p>
+
+<div class="options">
+  <div class="option" data-choice="badges" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Compact Badges</h3>
+      <div class="mockup" style="margin-top: 1rem;">
+        <div class="mockup-body" style="padding: 1.5rem;">
+          <h3 style="margin: 0 0 0.5rem 0;">Carole King - Tapestry</h3>
+          <p style="margin: 0 0 0.75rem 0; color: #666;">Year: 1971</p>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+            <span style="display: inline-block; padding: 0.25rem 0.5rem; background: #e3f2fd; color: #1976d2; border-radius: 4px; font-size: 0.85rem;">
+              NPR #10
+            </span>
+            <span style="display: inline-block; padding: 0.25rem 0.5rem; background: #f3e5f5; color: #7b1fa2; border-radius: 4px; font-size: 0.85rem;">
+              Rolling Stone #26
+            </span>
+          </div>
+          <button style="padding: 0.5rem 1rem; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">Rate This Album</button>
+        </div>
+      </div>
+      <div class="pros-cons" style="margin-top: 1rem;">
+        <div class="pros">
+          <h4>Pros</h4>
+          <ul>
+            <li>Compact, doesn't take much space</li>
+            <li>Shows key info (publication + rank)</li>
+            <li>Easy to scan multiple sources</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Cons</h4>
+          <ul>
+            <li>Limited detail (no blurbs or links)</li>
+            <li>Might need abbreviations for long publication names</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="list" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Detailed List</h3>
+      <div class="mockup" style="margin-top: 1rem;">
+        <div class="mockup-body" style="padding: 1.5rem;">
+          <h3 style="margin: 0 0 0.5rem 0;">Carole King - Tapestry</h3>
+          <p style="margin: 0 0 1rem 0; color: #666;">Year: 1971</p>
+          <div style="background: #f5f5f5; padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">
+            <div style="margin-bottom: 0.75rem;">
+              <div style="font-weight: 600; color: #1976d2;">NPR - Rank #10</div>
+              <div style="font-size: 0.9rem; color: #666;">From: "The 150 Greatest Albums Made By Women"</div>
+            </div>
+            <div>
+              <div style="font-weight: 600; color: #7b1fa2;">Rolling Stone - Rank #26</div>
+              <div style="font-size: 0.9rem; color: #666;">From: "2023 Best Albums of All Time"</div>
+            </div>
+          </div>
+          <button style="padding: 0.5rem 1rem; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">Rate This Album</button>
+        </div>
+      </div>
+      <div class="pros-cons" style="margin-top: 1rem;">
+        <div class="pros">
+          <h4>Pros</h4>
+          <ul>
+            <li>Shows full publication names</li>
+            <li>Includes list titles for context</li>
+            <li>Room for blurbs if needed</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Cons</h4>
+          <ul>
+            <li>Takes more vertical space</li>
+            <li>Can feel verbose for albums with many sources</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="expandable" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Expandable Summary</h3>
+      <div class="mockup" style="margin-top: 1rem;">
+        <div class="mockup-body" style="padding: 1.5rem;">
+          <h3 style="margin: 0 0 0.5rem 0;">Carole King - Tapestry</h3>
+          <p style="margin: 0 0 0.75rem 0; color: #666;">Year: 1971</p>
+          <div style="margin-bottom: 1rem;">
+            <button style="padding: 0.4rem 0.75rem; background: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; font-size: 0.9rem;">
+              📚 Featured in 2 lists (NPR, Rolling Stone) ▼
+            </button>
+          </div>
+          <button style="padding: 0.5rem 1rem; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">Rate This Album</button>
+        </div>
+      </div>
+      <div class="pros-cons" style="margin-top: 1rem;">
+        <div class="pros">
+          <h4>Pros</h4>
+          <ul>
+            <li>Most compact default view</li>
+            <li>User can see details on demand</li>
+            <li>Scales well for many sources</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Cons</h4>
+          <ul>
+            <li>Requires interaction to see details</li>
+            <li>More complex to implement</li>
+            <li>User might miss source info if not expanded</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="minimal" onclick="toggleSelect(this)">
+    <div class="letter">D</div>
+    <div class="content">
+      <h3>Minimal Count</h3>
+      <div class="mockup" style="margin-top: 1rem;">
+        <div class="mockup-body" style="padding: 1.5rem;">
+          <h3 style="margin: 0 0 0.5rem 0;">Carole King - Tapestry</h3>
+          <p style="margin: 0 0 0.5rem 0; color: #666;">Year: 1971</p>
+          <p style="margin: 0 0 1rem 0; color: #888; font-size: 0.9rem;">Featured in 2 lists</p>
+          <button style="padding: 0.5rem 1rem; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">Rate This Album</button>
+        </div>
+      </div>
+      <div class="pros-cons" style="margin-top: 1rem;">
+        <div class="pros">
+          <h4>Pros</h4>
+          <ul>
+            <li>Simplest, cleanest look</li>
+            <li>Gives sense of importance (more lists = more notable)</li>
+            <li>No visual clutter</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Cons</h4>
+          <ul>
+            <li>No way to see which publications</li>
+            <li>No ranking information</li>
+            <li>Least informative option</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

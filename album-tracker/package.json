@@ -1,0 +1,19 @@
+{
+  "name": "albums",
+  "version": "1.0.0",
+  "description": "Scrapes album data from multiple music publication \"best of\" lists and outputs a deduplicated JSON file.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.105.0"
+  }
+}
