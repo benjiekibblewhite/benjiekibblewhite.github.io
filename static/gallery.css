@@ -71,7 +71,7 @@
   }
 
   .photo-item:focus-visible {
-    outline: 3px solid #58aceb;
+    outline: 3px solid #1f6fbd;
     outline-offset: 2px;
   }
   
@@ -208,7 +208,7 @@
   }
   
   .modal-original-link {
-    color: #58aceb;
+    color: #1f6fbd;
     text-decoration: none;
     margin-top: 0.5rem;
     display: inline-block;
