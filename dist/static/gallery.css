@@ -59,6 +59,20 @@
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     transition: transform 0.2s ease;
+    /* Reset button defaults so it looks like the old div */
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+  }
+
+  .photo-item:focus-visible {
+    outline: 3px solid #58aceb;
+    outline-offset: 2px;
   }
   
   .photo-item:hover {
@@ -86,7 +100,8 @@
     transition: opacity 0.2s ease;
   }
   
-  .photo-item:hover .filename {
+  .photo-item:hover .filename,
+  .photo-item:focus-visible .filename {
     opacity: 1;
   }
   
