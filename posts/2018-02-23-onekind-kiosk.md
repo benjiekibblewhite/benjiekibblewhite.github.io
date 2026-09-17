@@ -31,4 +31,4 @@ The kiosk itself was really interactive - a user placed their finger on a button
 
 I was responsible for building out the front-end, based on the designer's Sketch file, using Vue.js (which I had to learn in just two days). We worked at break-neck speed, went through a full redesign halfway through the week, and still delivered a fully functioning, bug-free kiosk that was a massive success at our presentation with a group of grocery store executives. It was an awesome experience, and I loved getting a chance to see what being a full-time developer would be like. 
 
-<iframe width="300px" height="550px" style="margin: 0 auto" src="https://www.youtube.com/embed/uf5zYyUKawA" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<iframe title="Video demo of the OneKind kiosk app" width="300px" height="550px" style="margin: 0 auto" src="https://www.youtube.com/embed/uf5zYyUKawA" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
