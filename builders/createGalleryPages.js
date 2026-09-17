@@ -122,7 +122,7 @@ function generateGalleryHTML({
       .map(
         (photo, index) => `
       <button type="button" class="photo-item" aria-label="View photo: ${photo.title}" onclick="openModal(${index})">
-        <img src="${photo.optimizedPath}" alt="${photo.title}" loading="lazy">
+        <img src="${photo.optimizedPath}" alt="" loading="lazy">
         <span class="filename">${photo.title}</span>
       </button>
     `

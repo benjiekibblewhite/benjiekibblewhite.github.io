@@ -44,7 +44,7 @@ export async function createGalleryIndex(galleries, header, sharedHead) {
                 ${gallery.photos
                   .map((photo, index) =>
                     index <= 6
-                      ? `<div class="gallery-preview_image"><img src="${photo.optimizedPath}" /></div>`
+                      ? `<div class="gallery-preview_image"><img src="${photo.optimizedPath}" alt="" /></div>`
                       : ""
                   )
                   .join("")}
