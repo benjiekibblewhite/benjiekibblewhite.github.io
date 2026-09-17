@@ -3,13 +3,13 @@
 }
 
 :root {
-  --primary-color: #58aceb;
+  --primary-color: #1f6fbd;
   --background-color: #fbf9f9;
   --text-color: #4c5461;
   --secondary-text: #a0a0a0;
   --border-color: #ccc;
   --card-background: #1e1e1e;
-  --hover-color: #58aceb50;
+  --hover-color: #1f6fbd50;
   --link-hover-color: #20a0b2;
 }
 
@@ -47,6 +47,19 @@ a {
   transition: color 0.2s ease;
   text-decoration: none;
   position: relative;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 a:hover,
@@ -183,6 +196,12 @@ main.blog-page {
   border-radius: 16px;
   box-shadow: 0px 0px 10px 0px rgba(15, 15, 15, 0.1);
   overflow: hidden;
+}
+
+.menu-container main {
+  padding: 0;
+  margin: 0;
+  max-width: none;
 }
 
 .menu-container a {
