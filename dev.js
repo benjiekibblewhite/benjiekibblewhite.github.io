@@ -56,7 +56,18 @@ app.use(express.static(DIST_DIR));
 
 // Watch for changes in the source files
 const watcher = chokidar.watch(
-  ["posts", "pages", "ui", "static", "build.js", "builders", "utils"],
+  [
+    "posts",
+    "pages",
+    "ui",
+    "static",
+    "build.js",
+    "builders",
+    "utils",
+    "photos",
+    "unbuilt-pages",
+    "album-tracker/frontend",
+  ],
   {
     ignored: /(^|[\/\\])\../, // Ignore dotfiles
     persistent: true,
