@@ -40,7 +40,9 @@ export async function generateRSSFeed(posts) {
     const excerpt = post.preview.replace(/<[^>]*>?/gm, "");
 
     // Format the post date according to RFC 822
-    const postDate = new Date(post.date).toUTCString();
+    // Use fileDate (YYYY-MM-DD from filename) — front-matter dates like
+    // "2025-05-06 10:24am" are not parseable by new Date()
+    const postDate = new Date(post.fileDate).toUTCString();
 
     // Add the item to RSS feed
     rssContent += `  <item>
