@@ -53,7 +53,7 @@ export async function createPostIndexPages(posts, header, sharedHead) {
     // Replace placeholder head with dynamic title
     const headContent = sharedHead.replace(
       "<head>",
-      `<head>\n  <title>My Blog${page > 1 ? ` - Page ${page}` : ""}</title>`
+      `<head>\n  <title>Posts${page > 1 ? ` - Page ${page}` : ""}</title>`
     );
 
     const indexContent = `<!DOCTYPE html>
@@ -62,6 +62,7 @@ export async function createPostIndexPages(posts, header, sharedHead) {
     <body>
       ${header}
       <main class='blog-page'>
+        <h1>Posts</h1>
         ${pagePosts
           .map((post) => {
             const postId = post.title.replace(/[^A-Z0-9]/gi, "");
