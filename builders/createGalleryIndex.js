@@ -40,11 +40,11 @@ export async function createGalleryIndex(galleries, header, sharedHead) {
             ${
               gallery.photos.length > 0
                 ? `
-              <div class="gallery-preview_images">
+              <div class="gallery-preview_images" aria-hidden="true">
                 ${gallery.photos
                   .map((photo, index) =>
                     index <= 6
-                      ? `<div class="gallery-preview_image"><img src="${photo.optimizedPath}" alt="" /></div>`
+                      ? `<div class="gallery-preview_image"><img src="${photo.optimizedPath}" alt="" loading="lazy" /></div>`
                       : ""
                   )
                   .join("")}
