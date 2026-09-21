@@ -1,5 +1,7 @@
-@view-transition {
-  navigation: auto;
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
 }
 
 :root {
@@ -100,6 +102,22 @@ a {
   border: 0;
 }
 
+.skip-link {
+  position: absolute;
+  top: -48px;
+  left: 16px;
+  z-index: 1001;
+  padding: 12px 16px;
+  background: var(--color-link);
+  color: var(--color-text-on-dark);
+  border-radius: 0 0 8px 8px;
+  transition: top 0.15s ease;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
 a:hover,
 a:focus {
   color: var(--color-link-hover);
@@ -152,7 +170,8 @@ header {
   align-items: center;
   justify-content: center;
   transition: color 0.2s ease;
-  margin-top: 10px;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .menu-button {
@@ -365,6 +384,9 @@ main.blog-page {
   color: var(--color-link);
   font-size: 52px;
   cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 12px;
   padding: 0;
   line-height: 1;
   z-index: 100;
@@ -493,6 +515,7 @@ img {
   font-weight: 500;
   transition: color 0.2s ease;
   padding: 8px;
+  min-height: 44px;
   &:hover {
     outline: 3px solid var(--color-focus-ring);
   }

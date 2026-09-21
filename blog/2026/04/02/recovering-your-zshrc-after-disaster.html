@@ -25,28 +25,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <!-- Preload critical images (logo and background) -->
-  <link
-    rel="preload"
-    as="image"
-    href="/static/optimized/logo.webp"
-    type="image/webp"
-  />
-  <link
-    rel="preload"
-    as="image"
-    href="/static/optimized/logo.png"
-    imagesrcset="/static/optimized/logo.png"
-    imagesizes="100vw"
-  />
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="preload"
-    media="print"
-    onload="this.media='all'"
-  />
-  <!-- Optimize font loading with display=swap -->
+  <!-- Fonts: async load via print-media swap, display=swap, noscript fallback -->
   <link
     href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet"
@@ -100,7 +79,7 @@
   <noscript><link rel="stylesheet" href="/static/styles.css" /></noscript>
 
   <!-- Favicon -->
-  <link rel="icon" href="/static/optimized/logo.png" />
+  <link rel="icon" href="/static/logo.webp" />
 
   <!-- RSS Feed discovery -->
   <link
@@ -123,7 +102,8 @@
 </head>
 
               <body>
-                <header role="banner">
+                <a href="#main-content" class="skip-link">Skip to content</a>
+<header role="banner">
   <a href="/" aria-label="Go to homepage">
     <img
       src="/static/logo.webp"
@@ -175,8 +155,8 @@
   </div>
 </header>
 
-                 <main class='blog-page'>
-                  <h1 class='post-title' id="AIWipedOutMyzshrcFileHeresHowIGotItBack" style='view-transition-name: post-AIWipedOutMyzshrcFileHeresHowIGotItBack'>AI Wiped Out My .zshrc File. Here's How I Got It Back.</h1>
+                 <main class='blog-page' id="main-content">
+                  <h1 class='post-title' id="2026-04-02-AIWipedOutMyzshrcFileHeresHowIGotItBack" style='view-transition-name: post-2026-04-02-AIWipedOutMyzshrcFileHeresHowIGotItBack'>AI Wiped Out My .zshrc File. Here's How I Got It Back.</h1>
                   <p class="post-meta">April 2, 2026 · by Benjie Kibblewhite</p>
                   <div><p>Like everyone else under the sun, I&#8217;ve been leaning much more heavily into agentic coding these days. Also like everyone else, I have been seeing all of the stories of people&#8217;s agents wiping important files, or making other horrible mistakes. It finally happened to me! Claude wiped out my .zshrc file while I was trying to get it to troubleshoot an issue I was having with a global environment variable. This wasn&#8217;t catastrophic, but it was annoying. I had a lot of variables and aliases set up.</p>
 <p>Luckily, I had open terminal windows that still had the shell config file loaded. </p>

@@ -25,28 +25,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <!-- Preload critical images (logo and background) -->
-  <link
-    rel="preload"
-    as="image"
-    href="/static/optimized/logo.webp"
-    type="image/webp"
-  />
-  <link
-    rel="preload"
-    as="image"
-    href="/static/optimized/logo.png"
-    imagesrcset="/static/optimized/logo.png"
-    imagesizes="100vw"
-  />
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="preload"
-    media="print"
-    onload="this.media='all'"
-  />
-  <!-- Optimize font loading with display=swap -->
+  <!-- Fonts: async load via print-media swap, display=swap, noscript fallback -->
   <link
     href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet"
@@ -100,7 +79,7 @@
   <noscript><link rel="stylesheet" href="/static/styles.css" /></noscript>
 
   <!-- Favicon -->
-  <link rel="icon" href="/static/optimized/logo.png" />
+  <link rel="icon" href="/static/logo.webp" />
 
   <!-- RSS Feed discovery -->
   <link
@@ -123,7 +102,8 @@
 </head>
 
               <body>
-                <header role="banner">
+                <a href="#main-content" class="skip-link">Skip to content</a>
+<header role="banner">
   <a href="/" aria-label="Go to homepage">
     <img
       src="/static/logo.webp"
@@ -175,8 +155,8 @@
   </div>
 </header>
 
-                 <main class='blog-page'>
-                  <h1 class='post-title' id="Findingthecentreofawebpage" style='view-transition-name: post-Findingthecentreofawebpage'>Finding the centre of a web page</h1>
+                 <main class='blog-page' id="main-content">
+                  <h1 class='post-title' id="2025-03-11-Findingthecentreofawebpage" style='view-transition-name: post-2025-03-11-Findingthecentreofawebpage'>Finding the centre of a web page</h1>
                   <p class="post-meta">March 11, 2025 · by Benjie Kibblewhite</p>
                   <div><p>I wanted to quickly find the centre of a page so I could visually confirm for myself that an element was placed smack dab in the middle. Maybe there&#8217;s better ways to do this, but pasting this little snippet in your browser&#8217;s console does the trick just fine.</p>
 <pre tabindex="0"><code>{% raw %}

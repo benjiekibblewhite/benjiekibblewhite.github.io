@@ -25,28 +25,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <!-- Preload critical images (logo and background) -->
-  <link
-    rel="preload"
-    as="image"
-    href="/static/optimized/logo.webp"
-    type="image/webp"
-  />
-  <link
-    rel="preload"
-    as="image"
-    href="/static/optimized/logo.png"
-    imagesrcset="/static/optimized/logo.png"
-    imagesizes="100vw"
-  />
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="preload"
-    media="print"
-    onload="this.media='all'"
-  />
-  <!-- Optimize font loading with display=swap -->
+  <!-- Fonts: async load via print-media swap, display=swap, noscript fallback -->
   <link
     href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet"
@@ -100,7 +79,7 @@
   <noscript><link rel="stylesheet" href="/static/styles.css" /></noscript>
 
   <!-- Favicon -->
-  <link rel="icon" href="/static/optimized/logo.png" />
+  <link rel="icon" href="/static/logo.webp" />
 
   <!-- RSS Feed discovery -->
   <link
@@ -123,7 +102,8 @@
 </head>
 
               <body>
-                <header role="banner">
+                <a href="#main-content" class="skip-link">Skip to content</a>
+<header role="banner">
   <a href="/" aria-label="Go to homepage">
     <img
       src="/static/logo.webp"
@@ -175,8 +155,8 @@
   </div>
 </header>
 
-                 <main class='blog-page'>
-                  <h1 class='post-title' id="ICInsider" style='view-transition-name: post-ICInsider'>IC/ Insider</h1>
+                 <main class='blog-page' id="main-content">
+                  <h1 class='post-title' id="2018-02-23-ICInsider" style='view-transition-name: post-2018-02-23-ICInsider'>IC/ Insider</h1>
                   <p class="post-meta">February 23, 2018 · by Benjie Kibblewhite</p>
                   <div><p><img src="/images/insider/menu.jpg" title="Screenshot of the landing page for IC/ Insider, showing the open menu on the left" alt="Alt" loading="lazy" decoding="async" /></p>
 <p>We needed a simple internal communication tool for our Toronto office. Our onboarding process was inconsistent across departments, and vital information needed by all employees, new and old, was scattered across multiple information sources. IC/ Insider was our solution to gather all that information into one place - making onboarding easier, and reducing us to a single source of truth for office policies and resources. </p>

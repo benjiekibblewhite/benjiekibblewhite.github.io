@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-          <html lang="en">
-            <head>
-  <title>Menu</title>
+  <html lang="en">
+    <head>
+  <title>Page not found — Benjie K.</title>
   <!-- Google tag (gtag.js) -->
   <script
     async
@@ -101,23 +101,73 @@
   </script>
 </head>
 
-            <body class="menu-page">
-              
-                  <button class="menu-close-button" onclick="if (history.length > 1) { history.back(); } else { location.href = '/'; }" aria-label="Close menu">
-    ×
-  </button>
-
-  <div class="menu-container">
-    <main>
-      <h1 class="visually-hidden">Menu</h1>
-      <nav aria-label="Main navigation">
-        <a href="/" aria-label="Home">Home</a>
-        <a href="/photos/index.html">Photos</a>
-        <a href="/blog/index.html">Blog</a>
-        <!-- <a href="/work.html">Work</a> -->
-      </nav>
-    </main>
+    <body>
+      <a href="#main-content" class="skip-link">Skip to content</a>
+<header role="banner">
+  <a href="/" aria-label="Go to homepage">
+    <img
+      src="/static/logo.webp"
+      alt="Blog Logo"
+      class="header-logo"
+      width="150px"
+    />
+  </a>
+  <div class="header-right">
+    <a
+      href="/rss.xml"
+      class="rss-link header-link"
+      title="Subscribe to RSS feed"
+      aria-label="RSS Feed"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="header-icon"
+        aria-hidden="true"
+        role="img"
+      >
+        <path d="M4 11a9 9 0 0 1 9 9"></path>
+        <path d="M4 4a16 16 0 0 1 16 16"></path>
+        <circle cx="5" cy="19" r="1"></circle>
+      </svg>
+    </a>
+    <a href="/menu.html" class="header-link" aria-label="Open menu"
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="24px"
+        fill="currentColor"
+        class="header-icon"
+        aria-hidden="true"
+      >
+        <path
+          d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
+        /></svg
+    ></a>
   </div>
+</header>
 
-            </body>
-          </html>
+      <main id="main-content">
+        <section class="bio-section">
+  <h1>404</h1>
+  <p>This page doesn't exist. Either I broke a link or you typed something
+  optimistic into the address bar.</p>
+  <p>Where to from here:</p>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/blog/">Posts</a></li>
+    <li><a href="/photos/">Photos</a></li>
+  </ul>
+</section>
+
+      </main>
+    </body>
+  </html>

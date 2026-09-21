@@ -25,28 +25,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <!-- Preload critical images (logo and background) -->
-  <link
-    rel="preload"
-    as="image"
-    href="/static/optimized/logo.webp"
-    type="image/webp"
-  />
-  <link
-    rel="preload"
-    as="image"
-    href="/static/optimized/logo.png"
-    imagesrcset="/static/optimized/logo.png"
-    imagesizes="100vw"
-  />
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="preload"
-    media="print"
-    onload="this.media='all'"
-  />
-  <!-- Optimize font loading with display=swap -->
+  <!-- Fonts: async load via print-media swap, display=swap, noscript fallback -->
   <link
     href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet"
@@ -100,7 +79,7 @@
   <noscript><link rel="stylesheet" href="/static/styles.css" /></noscript>
 
   <!-- Favicon -->
-  <link rel="icon" href="/static/optimized/logo.png" />
+  <link rel="icon" href="/static/logo.webp" />
 
   <!-- RSS Feed discovery -->
   <link
@@ -123,7 +102,8 @@
 </head>
 
               <body>
-                <header role="banner">
+                <a href="#main-content" class="skip-link">Skip to content</a>
+<header role="banner">
   <a href="/" aria-label="Go to homepage">
     <img
       src="/static/logo.webp"
@@ -175,8 +155,8 @@
   </div>
 </header>
 
-                 <main class='blog-page'>
-                  <h1 class='post-title' id="AccessibleInlineLinksinReactNative" style='view-transition-name: post-AccessibleInlineLinksinReactNative'>Accessible Inline Links in React Native</h1>
+                 <main class='blog-page' id="main-content">
+                  <h1 class='post-title' id="2021-09-21-AccessibleInlineLinksinReactNative" style='view-transition-name: post-2021-09-21-AccessibleInlineLinksinReactNative'>Accessible Inline Links in React Native</h1>
                   <p class="post-meta">September 21, 2021 · by Benjie Kibblewhite</p>
                   <div><p>This isn&#8217;t an entirely unique solution, but it was an interesting accessibility problem that speaks to how React Native actually handles text, and so I thought it was worth writing up anyway.</p>
 <p>Consider a case where you have a block of text with an inline link. <a href="https://catoftheday.com/" target="_blank" rel="noopener noreferrer">Like so</a>. On the web, this is pretty trivial:</p>

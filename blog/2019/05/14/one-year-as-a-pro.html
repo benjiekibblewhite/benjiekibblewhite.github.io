@@ -25,28 +25,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <!-- Preload critical images (logo and background) -->
-  <link
-    rel="preload"
-    as="image"
-    href="/static/optimized/logo.webp"
-    type="image/webp"
-  />
-  <link
-    rel="preload"
-    as="image"
-    href="/static/optimized/logo.png"
-    imagesrcset="/static/optimized/logo.png"
-    imagesizes="100vw"
-  />
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="preload"
-    media="print"
-    onload="this.media='all'"
-  />
-  <!-- Optimize font loading with display=swap -->
+  <!-- Fonts: async load via print-media swap, display=swap, noscript fallback -->
   <link
     href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet"
@@ -100,7 +79,7 @@
   <noscript><link rel="stylesheet" href="/static/styles.css" /></noscript>
 
   <!-- Favicon -->
-  <link rel="icon" href="/static/optimized/logo.png" />
+  <link rel="icon" href="/static/logo.webp" />
 
   <!-- RSS Feed discovery -->
   <link
@@ -123,7 +102,8 @@
 </head>
 
               <body>
-                <header role="banner">
+                <a href="#main-content" class="skip-link">Skip to content</a>
+<header role="banner">
   <a href="/" aria-label="Go to homepage">
     <img
       src="/static/logo.webp"
@@ -175,8 +155,8 @@
   </div>
 </header>
 
-                 <main class='blog-page'>
-                  <h1 class='post-title' id="OneYearAsAProLessonsFromaSelfTaughtDeveloper" style='view-transition-name: post-OneYearAsAProLessonsFromaSelfTaughtDeveloper'>One Year As A Pro: Lessons From a Self-Taught Developer</h1>
+                 <main class='blog-page' id="main-content">
+                  <h1 class='post-title' id="2019-05-14-OneYearAsAProLessonsFromaSelfTaughtDeveloper" style='view-transition-name: post-2019-05-14-OneYearAsAProLessonsFromaSelfTaughtDeveloper'>One Year As A Pro: Lessons From a Self-Taught Developer</h1>
                   <p class="post-meta">May 14, 2019 · by Benjie Kibblewhite</p>
                   <div><p>Today is the one-year anniversary of my first day as a professional developer. I&#8217;m self-taught, which doesn&#8217;t actually mean I&#8217;m self-taught. It means I didn&#8217;t go to school, or a bootcamp. I used free and paid online tutorials* to learn how to make websites and apps, and it changed my life.</p>
 <p>I&#8217;ve learned a lot in the last year, and I thought it might be useful to share a few key things. These are things that I&#8217;d love to go back and tell myself before I started working, when I was &#8216;still learning&#8217;. (Pro-tip: That never, ever stops.) I hope someone else on this journey will find these lessons useful, or encouraging.</p>
