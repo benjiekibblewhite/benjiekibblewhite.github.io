@@ -16,7 +16,9 @@ const OUTPUT_DIR = STATIC_DIR;
 // Create temporary directory for processing
 const TEMP_DIR = path.join(__dirname, "temp_img_process");
 
-export function optimizeImages() {}
+// WARNING: this script OVERWRITES the original images in static/ with their
+// downscaled versions (max 1200px wide). Gallery originals in photos/ are only
+// read, never modified. Run with intent.
 if (!fs.existsSync(TEMP_DIR)) {
   fs.mkdirSync(TEMP_DIR, { recursive: true });
 }
@@ -138,8 +140,8 @@ async function processGalleryPhotos() {
 // Process gallery photos first
 await processGalleryPhotos();
 
-// Process each image
-imageFiles.forEach(async (file) => {
+// Process each image (sequential awaits — no fire-and-forget forEach)
+for (const file of imageFiles) {
   const inputPath = path.join(STATIC_DIR, file);
   const fileBaseName = path.basename(file, path.extname(file));
   const tempWebPPath = path.join(TEMP_DIR, `${fileBaseName}.webp`);
@@ -213,14 +215,14 @@ imageFiles.forEach(async (file) => {
   } catch (error) {
     console.error(`❌ Error processing ${file}:`, error);
   }
-});
+}
 
 // Also handle any WebP files that already exist but might need resizing
 const webpFiles = fs.readdirSync(STATIC_DIR).filter((file) => {
   return path.extname(file).toLowerCase() === ".webp" && !file.startsWith(".");
 });
 
-webpFiles.forEach(async (file) => {
+for (const file of webpFiles) {
   const inputPath = path.join(STATIC_DIR, file);
   const tempPath = path.join(TEMP_DIR, file);
   const stats = fs.statSync(inputPath);
@@ -269,19 +271,17 @@ webpFiles.forEach(async (file) => {
   } catch (error) {
     console.error(`❌ Error processing ${file}:`, error);
   }
-});
+}
 
-// Clean up temporary directory after processing
-setTimeout(() => {
-  if (fs.existsSync(TEMP_DIR)) {
-    try {
-      fs.rmSync(TEMP_DIR, { recursive: true, force: true });
-      console.log("Temporary processing directory cleaned up.");
-    } catch (error) {
-      console.error("Error cleaning up temporary directory:", error);
-    }
+// Clean up temporary directory (everything above is awaited, so this is safe)
+if (fs.existsSync(TEMP_DIR)) {
+  try {
+    fs.rmSync(TEMP_DIR, { recursive: true, force: true });
+    console.log("Temporary processing directory cleaned up.");
+  } catch (error) {
+    console.error("Error cleaning up temporary directory:", error);
   }
-}, 10000); // Give a 10-second delay to ensure all async operations complete
+}
 
 console.log(
   "Image optimization complete! Original images have been replaced with optimized versions."
