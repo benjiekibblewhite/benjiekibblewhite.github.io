@@ -8,6 +8,7 @@ import {
   generateRSSFeed,
   createGalleryPages,
   createGalleryIndex,
+  createHomePage,
   buildAlbumTracker,
 } from "./builders/index.js";
 import { __dirname } from "./utils/index.js";
@@ -38,6 +39,7 @@ async function buildSite() {
   await Promise.all([
     createPostIndexPages(posts, header, sharedHead),
     createGalleryIndex(galleries, header, sharedHead),
+    createHomePage(posts, galleries, header, sharedHead),
     copyStaticFiles(header, sharedHead),
     generateRSSFeed(posts),
     buildAlbumTracker(),

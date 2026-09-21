@@ -21,6 +21,9 @@ export async function copyStaticFiles(header, sharedHead) {
           overwrite: true,
         });
       } else {
+        // index.html is built by createHomePage (needs posts/galleries data)
+        if (file === "index.html") continue;
+
         // For HTML files, apply template
         if (file.endsWith(".html")) {
           const content = await fs.readFile(filePath, "utf-8");
