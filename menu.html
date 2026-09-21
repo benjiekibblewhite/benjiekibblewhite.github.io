@@ -78,6 +78,8 @@
       font-family: "Lora", Georgia, serif;
     }
     a {
+      /* literal mirrors --color-link in styles.css: this critical block runs
+         before the stylesheet loads, so the token isn't available yet */
       color: #1f6fbd;
     }
     /* Add image sizing for better CLS performance */
@@ -123,7 +125,7 @@
             <body>
               
                 <body class="menu-page">
-  <button class="menu-close-button" onclick="history.back()" aria-label="Close menu">
+  <button class="menu-close-button" onclick="if (history.length > 1) { history.back(); } else { location.href = '/'; }" aria-label="Close menu">
     ×
   </button>
 

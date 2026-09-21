@@ -78,6 +78,8 @@
       font-family: "Lora", Georgia, serif;
     }
     a {
+      /* literal mirrors --color-link in styles.css: this critical block runs
+         before the stylesheet loads, so the token isn't available yet */
       color: #1f6fbd;
     }
     /* Add image sizing for better CLS performance */
@@ -180,7 +182,7 @@
     <div class="gallery-container">
         <div class="gallery-info">
           <h1>Snow Day</h1>
-          <div class="date">Sat Feb 15 2025</div>
+          <div class="date">February 16, 2025</div>
           <div class="gallery-tags">
             <span>snow</span><span>winter</span><span>city</span>
           </div>
@@ -217,20 +219,22 @@
     </main>
     
     <!-- Modal -->
-    <div id="photoModal" class="modal">
+    <div id="photoModal" class="modal" role="dialog" aria-modal="true" aria-label="Photo viewer">
       <div class="modal-content">
-        <button aria-label="Close gallery window" class="modal-close" onclick="closeModal()"><svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></button>
+        <button aria-label="Close photo viewer" class="modal-close" onclick="closeModal()"><svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></button>
         <button aria-label="View previous image" class="modal-controls modal-prev" onclick="previousPhoto()"><svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#e3e3e3"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg></button>
         <img id="modalImage" src="" alt="">
         <button aria-label="View next image" class="modal-controls modal-next" onclick="nextPhoto()"><svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#e3e3e3"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg></button>
-        <div class="modal-info">
+        <div class="modal-info" aria-live="polite">
           <div class="modal-filename" id="modalFilename"></div>
+          <div class="modal-counter" id="modalCounter"></div>
         </div>
       </div>
     </div>
     
     <script>
       let currentPhotoIndex = 0;
+      let previouslyFocusedElement = null;
       const photos = [{"filename":"bush.jpg","title":"bush","imageId":"bush_0","originalPath":"/photos/2025-02-16-snow-day/bush.jpg","optimizedPath":"/static/optimized/2025-02-16-snow-day/bush.webp"},{"filename":"cone.jpg","title":"cone","imageId":"cone_1","originalPath":"/photos/2025-02-16-snow-day/cone.jpg","optimizedPath":"/static/optimized/2025-02-16-snow-day/cone.webp"},{"filename":"street.jpg","title":"street","imageId":"street_2","originalPath":"/photos/2025-02-16-snow-day/street.jpg","optimizedPath":"/static/optimized/2025-02-16-snow-day/street.webp"},{"filename":"thistle.jpg","title":"thistle","imageId":"thistle_3","originalPath":"/photos/2025-02-16-snow-day/thistle.jpg","optimizedPath":"/static/optimized/2025-02-16-snow-day/thistle.webp"}];
       
    
@@ -253,21 +257,43 @@
       
       function openModal(index) {
         currentPhotoIndex = index;
+        previouslyFocusedElement = document.activeElement;
         updateModal();
         document.getElementById('photoModal').classList.add('active');
         document.body.style.overflow = 'hidden';
-        
+
+        // Make the page behind the dialog inert
+        const header = document.querySelector('header');
+        const main = document.querySelector('main');
+        if (header) header.inert = true;
+        if (main) main.inert = true;
+
+        // Move focus into the dialog
+        document.querySelector('.modal-close').focus();
+
         // Set query parameter
         const imageId = photos[index].imageId
         const url = new URL(window.location);
         url.searchParams.set('openImage', imageId);
         window.history.pushState({}, '', url);
       }
-      
+
       function closeModal() {
         document.getElementById('photoModal').classList.remove('active');
         document.body.style.overflow = 'auto';
-        
+
+        // Restore the background page
+        const header = document.querySelector('header');
+        const main = document.querySelector('main');
+        if (header) header.inert = false;
+        if (main) main.inert = false;
+
+        // Return focus to the element that opened the dialog
+        if (previouslyFocusedElement) {
+          previouslyFocusedElement.focus();
+          previouslyFocusedElement = null;
+        }
+
         // Remove query parameter
         const url = new URL(window.location);
         url.searchParams.delete('openImage');
@@ -277,8 +303,9 @@
       function updateModal() {
         const photo = photos[currentPhotoIndex];
         document.getElementById('modalImage').src = photo.optimizedPath;
-        document.getElementById('modalImage').alt = photo.title;
+        // alt stays empty: the visible filename caption below labels the image
         document.getElementById('modalFilename').textContent = photo.title;
+        document.getElementById('modalCounter').textContent = (currentPhotoIndex + 1) + ' of ' + photos.length;
         // document.getElementById('modalOriginalLink').href = photo.originalPath;
         
         // Update navigation button visibility
@@ -317,7 +344,30 @@
       document.addEventListener('keydown', function(e) {
         const modal = document.getElementById('photoModal');
         if (!modal.classList.contains('active')) return;
-        
+
+        // Trap Tab within the dialog
+        if (e.key === 'Tab') {
+          // NOTE: filter on computed display, not offsetParent — offsetParent
+          // is always null for position:fixed elements (these buttons)
+          const focusable = Array.from(modal.querySelectorAll('button')).filter(
+            (btn) => getComputedStyle(btn).display !== 'none'
+          );
+          if (focusable.length === 0) return;
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          } else if (!modal.contains(document.activeElement)) {
+            e.preventDefault();
+            first.focus();
+          }
+          return;
+        }
+
         switch(e.key) {
           case 'Escape':
             closeModal();
@@ -365,6 +415,14 @@
           if (document.getElementById('photoModal').classList.contains('active')) {
             document.getElementById('photoModal').classList.remove('active');
             document.body.style.overflow = 'auto';
+            const header = document.querySelector('header');
+            const main = document.querySelector('main');
+            if (header) header.inert = false;
+            if (main) main.inert = false;
+            if (previouslyFocusedElement) {
+              previouslyFocusedElement.focus();
+              previouslyFocusedElement = null;
+            }
           }
         }
       });

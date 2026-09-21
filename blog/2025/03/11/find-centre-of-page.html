@@ -78,6 +78,8 @@
       font-family: "Lora", Georgia, serif;
     }
     a {
+      /* literal mirrors --color-link in styles.css: this critical block runs
+         before the stylesheet loads, so the token isn't available yet */
       color: #1f6fbd;
     }
     /* Add image sizing for better CLS performance */
@@ -173,11 +175,11 @@
   </div>
 </header>
 
-                <main class='blog-page'>
-                  <h1 class='post-title' id="Findingthecentreofawebpage" style='view-transition-name: post-Findingthecentreofawebpage'">Finding the centre of a web page</h1>
-                  <p>2025-03-11 11:45am</p>
+                 <main class='blog-page'>
+                  <h1 class='post-title' id="Findingthecentreofawebpage" style='view-transition-name: post-Findingthecentreofawebpage'>Finding the centre of a web page</h1>
+                  <p class="post-meta">March 11, 2025 · by Benjie Kibblewhite</p>
                   <div><p>I wanted to quickly find the centre of a page so I could visually confirm for myself that an element was placed smack dab in the middle. Maybe there&#8217;s better ways to do this, but pasting this little snippet in your browser&#8217;s console does the trick just fine.</p>
-<pre><code>{% raw %}
+<pre tabindex="0"><code>{% raw %}
 (function() {
     const style = `
         .center-line {
@@ -218,8 +220,14 @@
 {% endraw %}
 </code></pre>
 </div>
-                  <p>by Benjie Kibblewhite</p>
-                  <p>Tags: tips</p>
+                  <p class="post-meta">Tags: tips</p>
+                  <nav class="post-nav" aria-label="More posts">
+                    <a href="/blog/">&larr; All posts</a>
+                    <span class="post-nav-links">
+                      <a href="/blog/2025/05/06/ai-its-worth-doing-badly.html">&larr; Writing vs AI: It's Worth Doing Badly</a>
+                      <a href="/blog/2024/05/29/TIL-Knolling.html">TIL - Knolling &rarr;</a>
+                    </span>
+                  </nav>
                 </main>
               </body>
             </html>

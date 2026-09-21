@@ -15,7 +15,7 @@
 }
 
 .galleries-header p {
-  color: #666;
+  color: var(--color-text-meta);
   font-size: 1.1rem;
 }
 
@@ -23,7 +23,7 @@
   margin-bottom: 2rem;
   padding: 1.5rem;
   transition: box-shadow 0.2s ease;
-  background-color: #fefefe;
+  background-color: var(--color-surface);
 }
 
 .gallery-preview h2 {
@@ -31,19 +31,19 @@
   font-size: 1.5rem;
 }
 
-.gallery-preview h2 a {
-  color: #333;
+.gallery-preview a h2 {
+  color: var(--color-link);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
-.gallery-preview h2 a:hover {
-  color: #1f6fbd;
+.gallery-preview a:hover h2 {
+  color: var(--color-link-hover);
 }
 
 .gallery-meta {
   margin-bottom: 1rem;
-  color: #666;
+  color: var(--color-text-meta);
   font-size: 0.9rem;
 }
 
@@ -56,32 +56,51 @@
 }
 
 .gallery-tags .tag {
-  background: #f0f0f0;
+  background: var(--color-surface-subtle);
   padding: 0.25rem 0.5rem;
   margin-right: 0.5rem;
   border-radius: 4px;
   font-size: 0.8rem;
-  color: #666;
+  color: var(--color-text-meta);
 }
 
+/* Preview strip: intentionally inert — the gallery title is the door in.
+   Single filmstrip row, desaturated, fading into the card edge. */
 .gallery-preview_images {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  flex-wrap: nowrap;
+  gap: 4px;
+  height: 120px;
+  overflow: hidden;
+  position: relative;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.gallery-preview_images::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 80px;
+  background: linear-gradient(to right, transparent, var(--color-surface));
 }
 
 .gallery-preview_image {
-  flex: 0 0 100px;
+  flex: 0 0 auto;
   img {
-    height: 100%;
+    height: 120px;
+    width: auto;
     object-fit: cover;
+    filter: saturate(0.85);
   }
 }
 
 .no-galleries {
   text-align: center;
   padding: 4rem 2rem;
-  color: #666;
+  color: var(--color-text-meta);
 }
 
 .no-galleries h2 {

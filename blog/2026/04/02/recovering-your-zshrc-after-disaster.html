@@ -78,6 +78,8 @@
       font-family: "Lora", Georgia, serif;
     }
     a {
+      /* literal mirrors --color-link in styles.css: this critical block runs
+         before the stylesheet loads, so the token isn't available yet */
       color: #1f6fbd;
     }
     /* Add image sizing for better CLS performance */
@@ -173,14 +175,14 @@
   </div>
 </header>
 
-                <main class='blog-page'>
-                  <h1 class='post-title' id="AIWipedOutMyzshrcFileHeresHowIGotItBack" style='view-transition-name: post-AIWipedOutMyzshrcFileHeresHowIGotItBack'">AI Wiped Out My .zshrc File. Here's How I Got It Back.</h1>
-                  <p>2026-04-02 2:45pm</p>
+                 <main class='blog-page'>
+                  <h1 class='post-title' id="AIWipedOutMyzshrcFileHeresHowIGotItBack" style='view-transition-name: post-AIWipedOutMyzshrcFileHeresHowIGotItBack'>AI Wiped Out My .zshrc File. Here's How I Got It Back.</h1>
+                  <p class="post-meta">April 2, 2026 · by Benjie Kibblewhite</p>
                   <div><p>Like everyone else under the sun, I&#8217;ve been leaning much more heavily into agentic coding these days. Also like everyone else, I have been seeing all of the stories of people&#8217;s agents wiping important files, or making other horrible mistakes. It finally happened to me! Claude wiped out my .zshrc file while I was trying to get it to troubleshoot an issue I was having with a global environment variable. This wasn&#8217;t catastrophic, but it was annoying. I had a lot of variables and aliases set up.</p>
 <p>Luckily, I had open terminal windows that still had the shell config file loaded. </p>
 <h2>What went wrong?</h2>
 <p>Claude ran this command: </p>
-<pre><code class="language-bash">sed -i &#39;&#39; &#39;s/export AWS_PROFILE=&quot;default&quot;/export AWS_PROFILE=&quot;sso-bedrock&quot;/&#39; ~/.zshrc
+<pre tabindex="0"><code class="language-bash">sed -i &#39;&#39; &#39;s/export AWS_PROFILE=&quot;default&quot;/export AWS_PROFILE=&quot;sso-bedrock&quot;/&#39; ~/.zshrc
 </code></pre>
 <p>I have never used <code>sed</code> myself before. It&#8217;s one of those commands that Claude will not run normally on it&#8217;s own without my explicit approval. I didn&#8217;t really know what it was doing, but didn&#8217;t stop to think about it, and just accepted it. </p>
 <p>What was probably the problem is that, instead of <code>export AWS_PROFILE=&quot;default&quot;</code>, I had <code>export AWS_PROFILE=default</code>, without the quotes around <code>default</code>. The <code>-i</code> flag creates a temp file during editing, and replaces the original file with that temp, <em>even if the pattern matching fails</em>. Which it did. Resulting in an empty file. </p>
@@ -190,7 +192,7 @@
 <h2>How to fix it</h2>
 <p>Okay, so, hopefully you still have at least one terminal window open that has loaded your now missing .zshrc file. All of your variables and alises are still there. </p>
 <p>This was a place where I could use AI to fix AI problems. I had Claude create this script: </p>
-<pre><code class="language-bash">#!/bin/zsh
+<pre tabindex="0"><code class="language-bash">#!/bin/zsh
 # save this as recover.sh
 
 echo &quot;# Recovered .zshrc - $(date)&quot; &gt; ~/recovered-zshrc.txt
@@ -214,19 +216,19 @@ echo &quot;export PATH=\&quot;$PATH\&quot;&quot; &gt;&gt; ~/recovered-zshrc.txt
 echo &quot;Recovery complete! Check ~/recovered-zshrc.txt&quot;
 </code></pre>
 <p>Run it:</p>
-<pre><code class="language-bash">chmod +x recover.sh
+<pre tabindex="0"><code class="language-bash">chmod +x recover.sh
 ./recover.sh
 </code></pre>
 <p>This dumps all your aliases, environment variables, functions, and PATH to a file. It&#8217;s not perfect, you&#8217;ll lose comments and conditional logic. But it captures the <em>runtime state</em> of your shell config. </p>
 <p>The trick is this dumps everything - a lot of variables and aliases will be there that aren&#8217;t things you added yourself to your config. </p>
 <p>In my case, I had Claude analyze the list of variables, and only add the ones that looked like something I would have added. It did a pretty good job here. </p>
 <p>For the aliases, I had it look through my most-used commands. I probably could have done this myself, I have a few custom aliases I use all the time. But, it&#8217;s fun to get the tool to do things for me. </p>
-<pre><code class="language-bash">cat ~/.zsh_history | awk &#39;{print $1}&#39; | sort | uniq -c | sort -rn | head -20
+<pre tabindex="0"><code class="language-bash">cat ~/.zsh_history | awk &#39;{print $1}&#39; | sort | uniq -c | sort -rn | head -20
 </code></pre>
 <p>In my case, it saw commands like <code>gpush</code>, <code>gmp</code>, and <code>cb</code>. Those were aliases I needed to recover.</p>
 <h2>Rebuilding Your .zshrc</h2>
 <p>If you use oh-my-zsh, start with the template:</p>
-<pre><code class="language-bash">cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+<pre tabindex="0"><code class="language-bash">cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
 </code></pre>
 <p>Then add back:</p>
 <ol>
@@ -244,8 +246,14 @@ echo &quot;Recovery complete! Check ~/recovered-zshrc.txt&quot;
 </ul>
 <hr>
 </div>
-                  <p>by Benjie Kibblewhite</p>
-                  <p>Tags: terminal, zsh, disaster recovery, sed, today i learned</p>
+                  <p class="post-meta">Tags: terminal, zsh, disaster recovery, sed, today i learned</p>
+                  <nav class="post-nav" aria-label="More posts">
+                    <a href="/blog/">&larr; All posts</a>
+                    <span class="post-nav-links">
+                      
+                      <a href="/blog/2025/09/24/ai-coded-tip-calculator.html">Programming for the People: AI and Unlocking the Power of the Machines: Or, A Tip Calculator for the Fallbright Tavern &rarr;</a>
+                    </span>
+                  </nav>
                 </main>
               </body>
             </html>
