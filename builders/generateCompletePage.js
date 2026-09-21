@@ -6,16 +6,18 @@ export function generateCompletePage({
   sharedHead = "",
   skipHeader = false,
   skipMain = false,
+  bodyClass = "",
 } = {}) {
   const headContent = sharedHead.replace(
     "<head>",
     `<head>\n  <title>${title}</title>`
   );
+  const bodyTag = bodyClass ? `<body class="${bodyClass}">` : "<body>";
   if (skipMain) {
     return `<!DOCTYPE html>
           <html lang="en">
             ${headContent}
-            <body>
+            ${bodyTag}
               ${skipHeader ? "" : header}
                 ${content}
             </body>
@@ -24,9 +26,9 @@ export function generateCompletePage({
   return `<!DOCTYPE html>
   <html lang="en">
     ${headContent}
-    <body>
+    ${bodyTag}
       ${skipHeader ? "" : header}
-      <main>
+      <main id="main-content">
         ${content}
       </main>
     </body>

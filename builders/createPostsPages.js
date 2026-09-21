@@ -32,14 +32,15 @@ export async function createPostPages(posts, header, sharedHead) {
       "<head>",
       `<head>\n  <title>${post.title}</title>`
     );
-    const postId = post.title.replace(/[^A-Z0-9]/gi, "");
+    // Date prefix keeps the id unique even when two titles collide
+    const postId = `${post.fileDate}-${post.title.replace(/[^A-Z0-9]/gi, "")}`;
 
     const htmlContent = `<!DOCTYPE html>
             <html lang="en">
               ${headContent}
               <body>
                 ${header}
-                 <main class='blog-page'>
+                 <main class='blog-page' id="main-content">
                   <h1 class='post-title' id="${postId}" style='view-transition-name: post-${postId}'>${
       post.title
     }</h1>

@@ -67,11 +67,12 @@ export async function createPostIndexPages(posts, header, sharedHead) {
     ${headContent}
     <body>
       ${header}
-      <main class='blog-page'>
+      <main class='blog-page' id="main-content">
         <h1>Posts</h1>
         ${pagePosts
           .map((post) => {
-            const postId = post.title.replace(/[^A-Z0-9]/gi, "");
+            // Must match the postId formula in createPostsPages.js (view-transition names pair across pages)
+            const postId = `${post.fileDate}-${post.title.replace(/[^A-Z0-9]/gi, "")}`;
             return `
                 <article class='post-preview'>
                   <h2><a id='${postId}' href="${
