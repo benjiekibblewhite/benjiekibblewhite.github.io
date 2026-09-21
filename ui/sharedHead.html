@@ -75,6 +75,8 @@
       font-family: "Lora", Georgia, serif;
     }
     a {
+      /* literal mirrors --color-link in styles.css: this critical block runs
+         before the stylesheet loads, so the token isn't available yet */
       color: #1f6fbd;
     }
     /* Add image sizing for better CLS performance */

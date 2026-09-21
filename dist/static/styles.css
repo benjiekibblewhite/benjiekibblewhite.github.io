@@ -3,14 +3,38 @@
 }
 
 :root {
-  --primary-color: #1f6fbd;
-  --background-color: #fbf9f9;
-  --text-color: #4c5461;
-  --secondary-text: #a0a0a0;
-  --border-color: #ccc;
-  --card-background: #1e1e1e;
-  --hover-color: #1f6fbd50;
-  --link-hover-color: #20a0b2;
+  /* === Color tokens === */
+  /* Surfaces */
+  --color-bg: #fbf9f9;
+  --color-surface: #ffffff;
+  --color-surface-subtle: #f0f0f0;
+
+  /* Text */
+  --color-text: #4c5461;
+  --color-text-meta: #59626e; /* 6:1 on --color-bg */
+  --color-text-disabled: #a0a0a0; /* non-text UI hints only, never copy */
+  --color-text-on-dark: #ffffff;
+  --color-text-on-dark-dim: #c9c9c9;
+
+  /* Action & focus */
+  --color-link: #1f6fbd; /* 5.16:1 on --color-bg */
+  --color-link-hover: var(--color-link-hover);
+  --color-focus-ring: #1f6fbd;
+  --color-highlight: rgba(31, 111, 189, 0.31); /* translucent link-blue wash */
+
+  /* Borders */
+  --color-border: #cccccc;
+
+  /* Overlays (gallery modal) */
+  --color-overlay: rgba(0, 0, 0, 0.9);
+  --color-overlay-caption: rgba(0, 0, 0, 0.7);
+  --color-overlay-control: rgba(255, 255, 255, 0.1);
+  --color-overlay-control-hover: rgba(255, 255, 255, 0.2);
+
+  /* Elevation */
+  --shadow-card: 0px 0px 10px 0px rgba(15, 15, 15, 0.1);
+  --shadow-photo: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-photo-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 body {
@@ -19,8 +43,8 @@ body {
 
   line-height: 1.6;
   margin: 0;
-  color: var(--text-color);
-  background-color: var(--background-color);
+  color: var(--color-text);
+  background-color: var(--color-bg);
   background-image: url('data:image/svg+xml;utf8,<svg width="40" height="10" viewBox="0 0 40 10" xmlns="http://www.w3.org/2000/svg"><path d="M0 5 Q 5 2, 10 5 T 20 5 T 30 5 T 40 5" fill="none" stroke="white" stroke-width="1"/></svg>');
   background-repeat: repeat;
   min-height: 100vh;
@@ -36,7 +60,7 @@ h6 {
   font-family: "Lora", Georgia, serif;
   line-height: 1.3;
   font-weight: 300;
-  color: var(--text-color);
+  color: var(--color-text);
   margin-top: 24px;
   margin-bottom: 16px;
 }
@@ -46,7 +70,7 @@ h1 a,
 h2 a,
 h3 a,
 h4 a {
-  color: var(--primary-color);
+  color: var(--color-link);
 }
 
 /* Links inside prose are underlined at rest, not color-only */
@@ -56,7 +80,7 @@ main li a {
 }
 
 a {
-  color: var(--primary-color);
+  color: var(--color-link);
   font-weight: 500;
   transition: color 0.2s ease;
   text-decoration: none;
@@ -78,12 +102,12 @@ a {
 
 a:hover,
 a:focus {
-  color: #2c78b3;
+  color: var(--color-link-hover);
   text-decoration: underline;
 }
 
 a:focus {
-  outline: 2px solid var(--primary-color);
+  outline: 2px solid var(--color-focus-ring);
   outline-offset: 2px;
 }
 
@@ -92,18 +116,18 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  color: var(--text-color);
+  color: var(--color-text);
   position: sticky;
   top: 0;
   left: 0;
-  background-color: var(--background-color);
+  background-color: var(--color-bg);
   background-image: url('data:image/svg+xml;utf8,<svg width="40" height="10" viewBox="0 0 40 10" xmlns="http://www.w3.org/2000/svg"><path d="M0 5 Q 5 2, 10 5 T 20 5 T 30 5 T 40 5" fill="none" stroke="white" stroke-width="1"/></svg>');
   background-repeat: repeat;
   z-index: 2;
 
   & a:hover {
     text-decoration: none;
-    outline: 3px solid var(--primary-color);
+    outline: 3px solid var(--color-focus-ring);
   }
 }
 
@@ -137,7 +161,7 @@ header {
 }
 
 /* .menu-button:hover {
-  color: var(--primary-color);
+  color: var(--color-link);
 } */
 
 main {
@@ -153,7 +177,7 @@ main.blog-page {
 
 .post-meta {
   font-size: 0.9rem;
-  color: #59626e;
+  color: var(--color-text-meta);
   margin-top: 0;
 }
 
@@ -176,7 +200,7 @@ main.blog-page {
 
 .home-list li {
   padding: 8px 0;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .home-list li:last-child {
@@ -185,7 +209,7 @@ main.blog-page {
 
 .home-list-date {
   font-size: 0.85rem;
-  color: #59626e;
+  color: var(--color-text-meta);
   margin-left: 8px;
   white-space: nowrap;
 }
@@ -238,11 +262,11 @@ main.blog-page {
 }
 
 .menu-container {
-  background-color: white;
+  background-color: var(--color-surface);
   min-width: min(400px, 90vw);
   text-align: center;
   border-radius: 16px;
-  box-shadow: 0px 0px 10px 0px rgba(15, 15, 15, 0.1);
+  box-shadow: var(--shadow-card);
   overflow: hidden;
 }
 
@@ -261,13 +285,13 @@ main.blog-page {
   cursor: pointer;
   font-size: 2rem;
   z-index: 0;
-  color: var(--text-color);
+  color: var(--color-text);
   transition: color 0.25s ease-in;
 }
 
 .menu-container a:hover,
 .menu-container a:focus {
-  color: white;
+  color: var(--color-text-on-dark);
   outline: none;
 }
 
@@ -284,7 +308,7 @@ main.blog-page {
   bottom: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--primary-color);
+  background-color: var(--color-link);
   transition: transform 0.25s ease-in-out;
   z-index: -1;
   transform: translate(0, 100%); /* Default: from bottom */
@@ -311,7 +335,7 @@ main.blog-page {
 
 .logo {
   font-size: 1.5rem;
-  color: var(--primary-color);
+  color: var(--color-link);
 }
 
 /* Menu close button */
@@ -321,7 +345,7 @@ main.blog-page {
   right: 16px;
   background: transparent;
   border: none;
-  color: var(--primary-color);
+  color: var(--color-link);
   font-size: 52px;
   cursor: pointer;
   padding: 0;
@@ -330,7 +354,7 @@ main.blog-page {
 }
 
 .menu-close-button:hover {
-  outline: 3px solid var(--primary-color);
+  outline: 3px solid var(--color-focus-ring);
 }
 
 article {
@@ -339,7 +363,7 @@ article {
 }
 
 article.post-preview {
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--color-border);
 }
 
 /* Pagination styles */
@@ -354,8 +378,8 @@ article.post-preview {
   padding: 8px 16px;
   margin: 0 4px;
   text-decoration: none;
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
   border-radius: 4px;
   &::before {
     display: none;
@@ -364,20 +388,20 @@ article.post-preview {
 
 .pagination a:hover,
 .pagination a:focus {
-  background: var(--hover-color);
+  background: var(--color-highlight);
 }
 
 .pagination .current-page {
-  background: var(--primary-color);
-  color: #fff;
-  border-color: var(--primary-color);
+  background: var(--color-link);
+  color: var(--color-text-on-dark);
+  border-color: var(--color-link);
 }
 
 .pagination-arrow {
   font-size: 1.2rem;
   padding: 8px 16px !important;
   &.disabled {
-    color: var(--secondary-text);
+    color: var(--color-text-disabled);
     cursor: auto;
     pointer-events: none;
   }
@@ -385,13 +409,13 @@ article.post-preview {
 
 /* Post styles */
 .tags {
-  color: var(--secondary-text);
+  color: var(--color-text-meta);
   font-size: 0.9rem;
 }
 
 .author {
   font-style: italic;
-  color: var(--secondary-text);
+  color: var(--color-text-meta);
 }
 
 /* Code block styles */
@@ -399,7 +423,7 @@ pre {
   padding: 16px;
   overflow-x: auto;
   border-radius: 4px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--color-border);
   max-width: 100%;
 }
 
@@ -447,18 +471,18 @@ img {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--primary-color);
+  color: var(--color-link);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
   padding: 8px;
   &:hover {
-    outline: 3px solid var(--primary-color);
+    outline: 3px solid var(--color-focus-ring);
   }
 }
 
 .social-link:focus {
-  outline: 2px solid var(--primary-color);
+  outline: 2px solid var(--color-focus-ring);
   outline-offset: 2px;
 }
 
