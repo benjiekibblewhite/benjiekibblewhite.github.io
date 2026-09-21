@@ -5,16 +5,16 @@ import fs from "fs-extra";
 function createPaginationLinks(currentPage, totalPages) {
   let links = [];
 
-  // Add back arrow
-  // if (currentPage > 1) {
-  const prevPage = currentPage - 1;
-  const filename = prevPage === 1 ? "index.html" : `page${prevPage}.html`;
-  links.push(
-    `<a href="/blog/${filename}" class="pagination-arrow${
-      currentPage === 1 ? " disabled" : ""
-    }">&larr;</a>`
-  );
-  // }
+  // Add back arrow (inert span at the boundary so it can't be keyboard-focused into a 404)
+  if (currentPage === 1) {
+    links.push(
+      `<span class="pagination-arrow disabled" aria-hidden="true">&larr;</span>`
+    );
+  } else {
+    const prevPage = currentPage - 1;
+    const filename = prevPage === 1 ? "index.html" : `page${prevPage}.html`;
+    links.push(`<a href="/blog/${filename}" class="pagination-arrow">&larr;</a>`);
+  }
 
   // Add page numbers
   for (let i = 1; i <= totalPages; i++) {
@@ -26,15 +26,17 @@ function createPaginationLinks(currentPage, totalPages) {
     }
   }
 
-  // Add forward arrow
-  // if (currentPage < totalPages) {
-  const nextPage = currentPage + 1;
-  links.push(
-    `<a href="/blog/page${nextPage}.html" class="pagination-arrow${
-      currentPage === totalPages ? " disabled" : ""
-    }">&rarr;</a>`
-  );
-  // }
+  // Add forward arrow (inert span at the boundary)
+  if (currentPage === totalPages) {
+    links.push(
+      `<span class="pagination-arrow disabled" aria-hidden="true">&rarr;</span>`
+    );
+  } else {
+    const nextPage = currentPage + 1;
+    links.push(
+      `<a href="/blog/page${nextPage}.html" class="pagination-arrow">&rarr;</a>`
+    );
+  }
 
   return links.join(" ");
 }

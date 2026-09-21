@@ -148,6 +148,11 @@
     font-size: 1.2rem;
     margin-bottom: 0.5rem;
   }
+
+  .modal-counter {
+    font-size: 0.9rem;
+    color: #c9c9c9;
+  }
   
   .modal-controls {
     position: fixed;

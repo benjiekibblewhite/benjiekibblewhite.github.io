@@ -161,7 +161,7 @@ function generateGalleryHTML({
     </main>
     
     <!-- Modal -->
-    <div id="photoModal" class="modal">
+    <div id="photoModal" class="modal" role="dialog" aria-modal="true" aria-label="Photo viewer">
       <div class="modal-content">
         <button aria-label="Close gallery window" class="modal-close" onclick="closeModal()"><svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></button>
         <button aria-label="View previous image" class="modal-controls modal-prev" onclick="previousPhoto()"><svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#e3e3e3"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg></button>
@@ -169,12 +169,14 @@ function generateGalleryHTML({
         <button aria-label="View next image" class="modal-controls modal-next" onclick="nextPhoto()"><svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#e3e3e3"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg></button>
         <div class="modal-info">
           <div class="modal-filename" id="modalFilename"></div>
+          <div class="modal-counter" id="modalCounter" aria-live="polite"></div>
         </div>
       </div>
     </div>
     
     <script>
       let currentPhotoIndex = 0;
+      let previouslyFocusedElement = null;
       const photos = ${photosJson};
       
    
@@ -197,21 +199,31 @@ function generateGalleryHTML({
       
       function openModal(index) {
         currentPhotoIndex = index;
+        previouslyFocusedElement = document.activeElement;
         updateModal();
         document.getElementById('photoModal').classList.add('active');
         document.body.style.overflow = 'hidden';
-        
+
+        // Move focus into the dialog
+        document.querySelector('.modal-close').focus();
+
         // Set query parameter
         const imageId = photos[index].imageId
         const url = new URL(window.location);
         url.searchParams.set('openImage', imageId);
         window.history.pushState({}, '', url);
       }
-      
+
       function closeModal() {
         document.getElementById('photoModal').classList.remove('active');
         document.body.style.overflow = 'auto';
-        
+
+        // Return focus to the element that opened the dialog
+        if (previouslyFocusedElement) {
+          previouslyFocusedElement.focus();
+          previouslyFocusedElement = null;
+        }
+
         // Remove query parameter
         const url = new URL(window.location);
         url.searchParams.delete('openImage');
@@ -221,8 +233,9 @@ function generateGalleryHTML({
       function updateModal() {
         const photo = photos[currentPhotoIndex];
         document.getElementById('modalImage').src = photo.optimizedPath;
-        document.getElementById('modalImage').alt = photo.title;
+        // alt stays empty: the visible filename caption below labels the image
         document.getElementById('modalFilename').textContent = photo.title;
+        document.getElementById('modalCounter').textContent = (currentPhotoIndex + 1) + ' of ' + photos.length;
         // document.getElementById('modalOriginalLink').href = photo.originalPath;
         
         // Update navigation button visibility
@@ -261,7 +274,28 @@ function generateGalleryHTML({
       document.addEventListener('keydown', function(e) {
         const modal = document.getElementById('photoModal');
         if (!modal.classList.contains('active')) return;
-        
+
+        // Trap Tab within the dialog
+        if (e.key === 'Tab') {
+          const focusable = Array.from(modal.querySelectorAll('button')).filter(
+            (btn) => btn.offsetParent !== null
+          );
+          if (focusable.length === 0) return;
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          } else if (!modal.contains(document.activeElement)) {
+            e.preventDefault();
+            first.focus();
+          }
+          return;
+        }
+
         switch(e.key) {
           case 'Escape':
             closeModal();
@@ -309,6 +343,10 @@ function generateGalleryHTML({
           if (document.getElementById('photoModal').classList.contains('active')) {
             document.getElementById('photoModal').classList.remove('active');
             document.body.style.overflow = 'auto';
+            if (previouslyFocusedElement) {
+              previouslyFocusedElement.focus();
+              previouslyFocusedElement = null;
+            }
           }
         }
       });
