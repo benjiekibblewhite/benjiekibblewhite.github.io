@@ -157,7 +157,7 @@
 </header>
 
     <main id="main-content">
-    <a href="/photos" class='back-link'><- Back to list</a>
+    <a href="/photos" class='back-link'>&larr; All galleries</a>
     <div class="gallery-container">
         <div class="gallery-info">
           <h1>RV Trip to Bass Lake and Finlayson Point Provincial Parks</h1>
@@ -249,6 +249,7 @@
     <script>
       let currentPhotoIndex = 0;
       let previouslyFocusedElement = null;
+      let modalPushedHistory = false; // did openModal push a history entry?
       const photos = [{"filename":"(kate) moss.jpg","title":"(kate) moss","imageId":"(kate)moss_0","originalPath":"/photos/2025-08-31-camping/(kate) moss.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/(kate) moss.webp"},{"filename":"a good rock 1.jpg","title":"a good rock 1","imageId":"agoodrock1_1","originalPath":"/photos/2025-08-31-camping/a good rock 1.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a good rock 1.webp"},{"filename":"a good rock 2.jpg","title":"a good rock 2","imageId":"agoodrock2_2","originalPath":"/photos/2025-08-31-camping/a good rock 2.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a good rock 2.webp"},{"filename":"a good rock 3.jpg","title":"a good rock 3","imageId":"agoodrock3_3","originalPath":"/photos/2025-08-31-camping/a good rock 3.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a good rock 3.webp"},{"filename":"a nice gull.jpg","title":"a nice gull","imageId":"anicegull_4","originalPath":"/photos/2025-08-31-camping/a nice gull.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a nice gull.webp"},{"filename":"a nice stump.jpg","title":"a nice stump","imageId":"anicestump_5","originalPath":"/photos/2025-08-31-camping/a nice stump.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a nice stump.webp"},{"filename":"a nice walk 2.jpg","title":"a nice walk 2","imageId":"anicewalk2_6","originalPath":"/photos/2025-08-31-camping/a nice walk 2.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a nice walk 2.webp"},{"filename":"a nice walk.jpg","title":"a nice walk","imageId":"anicewalk_7","originalPath":"/photos/2025-08-31-camping/a nice walk.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/a nice walk.webp"},{"filename":"oozing tree.jpg","title":"oozing tree","imageId":"oozingtree_8","originalPath":"/photos/2025-08-31-camping/oozing tree.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/oozing tree.webp"},{"filename":"orange shroom 2.jpeg","title":"orange shroom 2","imageId":"orangeshroom2_9","originalPath":"/photos/2025-08-31-camping/orange shroom 2.jpeg","optimizedPath":"/static/optimized/2025-08-31-camping/orange shroom 2.webp"},{"filename":"orange shroom.jpg","title":"orange shroom","imageId":"orangeshroom_10","originalPath":"/photos/2025-08-31-camping/orange shroom.jpg","optimizedPath":"/static/optimized/2025-08-31-camping/orange shroom.webp"}];
       
    
@@ -269,7 +270,8 @@
         return -1;
       }
       
-      function openModal(index) {
+      function openModal(index, push) {
+        if (push === undefined) push = true;
         currentPhotoIndex = index;
         previouslyFocusedElement = document.activeElement;
         updateModal();
@@ -285,14 +287,35 @@
         // Move focus into the dialog
         document.querySelector('.modal-close').focus();
 
-        // Set query parameter
-        const imageId = photos[index].imageId
-        const url = new URL(window.location);
-        url.searchParams.set('openImage', imageId);
-        window.history.pushState({}, '', url);
+        // Set query parameter. Only push when the user opened the viewer
+        // (a deep-linked load already has the right URL — don't stack entries)
+        if (push) {
+          const imageId = photos[index].imageId
+          const url = new URL(window.location);
+          url.searchParams.set('openImage', imageId);
+          window.history.pushState({}, '', url);
+          modalPushedHistory = true;
+        }
       }
 
       function closeModal() {
+        // If we pushed an entry on open, consume it — popstate runs the
+        // close path, so Back after closing no longer resurrects the viewer
+        if (modalPushedHistory) {
+          modalPushedHistory = false;
+          history.back();
+          return;
+        }
+
+        closeModalUI();
+
+        // Remove query parameter without adding history
+        const url = new URL(window.location);
+        url.searchParams.delete('openImage');
+        window.history.replaceState({}, '', url);
+      }
+
+      function closeModalUI() {
         document.getElementById('photoModal').classList.remove('active');
         document.body.style.overflow = 'auto';
 
@@ -307,11 +330,6 @@
           previouslyFocusedElement.focus();
           previouslyFocusedElement = null;
         }
-
-        // Remove query parameter
-        const url = new URL(window.location);
-        url.searchParams.delete('openImage');
-        window.history.pushState({}, '', url);
       }
       
       function updateModal() {
@@ -410,7 +428,7 @@
         if (imageId) {
           const photoIndex = findPhotoIndexByImageId(imageId);
           if (photoIndex !== -1) {
-            openModal(photoIndex);
+            openModal(photoIndex, false); // URL already correct, don't push
           }
         }
       });
@@ -425,20 +443,16 @@
             updateModal();
             document.getElementById('photoModal').classList.add('active');
             document.body.style.overflow = 'hidden';
+            const header = document.querySelector('header');
+            const main = document.querySelector('main');
+            if (header) header.inert = true;
+            if (main) main.inert = true;
           }
         } else {
           // No imageId in URL, close modal if open
           if (document.getElementById('photoModal').classList.contains('active')) {
-            document.getElementById('photoModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-            const header = document.querySelector('header');
-            const main = document.querySelector('main');
-            if (header) header.inert = false;
-            if (main) main.inert = false;
-            if (previouslyFocusedElement) {
-              previouslyFocusedElement.focus();
-              previouslyFocusedElement = null;
-            }
+            modalPushedHistory = false;
+            closeModalUI();
           }
         }
       });
