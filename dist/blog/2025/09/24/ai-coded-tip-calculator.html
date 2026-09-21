@@ -25,28 +25,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <!-- Preload critical images (logo and background) -->
-  <link
-    rel="preload"
-    as="image"
-    href="/static/optimized/logo.webp"
-    type="image/webp"
-  />
-  <link
-    rel="preload"
-    as="image"
-    href="/static/optimized/logo.png"
-    imagesrcset="/static/optimized/logo.png"
-    imagesizes="100vw"
-  />
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="preload"
-    media="print"
-    onload="this.media='all'"
-  />
-  <!-- Optimize font loading with display=swap -->
+  <!-- Fonts: async load via print-media swap, display=swap, noscript fallback -->
   <link
     href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet"
@@ -100,7 +79,7 @@
   <noscript><link rel="stylesheet" href="/static/styles.css" /></noscript>
 
   <!-- Favicon -->
-  <link rel="icon" href="/static/optimized/logo.png" />
+  <link rel="icon" href="/static/logo.webp" />
 
   <!-- RSS Feed discovery -->
   <link
@@ -123,7 +102,8 @@
 </head>
 
               <body>
-                <header role="banner">
+                <a href="#main-content" class="skip-link">Skip to content</a>
+<header role="banner">
   <a href="/" aria-label="Go to homepage">
     <img
       src="/static/logo.webp"
@@ -175,8 +155,8 @@
   </div>
 </header>
 
-                 <main class='blog-page'>
-                  <h1 class='post-title' id="ProgrammingforthePeopleAIandUnlockingthePoweroftheMachinesOrATipCalculatorfortheFallbrightTavern" style='view-transition-name: post-ProgrammingforthePeopleAIandUnlockingthePoweroftheMachinesOrATipCalculatorfortheFallbrightTavern'>Programming for the People: AI and Unlocking the Power of the Machines: Or, A Tip Calculator for the Fallbright Tavern</h1>
+                 <main class='blog-page' id="main-content">
+                  <h1 class='post-title' id="2025-09-24-ProgrammingforthePeopleAIandUnlockingthePoweroftheMachinesOrATipCalculatorfortheFallbrightTavern" style='view-transition-name: post-2025-09-24-ProgrammingforthePeopleAIandUnlockingthePoweroftheMachinesOrATipCalculatorfortheFallbrightTavern'>Programming for the People: AI and Unlocking the Power of the Machines: Or, A Tip Calculator for the Fallbright Tavern</h1>
                   <p class="post-meta">September 24, 2025 · by Benjie Kibblewhite</p>
                   <div><p>I&#8217;m <a href="/blog/2025/05/06/ai-its-worth-doing-badly.html" target="_blank" rel="noopener noreferrer">skeptical</a> about AI for a lot of applications. I really do think that using these tools for most creative practices is tricky at best, dangerous at worst.</p>
 <p>But the thing about them that gets me <em>really</em> excited is that they can up the flexibility of programming for everyone.</p>
