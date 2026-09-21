@@ -153,6 +153,12 @@
     font-size: 0.9rem;
     color: var(--color-text-on-dark-dim);
   }
+
+  /* The browser default 1px ring vanishes on the near-black overlay */
+  .modal button:focus-visible {
+    outline: 3px solid var(--color-text-on-dark);
+    outline-offset: 2px;
+  }
   
   .modal-controls {
     position: fixed;

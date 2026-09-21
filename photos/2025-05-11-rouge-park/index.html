@@ -157,7 +157,7 @@
 </header>
 
     <main id="main-content">
-    <a href="/photos" class='back-link'><- Back to list</a>
+    <a href="/photos" class='back-link'>&larr; All galleries</a>
     <div class="gallery-container">
         <div class="gallery-info">
           <h1>Rogue Park Spring Walk</h1>
@@ -219,6 +219,7 @@
     <script>
       let currentPhotoIndex = 0;
       let previouslyFocusedElement = null;
+      let modalPushedHistory = false; // did openModal push a history entry?
       const photos = [{"filename":"a nice bud.jpg","title":"a nice bud","imageId":"anicebud_0","originalPath":"/photos/2025-05-11-rouge-park/a nice bud.jpg","optimizedPath":"/static/optimized/2025-05-11-rouge-park/a nice bud.webp"},{"filename":"goldfinch.jpg","title":"goldfinch","imageId":"goldfinch_1","originalPath":"/photos/2025-05-11-rouge-park/goldfinch.jpg","optimizedPath":"/static/optimized/2025-05-11-rouge-park/goldfinch.webp"},{"filename":"redwinged_blackbird_female.jpg","title":"redwinged_blackbird_female","imageId":"redwinged_blackbird_female_2","originalPath":"/photos/2025-05-11-rouge-park/redwinged_blackbird_female.jpg","optimizedPath":"/static/optimized/2025-05-11-rouge-park/redwinged_blackbird_female.webp"},{"filename":"swan.jpg","title":"swan","imageId":"swan_3","originalPath":"/photos/2025-05-11-rouge-park/swan.jpg","optimizedPath":"/static/optimized/2025-05-11-rouge-park/swan.webp"},{"filename":"trillium.jpg","title":"trillium","imageId":"trillium_4","originalPath":"/photos/2025-05-11-rouge-park/trillium.jpg","optimizedPath":"/static/optimized/2025-05-11-rouge-park/trillium.webp"}];
       
    
@@ -239,7 +240,8 @@
         return -1;
       }
       
-      function openModal(index) {
+      function openModal(index, push) {
+        if (push === undefined) push = true;
         currentPhotoIndex = index;
         previouslyFocusedElement = document.activeElement;
         updateModal();
@@ -255,14 +257,35 @@
         // Move focus into the dialog
         document.querySelector('.modal-close').focus();
 
-        // Set query parameter
-        const imageId = photos[index].imageId
-        const url = new URL(window.location);
-        url.searchParams.set('openImage', imageId);
-        window.history.pushState({}, '', url);
+        // Set query parameter. Only push when the user opened the viewer
+        // (a deep-linked load already has the right URL — don't stack entries)
+        if (push) {
+          const imageId = photos[index].imageId
+          const url = new URL(window.location);
+          url.searchParams.set('openImage', imageId);
+          window.history.pushState({}, '', url);
+          modalPushedHistory = true;
+        }
       }
 
       function closeModal() {
+        // If we pushed an entry on open, consume it — popstate runs the
+        // close path, so Back after closing no longer resurrects the viewer
+        if (modalPushedHistory) {
+          modalPushedHistory = false;
+          history.back();
+          return;
+        }
+
+        closeModalUI();
+
+        // Remove query parameter without adding history
+        const url = new URL(window.location);
+        url.searchParams.delete('openImage');
+        window.history.replaceState({}, '', url);
+      }
+
+      function closeModalUI() {
         document.getElementById('photoModal').classList.remove('active');
         document.body.style.overflow = 'auto';
 
@@ -277,11 +300,6 @@
           previouslyFocusedElement.focus();
           previouslyFocusedElement = null;
         }
-
-        // Remove query parameter
-        const url = new URL(window.location);
-        url.searchParams.delete('openImage');
-        window.history.pushState({}, '', url);
       }
       
       function updateModal() {
@@ -380,7 +398,7 @@
         if (imageId) {
           const photoIndex = findPhotoIndexByImageId(imageId);
           if (photoIndex !== -1) {
-            openModal(photoIndex);
+            openModal(photoIndex, false); // URL already correct, don't push
           }
         }
       });
@@ -395,20 +413,16 @@
             updateModal();
             document.getElementById('photoModal').classList.add('active');
             document.body.style.overflow = 'hidden';
+            const header = document.querySelector('header');
+            const main = document.querySelector('main');
+            if (header) header.inert = true;
+            if (main) main.inert = true;
           }
         } else {
           // No imageId in URL, close modal if open
           if (document.getElementById('photoModal').classList.contains('active')) {
-            document.getElementById('photoModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-            const header = document.querySelector('header');
-            const main = document.querySelector('main');
-            if (header) header.inert = false;
-            if (main) main.inert = false;
-            if (previouslyFocusedElement) {
-              previouslyFocusedElement.focus();
-              previouslyFocusedElement = null;
-            }
+            modalPushedHistory = false;
+            closeModalUI();
           }
         }
       });

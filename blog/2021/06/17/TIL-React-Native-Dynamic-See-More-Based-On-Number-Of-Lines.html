@@ -164,7 +164,7 @@
 <p>If a user has a large font size, the component will still probably have a larger height than we designed, but we can intelligently set some kind of limit to that, hopefully keeping said component from taking over the whole screen and hiding other, potentially more important content.</p>
 <p>We haven&#8217;t implemented this, but I thought it was an interesting enough concept to jot down for later. </p>
 <p>What I have down below might be able to have further accessibility improvements. For one thing, I know iOS&#8217; VoiceOver feature will at least sometimes read all the text in an element, even if it&#8217;s been ellipsized. That may make the &#8220;Show More&#8221; element redundant, and we could remove it if we can detect the user is using VoiceOver.</p>
-<p><img src="/images/dynamicSeeMoreExample.gif" title="Animated Gif showing the solution in action. The view starts with the text on three lines, normal size. The user closes the app, goes into their accessibility settings, and increases the font size. The user returns to the app, and we can see that the text has been truncated to 3 lines, cut off with an ellipsis. The user taps the 'See more' link that has now appeared, and the rest of the text appears. The link text changes to 'See less'." alt="Alt" loading="lazy" decoding="async" /></p>
+<p><img src="/images/dynamicSeeMoreExample.gif" alt="Screen recording of the solution: after the user increases the system font size, the app text truncates to three lines with an ellipsis and a "See more" link appears; tapping it expands the full text and the link changes to "See less"" loading="lazy" decoding="async" /></p>
 <pre tabindex="0"><code>const MAX_LINES = 3;
 
 export const DynamicOverflowBox = () =&gt; {

@@ -157,7 +157,7 @@
 </header>
 
     <main id="main-content">
-    <a href="/photos" class='back-link'><- Back to list</a>
+    <a href="/photos" class='back-link'>&larr; All galleries</a>
     <div class="gallery-container">
         <div class="gallery-info">
           <h1>Bloedel Conservatory</h1>
@@ -249,6 +249,7 @@
     <script>
       let currentPhotoIndex = 0;
       let previouslyFocusedElement = null;
+      let modalPushedHistory = false; // did openModal push a history entry?
       const photos = [{"filename":"African Gray Parrot 2.jpg","title":"African Gray Parrot 2","imageId":"AfricanGrayParrot2_0","originalPath":"/photos/2026-08-01-bloedel-conservatory/African Gray Parrot 2.jpg","optimizedPath":"/static/optimized/2026-08-01-bloedel-conservatory/African Gray Parrot 2.webp"},{"filename":"African Gray Parrot.jpg","title":"African Gray Parrot","imageId":"AfricanGrayParrot_1","originalPath":"/photos/2026-08-01-bloedel-conservatory/African Gray Parrot.jpg","optimizedPath":"/static/optimized/2026-08-01-bloedel-conservatory/African Gray Parrot.webp"},{"filename":"Black-headed Weaver.jpg","title":"Black-headed Weaver","imageId":"Black-headedWeaver_2","originalPath":"/photos/2026-08-01-bloedel-conservatory/Black-headed Weaver.jpg","optimizedPath":"/static/optimized/2026-08-01-bloedel-conservatory/Black-headed Weaver.webp"},{"filename":"Red-fronted Macaw 2.jpg","title":"Red-fronted Macaw 2","imageId":"Red-frontedMacaw2_3","originalPath":"/photos/2026-08-01-bloedel-conservatory/Red-fronted Macaw 2.jpg","optimizedPath":"/static/optimized/2026-08-01-bloedel-conservatory/Red-fronted Macaw 2.webp"},{"filename":"Red-fronted Macaw.jpg","title":"Red-fronted Macaw","imageId":"Red-frontedMacaw_4","originalPath":"/photos/2026-08-01-bloedel-conservatory/Red-fronted Macaw.jpg","optimizedPath":"/static/optimized/2026-08-01-bloedel-conservatory/Red-fronted Macaw.webp"},{"filename":"Scarlet Macaw.jpg","title":"Scarlet Macaw","imageId":"ScarletMacaw_5","originalPath":"/photos/2026-08-01-bloedel-conservatory/Scarlet Macaw.jpg","optimizedPath":"/static/optimized/2026-08-01-bloedel-conservatory/Scarlet Macaw.webp"},{"filename":"Sulphur Crested Cockatoo 2.jpg","title":"Sulphur Crested Cockatoo 2","imageId":"SulphurCrestedCockatoo2_6","originalPath":"/photos/2026-08-01-bloedel-conservatory/Sulphur Crested Cockatoo 2.jpg","optimizedPath":"/static/optimized/2026-08-01-bloedel-conservatory/Sulphur Crested Cockatoo 2.webp"},{"filename":"Sulphur Crested Cockatoo.jpg","title":"Sulphur Crested Cockatoo","imageId":"SulphurCrestedCockatoo_7","originalPath":"/photos/2026-08-01-bloedel-conservatory/Sulphur Crested Cockatoo.jpg","optimizedPath":"/static/optimized/2026-08-01-bloedel-conservatory/Sulphur Crested Cockatoo.webp"},{"filename":"Umbrella Cocktaoo.jpg","title":"Umbrella Cocktaoo","imageId":"UmbrellaCocktaoo_8","originalPath":"/photos/2026-08-01-bloedel-conservatory/Umbrella Cocktaoo.jpg","optimizedPath":"/static/optimized/2026-08-01-bloedel-conservatory/Umbrella Cocktaoo.webp"},{"filename":"Yellow-headed Amazon.jpg","title":"Yellow-headed Amazon","imageId":"Yellow-headedAmazon_9","originalPath":"/photos/2026-08-01-bloedel-conservatory/Yellow-headed Amazon.jpg","optimizedPath":"/static/optimized/2026-08-01-bloedel-conservatory/Yellow-headed Amazon.webp"},{"filename":"Zebra Finch.jpg","title":"Zebra Finch","imageId":"ZebraFinch_10","originalPath":"/photos/2026-08-01-bloedel-conservatory/Zebra Finch.jpg","optimizedPath":"/static/optimized/2026-08-01-bloedel-conservatory/Zebra Finch.webp"}];
       
    
@@ -269,7 +270,8 @@
         return -1;
       }
       
-      function openModal(index) {
+      function openModal(index, push) {
+        if (push === undefined) push = true;
         currentPhotoIndex = index;
         previouslyFocusedElement = document.activeElement;
         updateModal();
@@ -285,14 +287,35 @@
         // Move focus into the dialog
         document.querySelector('.modal-close').focus();
 
-        // Set query parameter
-        const imageId = photos[index].imageId
-        const url = new URL(window.location);
-        url.searchParams.set('openImage', imageId);
-        window.history.pushState({}, '', url);
+        // Set query parameter. Only push when the user opened the viewer
+        // (a deep-linked load already has the right URL — don't stack entries)
+        if (push) {
+          const imageId = photos[index].imageId
+          const url = new URL(window.location);
+          url.searchParams.set('openImage', imageId);
+          window.history.pushState({}, '', url);
+          modalPushedHistory = true;
+        }
       }
 
       function closeModal() {
+        // If we pushed an entry on open, consume it — popstate runs the
+        // close path, so Back after closing no longer resurrects the viewer
+        if (modalPushedHistory) {
+          modalPushedHistory = false;
+          history.back();
+          return;
+        }
+
+        closeModalUI();
+
+        // Remove query parameter without adding history
+        const url = new URL(window.location);
+        url.searchParams.delete('openImage');
+        window.history.replaceState({}, '', url);
+      }
+
+      function closeModalUI() {
         document.getElementById('photoModal').classList.remove('active');
         document.body.style.overflow = 'auto';
 
@@ -307,11 +330,6 @@
           previouslyFocusedElement.focus();
           previouslyFocusedElement = null;
         }
-
-        // Remove query parameter
-        const url = new URL(window.location);
-        url.searchParams.delete('openImage');
-        window.history.pushState({}, '', url);
       }
       
       function updateModal() {
@@ -410,7 +428,7 @@
         if (imageId) {
           const photoIndex = findPhotoIndexByImageId(imageId);
           if (photoIndex !== -1) {
-            openModal(photoIndex);
+            openModal(photoIndex, false); // URL already correct, don't push
           }
         }
       });
@@ -425,20 +443,16 @@
             updateModal();
             document.getElementById('photoModal').classList.add('active');
             document.body.style.overflow = 'hidden';
+            const header = document.querySelector('header');
+            const main = document.querySelector('main');
+            if (header) header.inert = true;
+            if (main) main.inert = true;
           }
         } else {
           // No imageId in URL, close modal if open
           if (document.getElementById('photoModal').classList.contains('active')) {
-            document.getElementById('photoModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-            const header = document.querySelector('header');
-            const main = document.querySelector('main');
-            if (header) header.inert = false;
-            if (main) main.inert = false;
-            if (previouslyFocusedElement) {
-              previouslyFocusedElement.focus();
-              previouslyFocusedElement = null;
-            }
+            modalPushedHistory = false;
+            closeModalUI();
           }
         }
       });
