@@ -26,7 +26,7 @@ We haven't implemented this, but I thought it was an interesting enough concept 
 
 What I have down below might be able to have further accessibility improvements. For one thing, I know iOS' VoiceOver feature will at least sometimes read all the text in an element, even if it's been ellipsized. That may make the "Show More" element redundant, and we could remove it if we can detect the user is using VoiceOver.
 
-![Alt](/images/dynamicSeeMoreExample.gif "Animated Gif showing the solution in action. The view starts with the text on three lines, normal size. The user closes the app, goes into their accessibility settings, and increases the font size. The user returns to the app, and we can see that the text has been truncated to 3 lines, cut off with an ellipsis. The user taps the 'See more' link that has now appeared, and the rest of the text appears. The link text changes to 'See less'.")
+![Screen recording of the solution: after the user increases the system font size, the app text truncates to three lines with an ellipsis and a "See more" link appears; tapping it expands the full text and the link changes to "See less"](/images/dynamicSeeMoreExample.gif)
 
 ```
 const MAX_LINES = 3;
