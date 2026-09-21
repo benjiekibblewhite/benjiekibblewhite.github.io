@@ -155,7 +155,7 @@ function generateGalleryHTML({
   <body>
     ${header}
     <main id="main-content">
-    <a href="/photos" class='back-link'><- Back to list</a>
+    <a href="/photos" class='back-link'>&larr; All galleries</a>
     <div class="gallery-container">
         <div class="gallery-info">
           <h1>${title}</h1>
@@ -191,6 +191,7 @@ function generateGalleryHTML({
     <script>
       let currentPhotoIndex = 0;
       let previouslyFocusedElement = null;
+      let modalPushedHistory = false; // did openModal push a history entry?
       const photos = ${photosJson};
       
    
@@ -211,7 +212,8 @@ function generateGalleryHTML({
         return -1;
       }
       
-      function openModal(index) {
+      function openModal(index, push) {
+        if (push === undefined) push = true;
         currentPhotoIndex = index;
         previouslyFocusedElement = document.activeElement;
         updateModal();
@@ -227,14 +229,35 @@ function generateGalleryHTML({
         // Move focus into the dialog
         document.querySelector('.modal-close').focus();
 
-        // Set query parameter
-        const imageId = photos[index].imageId
-        const url = new URL(window.location);
-        url.searchParams.set('openImage', imageId);
-        window.history.pushState({}, '', url);
+        // Set query parameter. Only push when the user opened the viewer
+        // (a deep-linked load already has the right URL — don't stack entries)
+        if (push) {
+          const imageId = photos[index].imageId
+          const url = new URL(window.location);
+          url.searchParams.set('openImage', imageId);
+          window.history.pushState({}, '', url);
+          modalPushedHistory = true;
+        }
       }
 
       function closeModal() {
+        // If we pushed an entry on open, consume it — popstate runs the
+        // close path, so Back after closing no longer resurrects the viewer
+        if (modalPushedHistory) {
+          modalPushedHistory = false;
+          history.back();
+          return;
+        }
+
+        closeModalUI();
+
+        // Remove query parameter without adding history
+        const url = new URL(window.location);
+        url.searchParams.delete('openImage');
+        window.history.replaceState({}, '', url);
+      }
+
+      function closeModalUI() {
         document.getElementById('photoModal').classList.remove('active');
         document.body.style.overflow = 'auto';
 
@@ -249,11 +272,6 @@ function generateGalleryHTML({
           previouslyFocusedElement.focus();
           previouslyFocusedElement = null;
         }
-
-        // Remove query parameter
-        const url = new URL(window.location);
-        url.searchParams.delete('openImage');
-        window.history.pushState({}, '', url);
       }
       
       function updateModal() {
@@ -352,7 +370,7 @@ function generateGalleryHTML({
         if (imageId) {
           const photoIndex = findPhotoIndexByImageId(imageId);
           if (photoIndex !== -1) {
-            openModal(photoIndex);
+            openModal(photoIndex, false); // URL already correct, don't push
           }
         }
       });
@@ -367,20 +385,16 @@ function generateGalleryHTML({
             updateModal();
             document.getElementById('photoModal').classList.add('active');
             document.body.style.overflow = 'hidden';
+            const header = document.querySelector('header');
+            const main = document.querySelector('main');
+            if (header) header.inert = true;
+            if (main) main.inert = true;
           }
         } else {
           // No imageId in URL, close modal if open
           if (document.getElementById('photoModal').classList.contains('active')) {
-            document.getElementById('photoModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-            const header = document.querySelector('header');
-            const main = document.querySelector('main');
-            if (header) header.inert = false;
-            if (main) main.inert = false;
-            if (previouslyFocusedElement) {
-              previouslyFocusedElement.focus();
-              previouslyFocusedElement = null;
-            }
+            modalPushedHistory = false;
+            closeModalUI();
           }
         }
       });
