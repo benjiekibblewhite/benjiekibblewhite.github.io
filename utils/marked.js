@@ -19,6 +19,12 @@ marked.setOptions({
       const text = this.parser.parseInline(tokens);
       const titleAttr = title ? ` title="${title}"` : '';
       return `<a href="${href}"${titleAttr} target="_blank" rel="noopener noreferrer">${text}</a>`;
+    },
+    code(token) {
+      // Scrollable code blocks must be keyboard-focusable (axe: scrollable-region-focusable)
+      return marked.Renderer.prototype.code
+        .call(this, token)
+        .replace("<pre", '<pre tabindex="0"');
     }
   };
   marked.use({ renderer });

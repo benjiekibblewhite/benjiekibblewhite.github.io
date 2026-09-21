@@ -3,6 +3,24 @@ import path from "path";
 import { marked, outputDir } from "../utils/index.js";
 import fm from "front-matter";
 
+// Format a gallery date without timezone off-by-one:
+// "2026-08-01" parsed as UTC midnight renders as the previous day in the Americas.
+function formatGalleryDate(date) {
+  if (!date) return "";
+  // front-matter parses YAML dates as UTC-midnight Date objects; rebuild
+  // from the UTC calendar components so the intended day is what renders
+  const d =
+    date instanceof Date
+      ? new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
+      : new Date(`${String(date)}T12:00:00`);
+  if (isNaN(d)) return "";
+  return d.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
 // Generate imageId from filename and index
 function generateImageId(title, index) {
   // Remove spaces from title for imageId
@@ -65,9 +83,7 @@ export async function createGalleryPages(header, sharedHead) {
     // Generate HTML content
     const htmlContent = generateGalleryHTML({
       title: attributes.title || folder,
-      date:
-        new Date(attributes.date).toDateString() ||
-        new Date().toISOString().split("T")[0],
+      date: formatGalleryDate(attributes.date),
       tags: attributes.tags || [],
       description: marked.parse(body),
       photos,
@@ -85,9 +101,7 @@ export async function createGalleryPages(header, sharedHead) {
 
     galleries.push({
       title: attributes.title || folder,
-      date:
-        new Date(attributes.date).toDateString() ||
-        new Date().toISOString().split("T")[0],
+      date: formatGalleryDate(attributes.date),
       url: galleryUrl,
       folder,
       photoCount: photos.length,
