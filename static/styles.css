@@ -18,7 +18,7 @@
 
   /* Action & focus */
   --color-link: #1f6fbd; /* 5.16:1 on --color-bg */
-  --color-link-hover: var(--color-link-hover);
+  --color-link-hover: #155a9e; /* darker, not gray: hover deepens the affordance */
   --color-focus-ring: #1f6fbd;
   --color-highlight: rgba(31, 111, 189, 0.31); /* translucent link-blue wash */
 
@@ -179,6 +179,23 @@ main.blog-page {
   font-size: 0.9rem;
   color: var(--color-text-meta);
   margin-top: 0;
+}
+
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 48px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.9rem;
+}
+
+.post-nav-links {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .bio-section {
