@@ -20,7 +20,7 @@ Remaining problems from the 2026-09 site review. Priority order within each grou
 - [ ] **Logo alt text** — `alt="Blog Logo"` should describe the logo or be `""` (link's aria-label carries it).
 - [ ] **Dead tags** — "Tags:" lines and tag chips promise filtering that doesn't exist. (Owner chose to leave; revisit if tag pages ever happen.)
 - [ ] **Menu page brand** — only page with no header/logo.
-- [ ] **Modal photo-by-photo Back** — fixed for prev/next (replaceState); close() still pushStates, so Back after close reopens the modal. Deliberate-ish; revisit if it annoys.
+- [ ] **Dependabot** — count went 4 → 7 after committing package-lock.json (full visibility into the tree; expected). Triage when bored.
 
 ## Done (2026-09-21, second batch)
 
@@ -34,6 +34,11 @@ Remaining problems from the 2026-09 site review. Priority order within each grou
 - [x] `optimize-images.js` races fixed, destructive behavior documented
 - [x] `package-lock.json` committed
 - [x] Double `<body>`, double `</head>`, unique postIds
+- [x] Modal history model fully fixed (replaceState nav + close consumes its entry; verified with live browser Back tests)
+- [x] Legacy post images: real alt text (was `alt="Alt"` ×10)
+- [x] Modal button focus rings on the dark overlay
+- [x] Skip link: clipped until focus, readable colors on focus
+- [x] Minors: long-form dates on home, `← All galleries`, menu label = "Posts", styled code blocks, iframe fits 320px
 - [ ] **Decide: dist committed AND gh-pages-deployed** — pick one deployment source.
 - [ ] **Decide: 45 MB photo originals in git** — keeping for now.
 - [ ] **Skipped apps' axe violations** — fallbright-tips (7), album-tracker login (6), scrum-poker (2). The 3 YouTube-embed violations on onekind-kiosk are unfixable third-party markup.
