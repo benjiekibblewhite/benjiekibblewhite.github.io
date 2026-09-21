@@ -27,7 +27,7 @@ export async function copyStaticFiles(header, sharedHead) {
         // For HTML files, apply template
         if (file.endsWith(".html")) {
           const content = await fs.readFile(filePath, "utf-8");
-          const title = "Benjie K.";
+          const title = file === "404.html" ? "Page not found — Benjie K." : "Benjie K.";
 
           // Generate complete page with content directly (no extraction needed)
           const completePage = generateCompletePage({
@@ -60,6 +60,14 @@ export async function copyStaticFiles(header, sharedHead) {
     }
   }
 
+  // Copy legacy post images (referenced by older posts as /images/...)
+  const imagesDir = path.join(__dirname, "../images");
+  if (await fs.pathExists(imagesDir)) {
+    await fs.copy(imagesDir, path.join(outputDir, "images"), {
+      overwrite: true,
+    });
+  }
+
   // Copy unbuilt-pages files directly to dist if the directory exists
   const unbuiltPagesDir = path.join(__dirname, "../unbuilt-pages");
   if (await fs.pathExists(unbuiltPagesDir)) {
@@ -86,6 +94,7 @@ export async function copyStaticFiles(header, sharedHead) {
       sharedHead,
       skipHeader: true,
       skipMain: true,
+      bodyClass: "menu-page",
     });
 
     // Write to output directory

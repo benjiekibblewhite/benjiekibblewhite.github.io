@@ -65,6 +65,7 @@ const watcher = chokidar.watch(
     "builders",
     "utils",
     "photos",
+    "images",
     "unbuilt-pages",
     "album-tracker/frontend",
   ],
