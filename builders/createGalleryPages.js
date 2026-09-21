@@ -177,13 +177,13 @@ function generateGalleryHTML({
     <!-- Modal -->
     <div id="photoModal" class="modal" role="dialog" aria-modal="true" aria-label="Photo viewer">
       <div class="modal-content">
-        <button aria-label="Close gallery window" class="modal-close" onclick="closeModal()"><svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></button>
+        <button aria-label="Close photo viewer" class="modal-close" onclick="closeModal()"><svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></button>
         <button aria-label="View previous image" class="modal-controls modal-prev" onclick="previousPhoto()"><svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#e3e3e3"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg></button>
         <img id="modalImage" src="" alt="">
         <button aria-label="View next image" class="modal-controls modal-next" onclick="nextPhoto()"><svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#e3e3e3"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg></button>
-        <div class="modal-info">
+        <div class="modal-info" aria-live="polite">
           <div class="modal-filename" id="modalFilename"></div>
-          <div class="modal-counter" id="modalCounter" aria-live="polite"></div>
+          <div class="modal-counter" id="modalCounter"></div>
         </div>
       </div>
     </div>
@@ -218,6 +218,12 @@ function generateGalleryHTML({
         document.getElementById('photoModal').classList.add('active');
         document.body.style.overflow = 'hidden';
 
+        // Make the page behind the dialog inert
+        const header = document.querySelector('header');
+        const main = document.querySelector('main');
+        if (header) header.inert = true;
+        if (main) main.inert = true;
+
         // Move focus into the dialog
         document.querySelector('.modal-close').focus();
 
@@ -231,6 +237,12 @@ function generateGalleryHTML({
       function closeModal() {
         document.getElementById('photoModal').classList.remove('active');
         document.body.style.overflow = 'auto';
+
+        // Restore the background page
+        const header = document.querySelector('header');
+        const main = document.querySelector('main');
+        if (header) header.inert = false;
+        if (main) main.inert = false;
 
         // Return focus to the element that opened the dialog
         if (previouslyFocusedElement) {
@@ -291,8 +303,10 @@ function generateGalleryHTML({
 
         // Trap Tab within the dialog
         if (e.key === 'Tab') {
+          // NOTE: filter on computed display, not offsetParent — offsetParent
+          // is always null for position:fixed elements (these buttons)
           const focusable = Array.from(modal.querySelectorAll('button')).filter(
-            (btn) => btn.offsetParent !== null
+            (btn) => getComputedStyle(btn).display !== 'none'
           );
           if (focusable.length === 0) return;
           const first = focusable[0];
@@ -357,6 +371,10 @@ function generateGalleryHTML({
           if (document.getElementById('photoModal').classList.contains('active')) {
             document.getElementById('photoModal').classList.remove('active');
             document.body.style.overflow = 'auto';
+            const header = document.querySelector('header');
+            const main = document.querySelector('main');
+            if (header) header.inert = false;
+            if (main) main.inert = false;
             if (previouslyFocusedElement) {
               previouslyFocusedElement.focus();
               previouslyFocusedElement = null;
