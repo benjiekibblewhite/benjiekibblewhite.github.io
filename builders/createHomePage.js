@@ -21,7 +21,7 @@ export async function createHomePage(posts, galleries, header, sharedHead) {
       ${latestPosts
         .map(
           (post) =>
-            `<li><a href="${post.url}">${post.title}</a> <span class="home-list-date">${post.fileDate}</span></li>`
+            `<li><a href="${post.url}">${post.title}</a> <span class="home-list-date">${post.displayDate}</span></li>`
         )
         .join("\n      ")}
     </ul>
