@@ -13,13 +13,17 @@ function createPaginationLinks(currentPage, totalPages) {
   } else {
     const prevPage = currentPage - 1;
     const filename = prevPage === 1 ? "index.html" : `page${prevPage}.html`;
-    links.push(`<a href="/blog/${filename}" class="pagination-arrow">&larr;</a>`);
+    links.push(
+      `<a href="/blog/${filename}" class="pagination-arrow" aria-label="Previous page">&larr;</a>`
+    );
   }
 
   // Add page numbers
   for (let i = 1; i <= totalPages; i++) {
     if (i === currentPage) {
-      links.push(`<span class="current-page">${i}</span>`);
+      links.push(
+        `<span class="current-page" aria-current="page">${i}</span>`
+      );
     } else {
       const filename = i === 1 ? "index.html" : `page${i}.html`;
       links.push(`<a href="/blog/${filename}">${i}</a>`);
@@ -34,7 +38,7 @@ function createPaginationLinks(currentPage, totalPages) {
   } else {
     const nextPage = currentPage + 1;
     links.push(
-      `<a href="/blog/page${nextPage}.html" class="pagination-arrow">&rarr;</a>`
+      `<a href="/blog/page${nextPage}.html" class="pagination-arrow" aria-label="Next page">&rarr;</a>`
     );
   }
 
@@ -81,7 +85,7 @@ export async function createPostIndexPages(posts, header, sharedHead) {
               `;
           })
           .join("\n")}
-        <nav class="pagination">
+        <nav class="pagination" aria-label="Pagination">
           ${createPaginationLinks(page, totalPages)}
         </nav>
       </main>
