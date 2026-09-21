@@ -75,8 +75,8 @@ export async function createPostIndexPages(posts, header, sharedHead) {
             }" class='post-link' style="view-transition-name: post-${postId}">${
               post.title
             }</a></h2>
-                  <p>${post.date}</p>
-                  <p>${marked.parse(post.preview)}</p>
+                  <p class="post-meta">${post.displayDate}</p>
+                  ${marked.parse(post.preview)}
                 </article>
               `;
           })

@@ -32,6 +32,15 @@ export async function getAllPosts() {
     posts.push({
       title: attributes.title,
       date: attributes.date,
+      // Human-friendly date from the filename (noon avoids timezone off-by-one);
+      // front-matter dates like "2025-05-06 10:24am" aren't reliably parseable
+      displayDate: fileDate
+        ? new Date(`${fileDate}T12:00:00`).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })
+        : "",
       preview: generatePreviewWithLinks(firstParagraph, 150),
       filename: file.replace(".md", ".html"),
       content: body,

@@ -29,14 +29,17 @@ export async function createPostPages(posts, header, sharedHead) {
               ${headContent}
               <body>
                 ${header}
-                <main class='blog-page'>
-                  <h1 class='post-title' id="${postId}" style='view-transition-name: post-${postId}'">${
+                 <main class='blog-page'>
+                  <h1 class='post-title' id="${postId}" style='view-transition-name: post-${postId}'>${
       post.title
     }</h1>
-                  <p>${post.date}</p>
+                  <p class="post-meta">${post.displayDate} · by ${
+      post.attributes.author
+    }</p>
                   <div>${marked.parse(post.content)}</div>
-                  <p>by ${post.attributes.author}</p>
-                  <p>Tags: ${post.attributes.tags?.join(", ") || "None"}</p>
+                  <p class="post-meta">Tags: ${
+                    post.attributes.tags?.join(", ") || "None"
+                  }</p>
                 </main>
               </body>
             </html>`;
