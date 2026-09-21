@@ -61,15 +61,15 @@ export async function createGalleryIndex(galleries, header, sharedHead) {
 
   const htmlContent = `<!DOCTYPE html>
 <html lang="en">
-  ${sharedHeadContent.replace(
-    "<head>",
-    "<head>\n    <title>Photo Galleries</title>"
-  )}
-  <link rel="stylesheet" href="/static/gallery-index.css" />
-  </head>
+  ${sharedHeadContent
+    .replace("<head>", "<head>\n    <title>Photo Galleries</title>")
+    .replace(
+      "</head>",
+      '  <link rel="stylesheet" href="/static/gallery-index.css" />\n  </head>'
+    )}
   <body>
     ${header}
-    <main>
+    <main id="main-content">
       <div class="galleries-container">
         <div class="galleries-header">
           <h1>Photos</h1>

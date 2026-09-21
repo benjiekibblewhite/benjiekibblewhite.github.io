@@ -146,15 +146,15 @@ function generateGalleryHTML({
 
   return `<!DOCTYPE html>
 <html lang="en">
-  ${sharedHeadContent.replace(
-    "<head>",
-    `<head>\n    <title>${title} - Gallery</title>`
-  )}
-     <link rel="stylesheet" href="/static/gallery.css" />
-  </head>
+  ${sharedHeadContent
+    .replace("<head>", `<head>\n    <title>${title} - Gallery</title>`)
+    .replace(
+      "</head>",
+      `  <link rel="stylesheet" href="/static/gallery.css" />\n  </head>`
+    )}
   <body>
     ${header}
-    <main>
+    <main id="main-content">
     <a href="/photos" class='back-link'><- Back to list</a>
     <div class="gallery-container">
         <div class="gallery-info">
@@ -276,24 +276,26 @@ function generateGalleryHTML({
         if (photos.length <= 1) return;
         currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
         updateModal();
-        
-        // Update query parameter
+
+        // Update query parameter (replaceState: one history entry per modal
+        // session, so Back doesn't step through every photo)
         const imageId = photos[currentPhotoIndex].imageId;
         const url = new URL(window.location);
         url.searchParams.set('openImage', imageId);
-        window.history.pushState({}, '', url);
+        window.history.replaceState({}, '', url);
       }
       
       function nextPhoto() {
         if (photos.length <= 1) return;
         currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
         updateModal();
-        
-        // Update query parameter
+
+        // Update query parameter (replaceState: one history entry per modal
+        // session, so Back doesn't step through every photo)
         const imageId = photos[currentPhotoIndex].imageId;
         const url = new URL(window.location);
         url.searchParams.set('openImage', imageId);
-        window.history.pushState({}, '', url);
+        window.history.replaceState({}, '', url);
       }
       
       // Keyboard navigation
