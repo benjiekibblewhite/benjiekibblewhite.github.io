@@ -32,13 +32,13 @@
 }
 
 .gallery-preview h2 a {
-  color: #333;
+  color: var(--primary-color);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .gallery-preview h2 a:hover {
-  color: #1f6fbd;
+  color: #2c78b3;
 }
 
 .gallery-meta {

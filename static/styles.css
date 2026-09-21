@@ -36,9 +36,23 @@ h6 {
   font-family: "Lora", Georgia, serif;
   line-height: 1.3;
   font-weight: 300;
-  color: var(--primary-color);
+  color: var(--text-color);
   margin-top: 24px;
   margin-bottom: 16px;
+}
+
+/* Linked headings stay the link color so blue always means "interactive" */
+h1 a,
+h2 a,
+h3 a,
+h4 a {
+  color: var(--primary-color);
+}
+
+/* Links inside prose are underlined at rest, not color-only */
+main p a,
+main li a {
+  text-decoration: underline;
 }
 
 a {
