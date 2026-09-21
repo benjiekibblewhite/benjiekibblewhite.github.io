@@ -4,16 +4,11 @@ Remaining problems from the 2026-09 site review. Priority order within each grou
 
 ## High
 
-- [ ] **Fix 404'd preloads/favicon** — `ui/sharedHead.html` points at `/static/optimized/logo.{webp,png}`, which don't exist. Fires on every page.
-- [ ] **Restore missing `images/` folder** — 4 old posts reference `/images/*.png|jpg|gif` that 404. Restorable from commit `3a83cf5` (`git checkout 3a83cf5 -- images/`).
+(all clear)
 
 ## Medium
 
-- [ ] **Malformed post HTML** — `postId` (derived from title) can collide or be empty (stray `"` fixed 2026-09-21).
-- [ ] **Double `<body>`** — `pages/index.html` and `pages/menu.html` contain `<body>` tags, then `generateCompletePage` wraps them in another.
-- [ ] **`optimize-images.js` races** — un-awaited `forEach(async …)` + 10s `setTimeout` cleanup hack. Also overwrites originals in `static/` (irreversible, undocumented).
-- [ ] **Invalid font preload** — `sharedHead.html` Google Fonts `rel="preload"` missing `as="style"` (browser warning / possible double fetch).
-- [ ] **Commit `package-lock.json`** — currently gitignored; installs aren't reproducible and Dependabot works better with it.
+(none open)
 - [x] ~~Gallery modal semantics~~ — done 2026-09-21 (dialog role, focus trap/return, "n of N" counter)
 
 ## Low / decisions
@@ -22,13 +17,23 @@ Remaining problems from the 2026-09 site review. Priority order within each grou
 
 ## Design critique follow-ups (from `$impeccable critique`, 2026-09-21)
 
-- [ ] **Custom 404 page** — server default "Cannot GET" currently ships; no link home.
 - [ ] **Logo alt text** — `alt="Blog Logo"` should describe the logo or be `""` (link's aria-label carries it).
-- [ ] **Dead tags** — "Tags:" lines and tag chips promise filtering that doesn't exist. Wire up tag pages or remove.
-- [ ] **Menu close = `history.back()`** — no-op when arriving via shared link; JS-only. Give it a real `href="/"` fallback.
-- [ ] **Touch targets** — hamburger 36×36px, social links 44×32px, menu close 30px; all under 44px.
-- [ ] **Skip link** — low cost (3 header tab stops), still missing.
+- [ ] **Dead tags** — "Tags:" lines and tag chips promise filtering that doesn't exist. (Owner chose to leave; revisit if tag pages ever happen.)
 - [ ] **Menu page brand** — only page with no header/logo.
+- [ ] **Modal photo-by-photo Back** — fixed for prev/next (replaceState); close() still pushStates, so Back after close reopens the modal. Deliberate-ish; revisit if it annoys.
+
+## Done (2026-09-21, second batch)
+
+- [x] Custom 404 page (`pages/404.html` → dist/404.html)
+- [x] Touch targets ≥44px (header icons, menu close, social links)
+- [x] `@view-transition` guarded by prefers-reduced-motion
+- [x] Modal history spam (replaceState on prev/next)
+- [x] sharedHead: 404ing preloads removed, favicon fixed, font links deduped
+- [x] Skip link on all pages + `main-content` ids
+- [x] Restored `images/` from history (ponyfoo, onekind, insider, see-more gif); excluded 59MB unreferenced cluster-quilt
+- [x] `optimize-images.js` races fixed, destructive behavior documented
+- [x] `package-lock.json` committed
+- [x] Double `<body>`, double `</head>`, unique postIds
 - [ ] **Decide: dist committed AND gh-pages-deployed** — pick one deployment source.
 - [ ] **Decide: 45 MB photo originals in git** — keeping for now.
 - [ ] **Skipped apps' axe violations** — fallbright-tips (7), album-tracker login (6), scrum-poker (2). The 3 YouTube-embed violations on onekind-kiosk are unfixable third-party markup.
