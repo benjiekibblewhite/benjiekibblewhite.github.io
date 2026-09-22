@@ -381,6 +381,10 @@ function generateGalleryHTML({
         if (imageId) {
           const photoIndex = findPhotoIndexByImageId(imageId);
           if (photoIndex !== -1) {
+            // Reopened via browser history: restore focus into the dialog and
+            // remember the matching grid button for focus return
+            previouslyFocusedElement =
+              document.querySelectorAll('.photo-item')[photoIndex] || null;
             currentPhotoIndex = photoIndex;
             updateModal();
             document.getElementById('photoModal').classList.add('active');
@@ -389,6 +393,7 @@ function generateGalleryHTML({
             const main = document.querySelector('main');
             if (header) header.inert = true;
             if (main) main.inert = true;
+            document.querySelector('.modal-close').focus();
           }
         } else {
           // No imageId in URL, close modal if open
