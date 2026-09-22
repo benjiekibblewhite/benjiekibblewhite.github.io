@@ -10,7 +10,7 @@
 }
 
 .galleries-header h1 {
-  font-size: 3rem;
+  font-size: 2rem; /* let the filmstrips be the loud part */
   margin-bottom: 1rem;
 }
 
