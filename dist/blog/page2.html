@@ -68,10 +68,7 @@
       height: auto;
       display: block; /* Prevents layout shifts */
     }
-    /* Ensure images in articles maintain aspect ratio */
-    article img {
-      aspect-ratio: attr(width) / attr(height);
-    }
+    /* (aspect-ratio: attr() isn't supported anywhere — declaration removed) */
   </style>
 
   <!-- Main stylesheet loaded asynchronously -->
@@ -107,7 +104,7 @@
   <a href="/" aria-label="Go to homepage">
     <img
       src="/static/logo.webp"
-      alt="Blog Logo"
+      alt=""
       class="header-logo"
       width="150px"
     />
@@ -169,7 +166,7 @@
                 <article class='post-preview'>
                   <h2><a id='2021-06-17-TILReactNativeDynamicSeeMorebasedonnumberoflinesoftext' href="/blog/2021/06/17/TIL-React-Native-Dynamic-See-More-Based-On-Number-Of-Lines.html" class='post-link' style="view-transition-name: post-2021-06-17-TILReactNativeDynamicSeeMorebasedonnumberoflinesoftext">TIL - React Native Dynamic "See More" based on number of lines of text</a></h2>
                   <p class="post-meta">June 17, 2021</p>
-                  <p>The solution for this problem comes fully from <a href="https://stackoverflow.com/questions/55805233/how-to-show-for-text-more-less-in-react-naitve-javascript" target="_blank" rel="noopener noreferrer">this great page on Stack Overflow</a>&#8230;</p>
+                  <p>The solution for this problem comes fully from <a href="https://stackoverflow.com/questions/55805233/how-to-show-for-text-more-less-in-react-naitve-javascript" target="_blank" rel="noopener noreferrer">this great page on Stack Overflow<span class="visually-hidden"> (opens in new tab)</span></a>&#8230;</p>
 
                 </article>
               
