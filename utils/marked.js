@@ -18,7 +18,14 @@ marked.setOptions({
     link({ href, title, tokens }) {
       const text = this.parser.parseInline(tokens);
       const titleAttr = title ? ` title="${title}"` : '';
-      return `<a href="${href}"${titleAttr} target="_blank" rel="noopener noreferrer">${text}</a>`;
+      // Only true external links open a new tab; internal links stay put so
+      // Back keeps working and SR users aren't context-switched without warning
+      const isExternal =
+        /^https?:\/\//i.test(href) && !href.includes("benjie.ca");
+      if (isExternal) {
+        return `<a href="${href}"${titleAttr} target="_blank" rel="noopener noreferrer">${text}<span class="visually-hidden"> (opens in new tab)</span></a>`;
+      }
+      return `<a href="${href}"${titleAttr}>${text}</a>`;
     },
     code(token) {
       // Scrollable code blocks must be keyboard-focusable (axe: scrollable-region-focusable)
