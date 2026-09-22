@@ -68,10 +68,7 @@
       height: auto;
       display: block; /* Prevents layout shifts */
     }
-    /* Ensure images in articles maintain aspect ratio */
-    article img {
-      aspect-ratio: attr(width) / attr(height);
-    }
+    /* (aspect-ratio: attr() isn't supported anywhere — declaration removed) */
   </style>
 
   <!-- Main stylesheet loaded asynchronously -->
@@ -107,7 +104,7 @@
   <a href="/" aria-label="Go to homepage">
     <img
       src="/static/logo.webp"
-      alt="Blog Logo"
+      alt=""
       class="header-logo"
       width="150px"
     />
@@ -166,7 +163,7 @@
 <li>Push your newly perfected commit to your remote branch.</li>
 </ol>
 <p>Legends say you can event use <code>git commit --amend</code> to change the very files that make up your commit. Astounding! Truly miraculous! </p>
-<p>For more secrets, check out this great guide by <a href="https://www.atlassian.com/git/tutorials/rewriting-history" target="_blank" rel="noopener noreferrer">Atlassian</a>.</p>
+<p>For more secrets, check out this great guide by <a href="https://www.atlassian.com/git/tutorials/rewriting-history" target="_blank" rel="noopener noreferrer">Atlassian<span class="visually-hidden"> (opens in new tab)</span></a>.</p>
 </div>
                   <p class="post-meta">Tags: git magic, github, useful tricks</p>
                   <nav class="post-nav" aria-label="More posts">

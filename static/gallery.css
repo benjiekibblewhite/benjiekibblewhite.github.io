@@ -104,6 +104,13 @@
   .photo-item:focus-visible .filename {
     opacity: 1;
   }
+
+  /* Touch devices have no hover — captions are content, show them */
+  @media (hover: none) {
+    .photo-item .filename {
+      opacity: 1;
+    }
+  }
   
   /* Modal styles */
   .modal {

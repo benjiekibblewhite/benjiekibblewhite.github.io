@@ -68,10 +68,7 @@
       height: auto;
       display: block; /* Prevents layout shifts */
     }
-    /* Ensure images in articles maintain aspect ratio */
-    article img {
-      aspect-ratio: attr(width) / attr(height);
-    }
+    /* (aspect-ratio: attr() isn't supported anywhere — declaration removed) */
   </style>
 
   <!-- Main stylesheet loaded asynchronously -->
@@ -107,7 +104,7 @@
   <a href="/" aria-label="Go to homepage">
     <img
       src="/static/logo.webp"
-      alt="Blog Logo"
+      alt=""
       class="header-logo"
       width="150px"
     />
@@ -159,7 +156,7 @@
                   <h1 class='post-title' id="2024-05-29-TILKnolling" style='view-transition-name: post-2024-05-29-TILKnolling'>TIL - Knolling</h1>
                   <p class="post-meta">May 29, 2024 · by Benjie Kibblewhite</p>
                   <div><p><strong>Knolling</strong>: The process of arranging objects so they are parallel or at 90-degree angles.</p>
-<p>So I guess this was a big instagram trend a few years ago. I&#8217;ve always seen tons of images like this, usually people showing off their Every Day Carry, or for marketing pictures. But it&#8217;s a new term to me, which I found while reading the wiki page for <a href="https://en.wikipedia.org/wiki/Everyday_carry" target="_blank" rel="noopener noreferrer">Everyday Carry</a>. There&#8217;s some neat history on the origin on the practice and word on <a href="https://en.wikipedia.org/wiki/Tom_Sachs#Knolling" target="_blank" rel="noopener noreferrer">Tom Sach&#8217;s</a> page. I have no insights about it, I was just gobsmacked there was a word for it in the first place!</p>
+<p>So I guess this was a big instagram trend a few years ago. I&#8217;ve always seen tons of images like this, usually people showing off their Every Day Carry, or for marketing pictures. But it&#8217;s a new term to me, which I found while reading the wiki page for <a href="https://en.wikipedia.org/wiki/Everyday_carry" target="_blank" rel="noopener noreferrer">Everyday Carry<span class="visually-hidden"> (opens in new tab)</span></a>. There&#8217;s some neat history on the origin on the practice and word on <a href="https://en.wikipedia.org/wiki/Tom_Sachs#Knolling" target="_blank" rel="noopener noreferrer">Tom Sach&#8217;s<span class="visually-hidden"> (opens in new tab)</span></a> page. I have no insights about it, I was just gobsmacked there was a word for it in the first place!</p>
 </div>
                   <p class="post-meta">Tags: fun facts</p>
                   <nav class="post-nav" aria-label="More posts">

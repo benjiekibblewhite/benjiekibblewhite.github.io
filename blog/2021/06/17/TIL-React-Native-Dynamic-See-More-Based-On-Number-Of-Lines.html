@@ -68,10 +68,7 @@
       height: auto;
       display: block; /* Prevents layout shifts */
     }
-    /* Ensure images in articles maintain aspect ratio */
-    article img {
-      aspect-ratio: attr(width) / attr(height);
-    }
+    /* (aspect-ratio: attr() isn't supported anywhere — declaration removed) */
   </style>
 
   <!-- Main stylesheet loaded asynchronously -->
@@ -107,7 +104,7 @@
   <a href="/" aria-label="Go to homepage">
     <img
       src="/static/logo.webp"
-      alt="Blog Logo"
+      alt=""
       class="header-logo"
       width="150px"
     />
@@ -158,7 +155,7 @@
                  <main class='blog-page' id="main-content">
                   <h1 class='post-title' id="2021-06-17-TILReactNativeDynamicSeeMorebasedonnumberoflinesoftext" style='view-transition-name: post-2021-06-17-TILReactNativeDynamicSeeMorebasedonnumberoflinesoftext'>TIL - React Native Dynamic "See More" based on number of lines of text</h1>
                   <p class="post-meta">June 17, 2021 · by Benjie Kibblewhite</p>
-                  <div><p>The solution for this problem comes fully from <a href="https://stackoverflow.com/questions/55805233/how-to-show-for-text-more-less-in-react-naitve-javascript" target="_blank" rel="noopener noreferrer">this great page on Stack Overflow</a>, I just came to the problem from a slightly different angle.</p>
+                  <div><p>The solution for this problem comes fully from <a href="https://stackoverflow.com/questions/55805233/how-to-show-for-text-more-less-in-react-naitve-javascript" target="_blank" rel="noopener noreferrer">this great page on Stack Overflow<span class="visually-hidden"> (opens in new tab)</span></a>, I just came to the problem from a slightly different angle.</p>
 <p>We had two competing priorities for a component that appeared at the very top of our home screen. On the one hand, we want to allow users to increase the font size in our app if they need to. On the other hand, we didn&#8217;t want this component to potentially take up the entire screen.</p>
 <p>I wondered if there was a way to dynamically have a &#8220;Read More&#8221; button of some kind along a block of text. If that text overflows beyond some constraint, we&#8217;ll add some ellipses and this button. The solution in that Stack Overflow thread involves using the <code>onTextLayout</code> event from the <code>Text</code> component to limit the block to a set number of lines.</p>
 <p>If a user has a large font size, the component will still probably have a larger height than we designed, but we can intelligently set some kind of limit to that, hopefully keeping said component from taking over the whole screen and hiding other, potentially more important content.</p>

@@ -186,14 +186,7 @@ header {
   min-height: 44px;
 }
 
-.menu-button {
-  /* Never change this to Rems - we want to this to stay the same size even if the user changes font size */
-  text-decoration: none;
-}
-
-/* .menu-button:hover {
-  color: var(--color-link);
-} */
+/* (the old .menu-button styles were removed — no such element exists anymore) */
 
 main {
   max-width: 1200px;
@@ -271,7 +264,8 @@ main.blog-page {
 }
 
 .menu-page {
-  background-image: url('data:image/svg+xml;utf8,<svg width="40" height="10" viewBox="0 0 40 10" xmlns="http://www.w3.org/2000/svg"><path d="M0 5 Q 5 2, 10 5 T 20 5 T 30 5 T 40 5" fill="none" stroke="skyblue" stroke-width="1"/></svg>');
+  /* stroke is a light tint of --color-link (data-URIs can't reference tokens) */
+  background-image: url('data:image/svg+xml;utf8,<svg width="40" height="10" viewBox="0 0 40 10" xmlns="http://www.w3.org/2000/svg"><path d="M0 5 Q 5 2, 10 5 T 20 5 T 30 5 T 40 5" fill="none" stroke="%23a9c8e8" stroke-width="1"/></svg>');
   display: flex;
   align-items: center;
   justify-content: center;

@@ -68,10 +68,7 @@
       height: auto;
       display: block; /* Prevents layout shifts */
     }
-    /* Ensure images in articles maintain aspect ratio */
-    article img {
-      aspect-ratio: attr(width) / attr(height);
-    }
+    /* (aspect-ratio: attr() isn't supported anywhere — declaration removed) */
   </style>
 
   <!-- Main stylesheet loaded asynchronously -->
@@ -107,7 +104,7 @@
   <a href="/" aria-label="Go to homepage">
     <img
       src="/static/logo.webp"
-      alt="Blog Logo"
+      alt=""
       class="header-logo"
       width="150px"
     />

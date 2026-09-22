@@ -68,10 +68,7 @@
       height: auto;
       display: block; /* Prevents layout shifts */
     }
-    /* Ensure images in articles maintain aspect ratio */
-    article img {
-      aspect-ratio: attr(width) / attr(height);
-    }
+    /* (aspect-ratio: attr() isn't supported anywhere — declaration removed) */
   </style>
 
   <!-- Main stylesheet loaded asynchronously -->
@@ -107,7 +104,7 @@
   <a href="/" aria-label="Go to homepage">
     <img
       src="/static/logo.webp"
-      alt="Blog Logo"
+      alt=""
       class="header-logo"
       width="150px"
     />
@@ -171,7 +168,7 @@
 <p>You can store any kind of data you want in your .env file. Note, however, that your environment variables must all start with REACT_APP. Otherwise, they won’t be included in the process.env object. Also, you should be careful of the kinds of data you store. In this case, my API key can only be used when the request comes from the domain assigned to the key. I’m not worried about it being included in my GitHub repo — but I recognize this is still not best practice.</p>
 <p>If anyone out there has a better way to use API keys with apps hosted on GitHub pages, leave a comment!</p>
 <p>EDIT:</p>
-<p>I forgot to credit Drew Goodwin — his post <a href="https://medium.com/@tacomanator" title="Create-React-App Environments on Medium.com" target="_blank" rel="noopener noreferrer">Create-react-app environments</a> goes into much more depth than I do in this quick-take.</p>
+<p>I forgot to credit Drew Goodwin — his post <a href="https://medium.com/@tacomanator" title="Create-React-App Environments on Medium.com" target="_blank" rel="noopener noreferrer">Create-react-app environments<span class="visually-hidden"> (opens in new tab)</span></a> goes into much more depth than I do in this quick-take.</p>
 </div>
                   <p class="post-meta">Tags: react, node, express, gh-pages</p>
                   <nav class="post-nav" aria-label="More posts">

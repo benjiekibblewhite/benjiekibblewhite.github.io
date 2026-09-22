@@ -68,10 +68,7 @@
       height: auto;
       display: block; /* Prevents layout shifts */
     }
-    /* Ensure images in articles maintain aspect ratio */
-    article img {
-      aspect-ratio: attr(width) / attr(height);
-    }
+    /* (aspect-ratio: attr() isn't supported anywhere — declaration removed) */
   </style>
 
   <!-- Main stylesheet loaded asynchronously -->
@@ -108,7 +105,7 @@
   <a href="/" aria-label="Go to homepage">
     <img
       src="/static/logo.webp"
-      alt="Blog Logo"
+      alt=""
       class="header-logo"
       width="150px"
     />
@@ -404,6 +401,10 @@
         if (imageId) {
           const photoIndex = findPhotoIndexByImageId(imageId);
           if (photoIndex !== -1) {
+            // Reopened via browser history: restore focus into the dialog and
+            // remember the matching grid button for focus return
+            previouslyFocusedElement =
+              document.querySelectorAll('.photo-item')[photoIndex] || null;
             currentPhotoIndex = photoIndex;
             updateModal();
             document.getElementById('photoModal').classList.add('active');
@@ -412,6 +413,7 @@
             const main = document.querySelector('main');
             if (header) header.inert = true;
             if (main) main.inert = true;
+            document.querySelector('.modal-close').focus();
           }
         } else {
           // No imageId in URL, close modal if open
