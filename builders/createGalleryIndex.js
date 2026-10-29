@@ -1,6 +1,7 @@
 import fs from "fs-extra";
 import path from "path";
 import { outputDir } from "../utils/index.js";
+import { getMangoCatInclude } from "./mangoCat.js";
 
 export async function createGalleryIndex(galleries, header, sharedHead) {
   if (galleries.length === 0) {
@@ -88,6 +89,7 @@ export async function createGalleryIndex(galleries, header, sharedHead) {
         }
       </div>
     </main>
+    ${getMangoCatInclude()}
   </body>
 </html>`;
 

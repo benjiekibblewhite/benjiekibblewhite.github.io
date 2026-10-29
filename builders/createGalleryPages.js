@@ -2,6 +2,7 @@ import fs from "fs-extra";
 import path from "path";
 import { marked, outputDir } from "../utils/index.js";
 import fm from "front-matter";
+import { getMangoCatInclude } from "./mangoCat.js";
 
 // Format a gallery date without timezone off-by-one:
 // "2026-08-01" parsed as UTC midnight renders as the previous day in the Americas.
@@ -404,6 +405,7 @@ function generateGalleryHTML({
         }
       });
     </script>
+    ${getMangoCatInclude()}
   </body>
 </html>`;
 }

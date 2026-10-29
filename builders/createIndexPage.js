@@ -1,6 +1,7 @@
 import { outputDir, POSTS_PER_PAGE, marked } from "../utils/index.js";
 import path from "path";
 import fs from "fs-extra";
+import { getMangoCatInclude } from "./mangoCat.js";
 
 function createPaginationLinks(currentPage, totalPages) {
   let links = [];
@@ -90,6 +91,7 @@ export async function createPostIndexPages(posts, header, sharedHead) {
           ${createPaginationLinks(page, totalPages)}
         </nav>
       </main>
+      ${getMangoCatInclude()}
     </body>
   </html>`;
 

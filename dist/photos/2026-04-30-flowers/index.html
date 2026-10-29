@@ -419,5 +419,163 @@
         }
       });
     </script>
+    <!-- Mango the site cat: a small decorative orange tabby fixed to the
+     bottom-right corner who watches the visitor's cursor. Injected at the end
+     of every page by generateCompletePage (builders/generateCompletePage.js)
+     unless the page passes skipMango (the menu does). -->
+<style>
+  #mango-cat {
+    position: fixed;
+    right: 14px;
+    bottom: 10px;
+    width: 96px;
+    z-index: 10; /* below the header (100) and skip link (1001) */
+    pointer-events: none; /* decorative: never intercepts a click */
+  }
+  #mango-cat svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  #mango-cat .mango-head,
+  #mango-cat .mango-eye {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  #mango-cat .mango-head {
+    transition: transform 0.2s ease-out;
+  }
+  #mango-cat .mango-pupil {
+    transition: transform 0.12s ease-out;
+  }
+  #mango-cat .mango-eye {
+    transition: transform 0.09s ease-in;
+  }
+  #mango-cat.mango-blink .mango-eye {
+    transform: scaleY(0.12);
+  }
+  @media (max-width: 640px) {
+    #mango-cat {
+      width: 64px;
+      right: 10px;
+      bottom: 8px;
+    }
+  }
+</style>
+<div id="mango-cat" aria-hidden="true">
+  <svg viewBox="0 0 120 120">
+    <ellipse cx="60" cy="112" rx="30" ry="4" fill="#000" opacity="0.06" />
+    <path d="M88 106 C102 106 108 100 105 92" fill="none" stroke="#F2993F" stroke-width="9" stroke-linecap="round" />
+    <path d="M105 92 C104 88 100 87 98 90" fill="none" stroke="#D97B2B" stroke-width="9" stroke-linecap="round" />
+    <path d="M34 112 C31 84 39 58 60 56 C81 58 89 84 86 112 Z" fill="#F2993F" />
+    <path d="M40 74 q6 3 8 8 M80 74 q-6 3 -8 8" stroke="#D97B2B" stroke-width="3.5" fill="none" stroke-linecap="round" />
+    <ellipse cx="60" cy="90" rx="11" ry="15" fill="#FCE8C8" />
+    <ellipse cx="47" cy="107" rx="7.5" ry="5" fill="#FCE8C8" />
+    <ellipse cx="73" cy="107" rx="7.5" ry="5" fill="#FCE8C8" />
+    <g class="mango-head">
+      <path d="M43 24 L47 5 L59 18 Z" fill="#F2993F" />
+      <path d="M77 24 L73 5 L61 18 Z" fill="#F2993F" />
+      <path d="M46.5 20 L49 10 L55 17 Z" fill="#F2A0A0" />
+      <path d="M73.5 20 L71 10 L65 17 Z" fill="#F2A0A0" />
+      <circle cx="60" cy="36" r="20" fill="#F2993F" />
+      <path d="M52 18 v6 M60 15 v7 M68 18 v6" stroke="#D97B2B" stroke-width="2.5" stroke-linecap="round" fill="none" />
+      <path d="M42 33 l5 2 M42 40 l5 1 M78 33 l-5 2 M78 40 l-5 1" stroke="#D97B2B" stroke-width="2" stroke-linecap="round" fill="none" />
+      <g class="mango-eye">
+        <ellipse cx="52.5" cy="36" rx="4.6" ry="5.4" fill="#fff" />
+        <circle class="mango-pupil" cx="52.5" cy="37" r="2.7" fill="#463021" />
+      </g>
+      <g class="mango-eye">
+        <ellipse cx="67.5" cy="36" rx="4.6" ry="5.4" fill="#fff" />
+        <circle class="mango-pupil" cx="67.5" cy="37" r="2.7" fill="#463021" />
+      </g>
+      <path d="M57.5 44 L62.5 44 L60 47.5 Z" fill="#E88B8B" />
+      <path d="M60 47.5 Q56 51 53 49.5 M60 47.5 Q64 51 67 49.5" stroke="#A06428" stroke-width="1.5" fill="none" stroke-linecap="round" />
+      <path d="M40 41 L28 39 M40 45 L29 46 M80 41 L92 39 M80 45 L91 46" stroke="#E8C9A0" stroke-width="1.2" stroke-linecap="round" fill="none" />
+    </g>
+  </svg>
+</div>
+<script>
+  (function () {
+    var root = document.getElementById("mango-cat");
+    if (!root) return;
+
+    var finePointer = window.matchMedia("(pointer: fine)").matches;
+    var reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    // The eyes and head follow the cursor, lazily.
+    if (finePointer) {
+      var MAX_PUPIL_TRAVEL = 2.6; // svg units
+      var MAX_HEAD_TILT = 5; // degrees
+      var MAX_HEAD_SHIFT = 1.4; // svg units
+      var rafId = null;
+
+      var trackCursor = function (event) {
+        root.querySelectorAll(".mango-eye").forEach(function (eye) {
+          var rect = eye.getBoundingClientRect();
+          var angle = Math.atan2(
+            event.clientY - (rect.top + rect.height / 2),
+            event.clientX - (rect.left + rect.width / 2)
+          );
+          var pupil = eye.querySelector(".mango-pupil");
+          if (pupil) {
+            pupil.style.transform =
+              "translate(" +
+              Math.cos(angle) * MAX_PUPIL_TRAVEL +
+              "px," +
+              Math.sin(angle) * MAX_PUPIL_TRAVEL +
+              "px)";
+          }
+        });
+        var head = root.querySelector(".mango-head");
+        if (head) {
+          var catRect = root.getBoundingClientRect();
+          var dx = event.clientX - (catRect.left + catRect.width / 2);
+          var dy = event.clientY - (catRect.top + catRect.height / 2);
+          var tilt = Math.max(
+            -MAX_HEAD_TILT,
+            Math.min(MAX_HEAD_TILT, dx / 60)
+          );
+          var angle = Math.atan2(dy, dx);
+          head.style.transform =
+            "rotate(" +
+            tilt +
+            "deg) translate(" +
+            Math.cos(angle) * MAX_HEAD_SHIFT +
+            "px," +
+            Math.sin(angle) * MAX_HEAD_SHIFT +
+            "px)";
+        }
+      };
+
+      document.addEventListener(
+        "mousemove",
+        function (event) {
+          if (rafId !== null) return;
+          rafId = requestAnimationFrame(function () {
+            rafId = null;
+            trackCursor(event);
+          });
+        },
+        { passive: true }
+      );
+    }
+
+    // Occasional slow blink so he feels alive without performing.
+    if (!reducedMotion) {
+      (function blink() {
+        window.setTimeout(function () {
+          root.classList.add("mango-blink");
+          window.setTimeout(function () {
+            root.classList.remove("mango-blink");
+          }, 180);
+          blink();
+        }, 6000 + Math.random() * 6000);
+      })();
+    }
+  })();
+</script>
+
   </body>
 </html>

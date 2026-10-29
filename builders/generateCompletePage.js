@@ -1,4 +1,8 @@
-// Create a reusable function to generate complete HTML pages
+import { getMangoCatInclude } from "./mangoCat.js";
+
+// Create a reusable function to generate complete HTML pages.
+// Every page gets Mango the site cat (see builders/mangoCat.js) unless the
+// caller passes skipMango: true — currently just the menu.
 export function generateCompletePage({
   content = "",
   title = "",
@@ -6,6 +10,7 @@ export function generateCompletePage({
   sharedHead = "",
   skipHeader = false,
   skipMain = false,
+  skipMango = false,
   bodyClass = "",
 } = {}) {
   const headContent = sharedHead.replace(
@@ -13,6 +18,7 @@ export function generateCompletePage({
     `<head>\n  <title>${title}</title>`
   );
   const bodyTag = bodyClass ? `<body class="${bodyClass}">` : "<body>";
+  const mango = skipMango ? "" : getMangoCatInclude();
   if (skipMain) {
     return `<!DOCTYPE html>
           <html lang="en">
@@ -20,6 +26,7 @@ export function generateCompletePage({
             ${bodyTag}
               ${skipHeader ? "" : header}
                 ${content}
+              ${mango}
             </body>
           </html>`;
   }
@@ -31,6 +38,7 @@ export function generateCompletePage({
       <main id="main-content">
         ${content}
       </main>
+      ${mango}
     </body>
   </html>`;
 }

@@ -1,6 +1,7 @@
 import fs from "fs-extra";
 import path from "path";
 import { marked, outputDir } from "../utils/index.js";
+import { getMangoCatInclude } from "./mangoCat.js";
 
 function postUrl(post) {
   const [year, month, day] = post.fileDate.split("-");
@@ -67,6 +68,7 @@ export async function createPostPages(posts, header, sharedHead) {
                     </span>
                   </nav>
                 </main>
+                ${getMangoCatInclude()}
               </body>
             </html>`;
 

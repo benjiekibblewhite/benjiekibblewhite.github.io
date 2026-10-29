@@ -94,6 +94,7 @@ export async function copyStaticFiles(header, sharedHead) {
       sharedHead,
       skipHeader: true,
       skipMain: true,
+      skipMango: true,
       bodyClass: "menu-page",
     });
 

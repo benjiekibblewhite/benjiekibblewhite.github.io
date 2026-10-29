@@ -41,3 +41,5 @@ album-tracker/.env
 album-tracker/albums.json
 album-tracker/venv/
 album-tracker/__pycache__/
+# Superpowers brainstorming mockups
+.superpowers/
