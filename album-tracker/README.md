@@ -1,28 +1,17 @@
 # Album Data Collection
 
-Scrapes album data from multiple music publication "best of" lists and outputs a deduplicated JSON file.
-
-## Setup
-
-```bash
-pip install -r requirements.txt
-playwright install chromium
-```
-
-## Usage
-
-```bash
-python scraper.py
-```
-
-Output will be written to `albums.json`.
+`albums.json` is the curated album dataset, assembled from multiple publication "best of" lists and imported into Supabase (see [Import Albums to Database](#import-albums-to-database) below). The scraper that originally generated it is not part of this repository — edit `albums.json` directly and re-import.
 
 ## Data Sources
 
 - NPR Music: "The 150 Greatest Albums Made By Women" (top 50)
 - Rolling Stone: "2023 Best Albums of All Time" (top 50)
-- Beehype: "SPECIAL: Classic Albums from Around the World" (all)
+- Beehype: "SPECIAL: Classic Albums from Around the World" (**main entry per country only**)
 - Pitchfork: "Best Albums of the Last 25 Years" (top 50)
+
+### Beehype entries
+
+Each country in the Beehype list has a single main entry (the heading immediately after the country name), followed by an "Other classic albums" bullet list of secondary picks. Only the main entry belongs in the dataset. An earlier parse imported the bullets as well; they were removed, apart from albums that had already been rated.
 
 ## Initial Setup
 
